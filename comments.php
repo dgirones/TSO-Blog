@@ -1,53 +1,63 @@
 <?php
 /**
- * archive.php — Category / tag / author archives (same cards as home).
+ * comments.php — Comment list and form template.
+ * Form labels are filtered in functions.php.
  *
  * @package tso-theme
  */
-get_header();
+
+// Evitar acceso directo al fichero.
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+// No mostrar nada si el post está protegido con contraseña.
+if ( post_password_required() ) {
+    return;
+}
 ?>
 
-<div class="archive-layout">
-	<main id="primary" class="main-content" role="main">
+<div id="comments" class="comments-area">
 
-		<header class="archive-header">
-			<h1 class="archive-title"><?php the_archive_title(); ?></h1>
-			<?php the_archive_description( '<div class="archive-description">', '</div>' ); ?>
-		</header>
+    <?php if ( have_comments() ) : ?>
 
-		<?php if ( have_posts() ) : ?>
+        <h2 class="comments-title">
+            <?php
+            $tso_comment_count = (int) get_comments_number();
+            if ( 1 === $tso_comment_count ) {
+                esc_html_e( 'Un comentario', 'tso-theme' );
+            } else {
+                printf(
+                    /* translators: %s: número de comentarios */
+                    esc_html__( '%s comentarios', 'tso-theme' ),
+                    number_format_i18n( $tso_comment_count )
+                );
+            }
+            ?>
+        </h2><!-- .comments-title -->
 
-			<div class="posts-grid-container" id="posts-container">
-				<?php
-				while ( have_posts() ) :
-					the_post();
-					get_template_part( 'template-parts/content', 'card' );
-				endwhile;
-				?>
-			</div>
+        <ol class="comment-list">
+            <?php
+            wp_list_comments( array(
+                'style'       => 'ol',
+                'short_ping'  => true,
+                'avatar_size' => 42,
+            ) );
+            ?>
+        </ol><!-- .comment-list -->
 
-			<div class="posts-pagination pagination">
-				<?php
-				the_posts_pagination(
-					array(
-						'mid_size'  => 2,
-						'prev_text' => esc_html__( '&laquo; Anterior', 'tso-theme' ),
-						'next_text' => esc_html__( 'Siguiente &raquo;', 'tso-theme' ),
-					)
-				);
-				?>
-			</div>
+        <?php
+        the_comments_pagination( array(
+            'prev_text' => '&laquo; ' . esc_html__( 'Anteriores', 'tso-theme' ),
+            'next_text' => esc_html__( 'Siguientes', 'tso-theme' ) . ' &raquo;',
+        ) );
+        ?>
 
-		<?php else : ?>
+    <?php endif; // have_comments() ?>
 
-			<p><?php esc_html_e( 'No se han encontrado artículos en esta categoría.', 'tso-theme' ); ?></p>
+    <?php
+    // Form labels come from comment_form_* filters in functions.php.
+    comment_form();
+    ?>
 
-		<?php endif; ?>
-
-	</main>
-
-	<?php get_sidebar(); ?>
-</div>
-
-<?php
-get_footer();
+</div><!-- #comments -->

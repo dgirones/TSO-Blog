@@ -1,0 +1,21 @@
+{
+  "name": "TSO Theme (WordPress dev)",
+  "user": "ubuntu",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "install": "bash .cursor/install.sh",
+  "terminals": [
+    {
+      "name": "wp-server",
+      "command": "bash .cursor/serve.sh",
+      "description": "WordPress preview server (http://localhost:8080, admin/admin)."
+    }
+  ],
+  "ports": [
+    {
+      "port": 8080
+    }
+  ]
+}

@@ -1,11 +1,10 @@
 <?php
 /**
- * home.php — Blog posts index (front page posts or Posts page).
+ * index.php — Ultimate fallback template.
  *
  * @package tso-theme
  */
 get_header();
-global $wp_query;
 ?>
 
 <main id="primary" class="main-content-area" role="main">
@@ -24,20 +23,19 @@ global $wp_query;
 		?>
 	</div>
 
-	<div id="load-more-wrapper" class="load-more-wrapper">
-		<?php if ( $wp_query->max_num_pages > 1 ) : ?>
-			<button
-				id="load-more-btn"
-				class="btn-load-more"
-				type="button"
-				data-next-page="<?php echo esc_url( next_posts( $wp_query->max_num_pages, false ) ); ?>"
-				data-loading-text="<?php esc_attr_e( 'Cargando...', 'tso-theme' ); ?>"
-				data-load-text="<?php echo esc_attr( wp_strip_all_tags( tso_load_more_text() ) ); ?>"
-			>
-				<?php echo tso_load_more_text(); ?>
-			</button>
-		<?php endif; ?>
-	</div>
+	<?php if ( $GLOBALS['wp_query']->max_num_pages > 1 ) : ?>
+		<div class="posts-pagination">
+			<?php
+			the_posts_pagination(
+				array(
+					'mid_size'  => 2,
+					'prev_text' => esc_html__( '&laquo; Anterior', 'tso-theme' ),
+					'next_text' => esc_html__( 'Siguiente &raquo;', 'tso-theme' ),
+				)
+			);
+			?>
+		</div>
+	<?php endif; ?>
 </main>
 
 <?php
