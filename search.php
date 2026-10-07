@@ -2,7 +2,7 @@
 /**
  * search.php — Search results (same card grid as the home page).
  *
- * @package tso-theme
+ * @package tso-blog
  */
 get_header();
 global $wp_query;
@@ -12,7 +12,7 @@ global $wp_query;
 
 	<header class="search-header">
 		<h1 class="search-title">
-			<?php esc_html_e( 'Resultados de búsqueda para:', 'tso-theme' ); ?>
+			<?php esc_html_e( 'Resultados de búsqueda para:', 'tso-blog' ); ?>
 			<span class="search-query"><?php echo esc_html( get_search_query() ); ?></span>
 		</h1>
 		<?php if ( have_posts() ) : ?>
@@ -20,7 +20,7 @@ global $wp_query;
 				<?php
 				printf(
 					/* translators: %s: number of results */
-					esc_html( _n( '%s artículo encontrado', '%s artículos encontrados', (int) $wp_query->found_posts, 'tso-theme' ) ),
+					esc_html( _n( '%s artículo encontrado', '%s artículos encontrados', (int) $wp_query->found_posts, 'tso-blog' ) ),
 					number_format_i18n( (int) $wp_query->found_posts )
 				);
 				?>
@@ -44,8 +44,8 @@ global $wp_query;
 			the_posts_pagination(
 				array(
 					'mid_size'  => 2,
-					'prev_text' => esc_html__( '&laquo; Anterior', 'tso-theme' ),
-					'next_text' => esc_html__( 'Siguiente &raquo;', 'tso-theme' ),
+					'prev_text' => esc_html__( '&laquo; Anterior', 'tso-blog' ),
+					'next_text' => esc_html__( 'Siguiente &raquo;', 'tso-blog' ),
 				)
 			);
 			?>
@@ -54,7 +54,7 @@ global $wp_query;
 	<?php else : ?>
 
 		<div class="search-no-results">
-			<p><?php esc_html_e( 'No se encontraron artículos. Prueba con otras palabras.', 'tso-theme' ); ?></p>
+			<p><?php esc_html_e( 'No se encontraron artículos. Prueba con otras palabras.', 'tso-blog' ); ?></p>
 			<?php get_search_form(); ?>
 		</div>
 

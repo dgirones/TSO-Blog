@@ -1,87 +1,38 @@
-/**
- * editor-style.css — Editor styles for TSO Theme.
- * Mirrors frontend typography and colors via CSS variables.
- */
+    </div><!-- #content -->
 
-:root {
-	--tso-color-accent: #d6993a;
-	--tso-color-primary: #1e73be;
-	--tso-color-text: #333333;
-	--tso-color-text-muted: #666666;
-}
+    <footer class="site-footer" role="contentinfo">
+        <?php
+        $tsothm_footer_ids = array( 'footer-1', 'footer-2', 'footer-3' );
+        $tsothm_footer_active = array();
+        foreach ( $tsothm_footer_ids as $tsothm_footer_id ) {
+            if ( is_active_sidebar( $tsothm_footer_id ) ) {
+                $tsothm_footer_active[] = $tsothm_footer_id;
+            }
+        }
+        $tsothm_footer_count = count( $tsothm_footer_active );
+        if ( $tsothm_footer_count > 0 ) :
+            $tsothm_footer_mod = 'footer-layout--cols-' . $tsothm_footer_count;
+            if ( 1 === $tsothm_footer_count ) {
+                $tsothm_footer_mod .= ' footer-layout--horizontal';
+            }
+            ?>
+        <div class="footer-layout <?php echo esc_attr( $tsothm_footer_mod ); ?>">
+            <?php foreach ( $tsothm_footer_active as $tsothm_footer_id ) : ?>
+            <div class="footer-layout-cell">
+                <div class="footer-column">
+                    <?php dynamic_sidebar( $tsothm_footer_id ); ?>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
+        <div class="footer-bottom">
+            <p><?php tsothm_footer_copyright_text(); ?></p>
+            <?php tsothm_footer_legal_text(); ?>
+        </div>
+    </footer>
 
-body {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 15px;
-	line-height: 1.6;
-	color: var(--tso-color-text);
-}
-
-a {
-	color: var(--tso-color-primary);
-}
-
-a:hover {
-	color: var(--tso-color-accent);
-}
-
-h1,
-h2,
-h3,
-h4 {
-	color: var(--tso-color-primary);
-	line-height: 1.3;
-}
-
-img {
-	max-width: 100%;
-	height: auto;
-}
-
-.wp-caption {
-	max-width: 100%;
-	margin-bottom: 1em;
-}
-
-.wp-caption-text,
-.gallery-caption {
-	font-size: 0.875em;
-	color: var(--tso-color-text-muted);
-	text-align: center;
-	margin: 0.5em 0 0;
-}
-
-.aligncenter {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.alignleft {
-	float: left;
-	margin: 0 1em 1em 0;
-}
-
-.alignright {
-	float: right;
-	margin: 0 0 1em 1em;
-}
-
-blockquote {
-	border-left: 4px solid var(--tso-color-accent);
-	margin: 1.5em 0;
-	padding: 0.5em 1em;
-	color: var(--tso-color-text-muted);
-	background: #fafafa;
-}
-
-.wp-block-button__link {
-	background-color: var(--tso-color-primary);
-	color: #ffffff;
-	border-radius: 4px;
-	padding: 0.6em 1.2em;
-}
-
-.wp-block-quote {
-	border-left: 4px solid var(--tso-color-accent);
-}
+</div><!-- #page-wrapper -->
+<?php wp_footer(); ?>
+</body>
+</html>

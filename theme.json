@@ -1,6 +1,6 @@
 {
-	"$schema": "https://schemas.wp.org/wp/6.7/theme.json",
-	"version": 3,
+	"$schema": "https://schemas.wp.org/wp/6.1/theme.json",
+	"version": 2,
 	"settings": {
 		"appearanceTools": true,
 		"color": {
@@ -44,7 +44,6 @@
 			"wideSize": "1060px"
 		},
 		"typography": {
-			"defaultFontSizes": false,
 			"fontFamilies": [
 				{
 					"fontFamily": "Arial, Helvetica, sans-serif",

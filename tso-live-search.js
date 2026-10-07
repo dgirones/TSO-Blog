@@ -6,7 +6,10 @@
 ( function () {
 	'use strict';
 
-	var cacheKey = ( window.tsoSearch && window.tsoSearch.loadMoreCacheKey ) || 'tso_loadmore_state';
+	var cacheKey = ( window.tsothmSearch && window.tsothmSearch.loadMoreCacheKey ) || 'tsothm_loadmore_state';
+	var i18n = ( window.tsothmSearch && window.tsothmSearch.i18n ) || {};
+	var msgSearching = i18n.searching || 'Buscando…';
+	var msgNoResults = i18n.noResults || 'No se encontraron artículos.';
 	var instances = [];
 
 	function escHtml( str ) {
@@ -109,23 +112,26 @@
 		}
 
 		function search( term ) {
-			if ( typeof window.tsoSearch === 'undefined' ) {
+			if ( typeof window.tsothmSearch === 'undefined' ) {
 				return;
 			}
 
 			var currentReq = ++reqId;
 
 			clearActive();
-			list.innerHTML = '<li><span class="tso-sr-msg">Buscando&hellip;</span></li>';
+			list.innerHTML = '<li><span class="tso-sr-msg">' + escHtml( msgSearching ) + '</span></li>';
 			setExpanded( true );
 
-			var url = window.tsoSearch.ajaxurl
-				+ '?action=tso_live_search'
-				+ '&nonce=' + encodeURIComponent( window.tsoSearch.nonce )
+			var url = window.tsothmSearch.ajaxurl
+				+ '?action=tsothm_live_search'
+				+ '&nonce=' + encodeURIComponent( window.tsothmSearch.nonce )
 				+ '&term=' + encodeURIComponent( term );
 
 			fetch( url )
 				.then( function ( r ) {
+					if ( ! r.ok ) {
+						throw new Error( 'HTTP ' + r.status );
+					}
 					return r.json();
 				} )
 				.then( function ( data ) {
@@ -139,7 +145,7 @@
 
 					var items = data.data;
 					if ( ! items || items.length === 0 ) {
-						list.innerHTML = '<li><span class="tso-sr-msg">No se encontraron artículos.</span></li>';
+						list.innerHTML = '<li><span class="tso-sr-msg">' + escHtml( msgNoResults ) + '</span></li>';
 						setExpanded( true );
 						return;
 					}
@@ -167,8 +173,21 @@
 				} );
 		}
 
+		input.addEventListener( 'focus', function () {
+			for ( var i = 0; i < instances.length; i++ ) {
+				if ( instances[ i ].wrapper !== wrapper ) {
+					instances[ i ].hide();
+				}
+			}
+		} );
+
 		input.addEventListener( 'input', function () {
 			var val = this.value.trim();
+			for ( var i = 0; i < instances.length; i++ ) {
+				if ( instances[ i ].wrapper !== wrapper ) {
+					instances[ i ].hide();
+				}
+			}
 			clearTimeout( timer );
 			if ( val.length < 2 ) {
 				hide();

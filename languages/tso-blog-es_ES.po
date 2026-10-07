@@ -1,0 +1,1371 @@
+# Copyright (C) Tu Soporte Online
+# This file is distributed under the same license as TSO Blog.
+msgid ""
+msgstr ""
+"Project-Id-Version: TSO Blog\n"
+"Report-Msgid-Bugs-To: https://tusoporteonline.es\n"
+"POT-Creation-Date: 2026-10-06 19:01+0000\n"
+"PO-Revision-Date: 2026-10-06 19:01+0000\n"
+"Last-Translator: Tu Soporte Online <info@tusoporteonline.es>\n"
+"Language-Team: Spanish\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: tso-blog\n"
+
+#: functions.php:1370
+msgid "%1$s × %2$s px"
+msgstr "%1$s × %2$s px"
+
+#: functions.php:2183
+msgid "%s (URL completa)"
+msgstr "%s (URL completa)"
+
+#: comments.php:32
+msgid "%s comentarios"
+msgstr "%s comentarios"
+
+#: archive.php:34
+#: index.php:32
+#: search.php:47
+msgid "&laquo; Anterior"
+msgstr "&laquo; Anterior"
+
+#: functions.php:4394
+#: functions.php:4410
+#: functions.php:4426
+msgid "/mes"
+msgstr "/mes"
+
+#: functions.php:1003
+msgid "1080 × 1920 (Móvil)"
+msgstr "1080 × 1920 (Móvil)"
+
+#: functions.php:983
+msgid "1280 × 720 (HD)"
+msgstr "1280 × 720 (HD)"
+
+#: functions.php:988
+msgid "1920 × 1080 (Full HD)"
+msgstr "1920 × 1080 (Full HD)"
+
+#: functions.php:993
+msgid "2560 × 1440 (QHD)"
+msgstr "2560 × 1440 (QHD)"
+
+#: functions.php:998
+msgid "3840 × 2160 (4K)"
+msgstr "3840 × 2160 (4K)"
+
+#: functions.php:774
+msgid "Accent"
+msgstr "Accent"
+
+#: functions.php:2210
+#: functions.php:2328
+msgid "Acento"
+msgstr "Acento"
+
+#: functions.php:3831
+msgid "Acento TSO"
+msgstr "Acento TSO"
+
+#: functions.php:2546
+msgid "Afecta al título dentro del artículo o página (no a las tarjetas de la portada)."
+msgstr "Afecta al título dentro del artículo o página (no a las tarjetas de la portada)."
+
+#: functions.php:3849
+msgid "Amb ombra"
+msgstr "Amb ombra"
+
+#: functions.php:2101
+msgid "Ancho del contenido"
+msgstr "Ancho del contenido"
+
+#: functions.php:2043
+msgid "Ancho del logo (px)"
+msgstr "Ancho del logo (px)"
+
+#: functions.php:2067
+msgid "Ancho del logo en móvil (px)"
+msgstr "Ancho del logo en móvil (px)"
+
+#: functions.php:2085
+msgid "Ancho máximo del área blanca central. En móvil siempre ocupa casi toda la pantalla."
+msgstr "Ancho máximo del área blanca central. En móvil siempre ocupa casi toda la pantalla."
+
+#: functions.php:2044
+msgid "Ancho máximo en escritorio (40–500). La altura se ajusta sola."
+msgstr "Ancho máximo en escritorio (40–500). La altura se ajusta sola."
+
+#: functions.php:2068
+msgid "Ancho máximo en pantallas ≤ 768px (40–400)."
+msgstr "Ancho máximo en pantallas ≤ 768px (40–400)."
+
+#: comments.php:51
+msgid "Anteriores"
+msgstr "Anteriores"
+
+#: functions.php:2247
+#: functions.php:3601
+msgid "Anuncio"
+msgstr "Anuncio"
+
+#: functions.php:3185
+msgid "Anuncio %d — abrir enlace en pestaña nueva"
+msgstr "Anuncio %d — abrir enlace en pestaña nueva"
+
+#: functions.php:3168
+msgid "Anuncio %d — enlace (opcional)"
+msgstr "Anuncio %d — enlace (opcional)"
+
+#: functions.php:3151
+msgid "Anuncio %d — texto"
+msgstr "Anuncio %d — texto"
+
+#: functions.php:3049
+msgid "Anuncio / novedades"
+msgstr "Anuncio / novedades"
+
+#: functions.php:3107
+msgid "Anuncio 1"
+msgstr "Anuncio 1"
+
+#: functions.php:3108
+msgid "Anuncio 2"
+msgstr "Anuncio 2"
+
+#: functions.php:3109
+msgid "Anuncio 3"
+msgstr "Anuncio 3"
+
+#: functions.php:3110
+msgid "Anuncio 4"
+msgstr "Anuncio 4"
+
+#: functions.php:3111
+msgid "Anuncio 5"
+msgstr "Anuncio 5"
+
+#: functions.php:3103
+msgid "Anuncio a mostrar (modo «Solo uno»)"
+msgstr "Anuncio a mostrar (modo «Solo uno»)"
+
+#: functions.php:2337
+msgid "Anuncio: fondo"
+msgstr "Anuncio: fondo"
+
+#: functions.php:2338
+msgid "Anuncio: texto"
+msgstr "Anuncio: texto"
+
+#: functions.php:1977
+msgid "Apariencia"
+msgstr "Apariencia"
+
+#: functions.php:4089
+msgid "Archivo"
+msgstr "Archivo"
+
+#: functions.php:2162
+msgid "Arrastra arriba o abajo. Se guarda al publicar."
+msgstr "Arrastra arriba o abajo. Se guarda al publicar."
+
+#: functions.php:2142
+msgid "Arrastra las redes con el icono ☰ para cambiar el orden (izquierda → derecha). Debajo, pega la URL completa de cada red. Las que no tengan URL no se muestran."
+msgstr "Arrastra las redes con el icono ☰ para cambiar el orden (izquierda → derecha). Debajo, pega la URL completa de cada red. Las que no tengan URL no se muestran."
+
+#: functions.php:3196
+msgid "Artículos relacionados"
+msgstr "Artículos relacionados"
+
+#: functions.php:2113
+msgid "Ayuda de columnas"
+msgstr "Ayuda de columnas"
+
+#: functions.php:1987
+msgid "Ayuda de columnas de widgets y textos del pie de página. Los colores del footer están en Colores → Footer."
+msgstr "Ayuda de columnas de widgets y textos del pie de página. Los colores del footer están en Colores → Footer."
+
+#: page-templates/contact.php:112
+msgid "Añade el shortcode de tu formulario en Apariencia → Personalizar → Contacto (p. ej. Contact Form 7). El tema no envía correos por sí mismo."
+msgstr "Añade el shortcode de tu formulario en Apariencia → Personalizar → Contacto (p. ej. Contact Form 7). El tema no envía correos por sí mismo."
+
+#: functions.php:3997
+msgid "Añade un bloque Encabezado (H3) por cada pregunta y el texto de la respuesta debajo. Publica la página para ver el acordeón."
+msgstr "Añade un bloque Encabezado (H3) por cada pregunta y el texto de la respuesta debajo. Publica la página para ver el acordeón."
+
+#: functions.php:1321
+msgid "Añade un bloque Galería o Imagen (JPG, PNG, WebP o GIF) en el editor y publica la página."
+msgstr "Añade un bloque Galería o Imagen (JPG, PNG, WebP o GIF) en el editor y publica la página."
+
+#: functions.php:4120
+msgid "Añade uno o más bloques Archivo en el editor y publica la página para que aparezcan aquí."
+msgstr "Añade uno o más bloques Archivo en el editor y publica la página para que aparezcan aquí."
+
+#: functions.php:3040
+msgid "Añadir destacado"
+msgstr "Añadir destacado"
+
+#: class-tsotheme-customize-repeater-control.php:21
+#: class-tsotheme-customize-repeater-control.php:119
+#: class-tsotheme-customize-repeater-control.php:123
+msgid "Añadir fila"
+msgstr "Añadir fila"
+
+#: functions.php:2896
+msgid "Añadir persona"
+msgstr "Añadir persona"
+
+#: functions.php:2927
+msgid "Añadir plan"
+msgstr "Añadir plan"
+
+#: functions.php:2601
+msgid "Barra azul del sidebar (Recent Posts, Archives…)."
+msgstr "Barra azul del sidebar (Recent Posts, Archives…)."
+
+#: functions.php:2225
+msgid "Barra de navegación principal, estilo de botones y submenús."
+msgstr "Barra de navegación principal, estilo de botones y submenús."
+
+#: functions.php:2248
+msgid "Barra de novedades entre la cabecera y el menú. El texto se configura en «Anuncio / novedades»."
+msgstr "Barra de novedades entre la cabecera y el menú. El texto se configura en «Anuncio / novedades»."
+
+#: functions.php:3837
+msgid "Barra lateral"
+msgstr "Barra lateral"
+
+#: functions.php:2328
+msgid "Barras de título, botones y enlaces destacados."
+msgstr "Barras de título, botones y enlaces destacados."
+
+#: functions.php:3870
+msgid "Bloc de crida a l'acció amb títol, text i botó centrats."
+msgstr "Bloc de crida a l'acció amb títol, text i botó centrats."
+
+#: functions.php:779
+msgid "Body background"
+msgstr "Body background"
+
+#: functions.php:4527
+msgid "Botones apilados a ancho completo, estilo \"linktree\"."
+msgstr "Botones apilados a ancho completo, estilo \"linktree\"."
+
+#: functions.php:2986
+msgid "Botón principal — URL"
+msgstr "Botón principal — URL"
+
+#: functions.php:2970
+msgid "Botón principal — texto"
+msgstr "Botón principal — texto"
+
+#: functions.php:3018
+msgid "Botón secundario — URL"
+msgstr "Botón secundario — URL"
+
+#: functions.php:3002
+msgid "Botón secundario — texto (opcional)"
+msgstr "Botón secundario — texto (opcional)"
+
+#: functions.php:4350
+#: functions.php:4360
+#: functions.php:4370
+msgid "Breve descripción de este servicio y de a quién va dirigido."
+msgstr "Breve descripción de este servicio y de a quién va dirigido."
+
+#: functions.php:843
+msgid "Buscando…"
+msgstr "Buscando…"
+
+#: searchform.php:44
+msgid "Buscar"
+msgstr "Buscar"
+
+#: searchform.php:36
+msgid "Buscar en el sitio"
+msgstr "Buscar en el sitio"
+
+#: searchform.php:28
+msgid "Buscar:"
+msgstr "Buscar:"
+
+#: functions.php:3869
+msgid "CTA centrada"
+msgstr "CTA centrada"
+
+#: functions.php:2216
+msgid "Cabecera"
+msgstr "Cabecera"
+
+#: functions.php:2937
+msgid "Cabecera y destacados para la plantilla de página «Landing / Portada». El título y la imagen de fondo del hero salen del título e imagen destacada de cada página; aquí solo se configuran el texto pequeño, los botones y los destacados."
+msgstr "Cabecera y destacados para la plantilla de página «Landing / Portada». El título y la imagen de fondo del hero salen del título e imagen destacada de cada página; aquí solo se configuran el texto pequeño, los botones y los destacados."
+
+#: functions.php:1657
+msgid "Cancelar respuesta"
+msgstr "Cancelar respuesta"
+
+#: functions.php:2575
+msgid "Capitalizar"
+msgstr "Capitalizar"
+
+#: functions.php:3901
+msgid "Característica 1"
+msgstr "Característica 1"
+
+#: functions.php:3911
+msgid "Característica 2"
+msgstr "Característica 2"
+
+#: functions.php:4413
+msgid "Característica adicional"
+msgstr "Característica adicional"
+
+#: functions.php:4397
+#: functions.php:4397
+msgid "Característica incluida"
+msgstr "Característica incluida"
+
+#: functions.php:4608
+msgid "Características (una por línea)"
+msgstr "Características (una por línea)"
+
+#: functions.php:863
+#: home.php:34
+msgid "Cargando..."
+msgstr "Cargando..."
+
+#: functions.php:4573
+msgid "Cargo / rol"
+msgstr "Cargo / rol"
+
+#: functions.php:4300
+#: functions.php:4313
+#: functions.php:4326
+msgid "Cargo o rol"
+msgstr "Cargo o rol"
+
+#: functions.php:377
+msgid "Casi pantalla completa"
+msgstr "Casi pantalla completa"
+
+#: style.css:5
+msgid "Classic blog theme with an orange frame and a white content area. Includes a two-column home grid with Load more, live search, a day/night color mode, Customizer options for colors, typography and logo, announcement bars, ready-made page templates (portfolio, pricing, team, FAQ, contact and more) and optional Google Fonts."
+msgstr "Tema clásico de blog con marco naranja y área de contenido blanca. Incluye cuadrícula de inicio a dos columnas con «Cargar más», búsqueda en vivo, modo de color día/noche, opciones del Personalizador para colores, tipografía y logotipo, barras de anuncios, plantillas de página listas para usar (portfolio, precios, equipo, FAQ, contacto y más) y Google Fonts opcionales."
+
+#: functions.php:2461
+#: functions.php:2529
+msgid "Color"
+msgstr "Color"
+
+#: functions.php:2330
+msgid "Color principal"
+msgstr "Color principal"
+
+#: functions.php:2196
+msgid "Colores"
+msgstr "Colores"
+
+#: functions.php:2317
+msgid "Colores del modo noche, independientes del modo día: los colores de las otras secciones solo se aplican de día. Si no cambias nada se usa la paleta oscura por defecto."
+msgstr "Colores del modo noche, independientes del modo día: los colores de las otras secciones solo se aplican de día. Si no cambias nada se usa la paleta oscura por defecto."
+
+#: functions.php:2197
+msgid "Colores generales, menú de navegación y pie de página."
+msgstr "Colores generales, menú de navegación y pie de página."
+
+#: functions.php:2207
+msgid "Colores globales del tema (acentos, botones y fondo de la página)."
+msgstr "Colores globales del tema (acentos, botones y fondo de la página)."
+
+#: functions.php:952
+msgid "Columna lateral. Se muestra en entradas, páginas (plantilla por defecto), archivos y búsqueda. No aparece en la portada del blog, ni en las plantillas Contacto o Portfolio. Si el personalizador dice que hay un área más sin mostrar, abre una entrada o una página normal en la vista previa."
+msgstr "Columna lateral. Se muestra en entradas, páginas (plantilla por defecto), archivos y búsqueda. No aparece en la portada del blog, ni en las plantillas Contacto o Portfolio. Si el personalizador dice que hay un área más sin mostrar, abre una entrada o una página normal en la vista previa."
+
+#: functions.php:1715
+msgid "Comentario"
+msgstr "Comentario"
+
+#: functions.php:4244
+msgid "Configura un email, teléfono o el shortcode de un formulario en Apariencia → Personalizar → Contacto para mostrar aquí una forma de contacto."
+msgstr "Configura un email, teléfono o el shortcode de un formulario en Apariencia → Personalizar → Contacto para mostrar aquí una forma de contacto."
+
+#: functions.php:3883
+msgid "Contactar ahora"
+msgstr "Contactar ahora"
+
+#: functions.php:2691
+#: functions.php:4538
+msgid "Contacto"
+msgstr "Contacto"
+
+#: functions.php:2242
+msgid "Copyright / texto secundario"
+msgstr "Copyright / texto secundario"
+
+#: functions.php:2660
+msgid "Copyright y texto legal bajo las columnas de widgets."
+msgstr "Copyright y texto legal bajo las columnas de widgets."
+
+#: functions.php:1686
+msgid "Correo electrónico"
+msgstr "Correo electrónico"
+
+#: functions.php:4473
+msgid "Cronología (3 hitos)"
+msgstr "Cronología (3 hitos)"
+
+#: functions.php:4287
+msgid "Cuadrícula de 3 fichas de equipo con foto, nombre y cargo."
+msgstr "Cuadrícula de 3 fichas de equipo con foto, nombre y cargo."
+
+#: functions.php:4340
+msgid "Cuadrícula de 3 tarjetas de servicio con título y texto."
+msgstr "Cuadrícula de 3 tarjetas de servicio con título y texto."
+
+#: functions.php:3843
+msgid "Curt centrat"
+msgstr "Curt centrat"
+
+#: functions.php:2692
+msgid "Datos para la plantilla de página «Contacto». El mapa solo se muestra si pegas una URL de incrustación de Google Maps. El formulario se añade con el shortcode de un plugin (p. ej. Contact Form 7); el tema no envía correos por sí mismo."
+msgstr "Datos para la plantilla de página «Contacto». El mapa solo se muestra si pegas una URL de incrustación de Google Maps. El formulario se añade con el shortcode de un plugin (p. ej. Contact Form 7); el tema no envía correos por sí mismo."
+
+#: functions.php:1655
+msgid "Deja un comentario"
+msgstr "Deja un comentario"
+
+#: functions.php:1382
+msgid "Descargar original"
+msgstr "Descargar original"
+
+#: functions.php:1359
+msgid "Descargar:"
+msgstr "Descargar:"
+
+#: functions.php:1454
+msgid "Descartar aviso"
+msgstr "Descartar aviso"
+
+#: functions.php:4487
+#: functions.php:4500
+#: functions.php:4513
+msgid "Descripción breve de qué ocurrió en este momento."
+msgstr "Descripción breve de qué ocurrió en este momento."
+
+#: functions.php:3904
+msgid "Descripción de la primera característica o servicio destacado."
+msgstr "Descripción de la primera característica o servicio destacado."
+
+#: functions.php:3914
+msgid "Descripción de la segunda característica o servicio destacado."
+msgstr "Descripción de la segunda característica o servicio destacado."
+
+#: class-tsotheme-customize-repeater-control.php:25
+msgid "Destacado"
+msgstr "Destacado"
+
+#: functions.php:3036
+msgid "Destacados bajo el hero"
+msgstr "Destacados bajo el hero"
+
+#: functions.php:4623
+msgid "Destacar este plan"
+msgstr "Destacar este plan"
+
+#: functions.php:2743
+msgid "Dirección / oficina"
+msgstr "Dirección / oficina"
+
+#: functions.php:2084
+msgid "Diseño / Ancho"
+msgstr "Diseño / Ancho"
+
+#: functions.php:4446
+msgid "Dos tarjetas de testimonio con cita y autor."
+msgstr "Dos tarjetas de testimonio con cita y autor."
+
+#: functions.php:3894
+msgid "Dues columnes amb títol i text per comparar serveis o característiques."
+msgstr "Dues columnes amb títol i text per comparar serveis o característiques."
+
+#: functions.php:3893
+msgid "Dues columnes informació"
+msgstr "Dues columnes informació"
+
+#: functions.php:2847
+msgid "Ejemplo Contact Form 7: [contact-form-7 id=\"123\"]. El tema no procesa ni envía el formulario."
+msgstr "Ejemplo Contact Form 7: [contact-form-7 id=\"123\"]. El tema no procesa ni envía el formulario."
+
+#: class-tsotheme-customize-repeater-control.php:85
+msgid "Elegir imagen"
+msgstr "Elegir imagen"
+
+#: functions.php:4400
+#: functions.php:4416
+#: functions.php:4432
+msgid "Elegir plan"
+msgstr "Elegir plan"
+
+#: functions.php:2303
+msgid "Elige el relieve de los títulos del menú principal."
+msgstr "Elige el relieve de los títulos del menú principal."
+
+#: functions.php:2760
+#: page-templates/contact.php:58
+msgid "Email"
+msgstr "Email"
+
+#: functions.php:2777
+msgid "Email alternativo (opcional)"
+msgstr "Email alternativo (opcional)"
+
+#: functions.php:2829
+msgid "En Google Maps: Compartir → Insertar un mapa → copia la URL del atributo src (o pega el código de inserción completo). Solo se aceptan URLs de Google Maps embed. Vacío = sin mapa."
+msgstr "En Google Maps: Compartir → Insertar un mapa → copia la URL del atributo src (o pega el código de inserción completo). Solo se aceptan URLs de Google Maps embed. Vacío = sin mapa."
+
+#: functions.php:4578
+msgid "Enlace (web, LinkedIn…) — opcional"
+msgstr "Enlace (web, LinkedIn…) — opcional"
+
+#: functions.php:2329
+msgid "Enlaces y barras azules"
+msgstr "Enlaces y barras azules"
+
+#: functions.php:2623
+msgid "Enlaces y listas dentro de los widgets."
+msgstr "Enlaces y listas dentro de los widgets."
+
+#: page-templates/contact.php:106
+msgid "Envíanos un mensaje"
+msgstr "Envíanos un mensaje"
+
+#: functions.php:2874
+msgid "Equipo"
+msgstr "Equipo"
+
+#: functions.php:4286
+msgid "Equipo (3 personas)"
+msgstr "Equipo (3 personas)"
+
+#: functions.php:3878
+msgid "Estamos aquí para ayudarte. Contacta con nosotros y te responderemos en menos de 24 horas."
+msgstr "Estamos aquí para ayudarte. Contacta con nosotros y te responderemos en menos de 24 horas."
+
+#: functions.php:2302
+msgid "Estilo de botones del menú"
+msgstr "Estilo de botones del menú"
+
+#: template-parts/single-tags.php:13
+msgid "Etiquetas"
+msgstr "Etiquetas"
+
+#: template-parts/single-tags.php:14
+msgid "Etiquetas:"
+msgstr "Etiquetas:"
+
+#: functions.php:2400
+#: functions.php:2487
+msgid "Familia tipográfica"
+msgstr "Familia tipográfica"
+
+#: functions.php:2875
+msgid "Fichas de equipo para la plantilla de página «Equipo». Si lo dejas vacío, la página mostrará el contenido de bloques (patrón «Equipo (3 personas)»)."
+msgstr "Fichas de equipo para la plantilla de página «Equipo». Si lo dejas vacío, la página mostrará el contenido de bloques (patrón «Equipo (3 personas)»)."
+
+#: class-tsotheme-customize-repeater-control.php:20
+msgid "Fila"
+msgstr "Fila"
+
+#: functions.php:2220
+#: functions.php:2228
+#: functions.php:2239
+#: functions.php:2251
+msgid "Fondo"
+msgstr "Fondo"
+
+#: functions.php:2325
+msgid "Fondo de la cabecera"
+msgstr "Fondo de la cabecera"
+
+#: functions.php:2217
+msgid "Fondo de la cabecera: la franja superior con el logo y el buscador, por encima del menú de navegación."
+msgstr "Fondo de la cabecera: la franja superior con el logo y el buscador, por encima del menú de navegación."
+
+#: functions.php:2324
+msgid "Fondo del contenido"
+msgstr "Fondo del contenido"
+
+#: functions.php:2326
+msgid "Fondo del menú"
+msgstr "Fondo del menú"
+
+#: functions.php:2327
+msgid "Fondo del pie de página"
+msgstr "Fondo del pie de página"
+
+#: functions.php:2231
+msgid "Fondo del submenú"
+msgstr "Fondo del submenú"
+
+#: functions.php:2212
+#: functions.php:2323
+msgid "Fondo exterior"
+msgstr "Fondo exterior"
+
+#: functions.php:1986
+#: functions.php:2235
+msgid "Footer"
+msgstr "Footer"
+
+#: functions.php:955
+msgid "Footer columna 1"
+msgstr "Footer columna 1"
+
+#: functions.php:960
+msgid "Footer columna 2"
+msgstr "Footer columna 2"
+
+#: functions.php:965
+msgid "Footer columna 3"
+msgstr "Footer columna 3"
+
+#: class-tsotheme-customize-repeater-control.php:24
+#: functions.php:4563
+msgid "Foto"
+msgstr "Foto"
+
+#: functions.php:2471
+msgid "Fuente de encabezados (H1–H6) y títulos de artículos."
+msgstr "Fuente de encabezados (H1–H6) y títulos de artículos."
+
+#: functions.php:2370
+msgid "Fuentes del cuerpo y de los títulos. Las fuentes Google solo se cargan si las eliges."
+msgstr "Fuentes del cuerpo y de los títulos. Las fuentes Google solo se cargan si las eliges."
+
+#: functions.php:3228
+msgid "Funciones opcionales que requieren un plugin. Desactivadas por defecto."
+msgstr "Funciones opcionales que requieren un plugin. Desactivadas por defecto."
+
+#: functions.php:2206
+msgid "Generales"
+msgstr "Generales"
+
+#: functions.php:2828
+msgid "Google Maps (URL de incrustación)"
+msgstr "Google Maps (URL de incrustación)"
+
+#: functions.php:2504
+msgid "Grosor"
+msgstr "Grosor"
+
+#: functions.php:3037
+msgid "Hasta 3 o 4 puntos breves (icono + título + texto) que aparecen debajo de la cabecera."
+msgstr "Hasta 3 o 4 puntos breves (icono + título + texto) que aparecen debajo de la cabecera."
+
+#: functions.php:3050
+msgid "Hasta 5 avisos entre la cabecera y el menú. Puedes mostrar solo uno o rotarlos automáticamente. Colores: Colores → Anuncio."
+msgstr "Hasta 5 avisos entre la cabecera y el menú. Puedes mostrar solo uno o rotarlos automáticamente. Colores: Colores → Anuncio."
+
+#: functions.php:2114
+msgid "Hay 3 zonas de widgets: Footer columna 1, 2 y 3 (Personalizar → Widgets)."
+msgstr "Hay 3 zonas de widgets: Footer columna 1, 2 y 3 (Personalizar → Widgets)."
+
+#: functions.php:2130
+msgid "He leído la guía (opcional)"
+msgstr "He leído la guía (opcional)"
+
+#: functions.php:4638
+msgid "Icono (un emoji, p. ej. 🚀)"
+msgstr "Icono (un emoji, p. ej. 🚀)"
+
+#: functions.php:1205
+msgid "Imagen"
+msgstr "Imagen"
+
+#: functions.php:2008
+msgid "Imagen de fondo opcional para toda la web, por detrás del contenido. Puedes subirla y ajustar su posición, tamaño, repetición y desplazamiento (parallax)."
+msgstr "Imagen de fondo opcional para toda la web, por detrás del contenido. Puedes subirla y ajustar su posición, tamaño, repetición y desplazamiento (parallax)."
+
+#: template-parts/single-breadcrumb.php:15
+msgid "Inicio"
+msgstr "Inicio"
+
+#: functions.php:4535
+msgid "Instagram"
+msgstr "Instagram"
+
+#: functions.php:3227
+msgid "Integraciones"
+msgstr "Integraciones"
+
+#: functions.php:2438
+msgid "Interlineado"
+msgstr "Interlineado"
+
+#: functions.php:5522
+msgid "Interruptor de dia / noche / automático que aparece en la cabecera, junto al buscador."
+msgstr "Interruptor de dia / noche / automático que aparece en la cabecera, junto al buscador."
+
+#: functions.php:2936
+msgid "Landing / Portada"
+msgstr "Landing / Portada"
+
+#: functions.php:4526
+msgid "Lista de enlaces"
+msgstr "Lista de enlaces"
+
+#: functions.php:2019
+#: functions.php:2029
+msgid "Logo"
+msgstr "Logo"
+
+#: functions.php:1978
+msgid "Logo, ancho del sitio, redes en la cabecera e imagen de cabecera."
+msgstr "Logo, ancho del sitio, redes en la cabecera e imagen de cabecera."
+
+#: functions.php:4474
+msgid "Línea de tiempo vertical con 3 hitos (fecha, título y texto)."
+msgstr "Línea de tiempo vertical con 3 hitos (fecha, título y texto)."
+
+#: functions.php:2243
+msgid "Líneas y bordes"
+msgstr "Líneas y bordes"
+
+#: functions.php:1634
+msgid "Mapa de ubicación"
+msgstr "Mapa de ubicación"
+
+#: functions.php:2573
+msgid "Mayúsculas"
+msgstr "Mayúsculas"
+
+#: functions.php:2568
+msgid "Mayúsculas, etc. en H1 y en los títulos de las tarjetas."
+msgstr "Mayúsculas, etc. en H1 y en los títulos de las tarjetas."
+
+#: functions.php:1376
+msgid "Medidas de la imagen original"
+msgstr "Medidas de la imagen original"
+
+#: functions.php:1377
+msgid "Medidas:"
+msgstr "Medidas:"
+
+#: functions.php:2224
+msgid "Menú"
+msgstr "Menú"
+
+#: functions.php:107
+msgid "Menú Principal"
+msgstr "Menú Principal"
+
+#: functions.php:2332
+msgid "Menú: fondo del submenú"
+msgstr "Menú: fondo del submenú"
+
+#: functions.php:2331
+msgid "Menú: texto de los enlaces"
+msgstr "Menú: texto de los enlaces"
+
+#: functions.php:4532
+msgid "Mi web"
+msgstr "Mi web"
+
+#: functions.php:2574
+msgid "Minúsculas"
+msgstr "Minúsculas"
+
+#: class-tsotheme-customize-repeater-control.php:18
+msgid "Mis filas"
+msgstr "Mis filas"
+
+#: functions.php:5568
+msgid "Modo automático"
+msgstr "Modo automático"
+
+#: functions.php:5573
+msgid "Modo de color"
+msgstr "Modo de color"
+
+#: functions.php:3082
+msgid "Modo de visualización"
+msgstr "Modo de visualización"
+
+#: functions.php:5560
+msgid "Modo día"
+msgstr "Modo día"
+
+#: functions.php:5521
+msgid "Modo día/noche"
+msgstr "Modo día/noche"
+
+#: functions.php:2316
+#: functions.php:5564
+msgid "Modo noche"
+msgstr "Modo noche"
+
+#: functions.php:3243
+msgid "Mostrar GTranslate en la cabecera"
+msgstr "Mostrar GTranslate en la cabecera"
+
+#: functions.php:3066
+msgid "Mostrar barra de anuncio"
+msgstr "Mostrar barra de anuncio"
+
+#: functions.php:5539
+msgid "Mostrar el interruptor de día / noche"
+msgstr "Mostrar el interruptor de día / noche"
+
+#: functions.php:2864
+msgid "Mostrar iconos de redes sociales en Contacto"
+msgstr "Mostrar iconos de redes sociales en Contacto"
+
+#: functions.php:794
+msgid "Muted text"
+msgstr "Muted text"
+
+#: functions.php:2572
+msgid "Ninguna"
+msgstr "Ninguna"
+
+#: functions.php:1249
+msgid "No disponible: hace falta al menos %1$s×%2$s px. Esta imagen mide %3$s×%4$s px."
+msgstr "No disponible: hace falta al menos %1$s×%2$s px. Esta imagen mide %3$s×%4$s px."
+
+#: home.php:21
+#: index.php:20
+msgid "No hay artículos publicados todavía."
+msgstr "No hay artículos publicados todavía."
+
+#: functions.php:844
+msgid "No se encontraron artículos."
+msgstr "No se encontraron artículos."
+
+#: search.php:57
+msgid "No se encontraron artículos. Prueba con otras palabras."
+msgstr "No se encontraron artículos. Prueba con otras palabras."
+
+#: archive.php:43
+msgid "No se han encontrado artículos."
+msgstr "No se han encontrado artículos."
+
+#: class-tsotheme-customize-repeater-control.php:23
+#: functions.php:1678
+#: functions.php:4568
+msgid "Nombre"
+msgstr "Nombre"
+
+#: functions.php:4297
+#: functions.php:4310
+#: functions.php:4323
+msgid "Nombre Apellido"
+msgstr "Nombre Apellido"
+
+#: functions.php:4453
+#: functions.php:4460
+msgid "Nombre del cliente"
+msgstr "Nombre del cliente"
+
+#: functions.php:4593
+msgid "Nombre del plan"
+msgstr "Nombre del plan"
+
+#: page-templates/contact.php:46
+msgid "Oficina"
+msgstr "Oficina"
+
+#: functions.php:2954
+msgid "Opcional. Ejemplo: «Novedad» o el nombre de una campaña."
+msgstr "Opcional. Ejemplo: «Novedad» o el nombre de una campaña."
+
+#: functions.php:2161
+msgid "Orden de los iconos"
+msgstr "Orden de los iconos"
+
+#: functions.php:1226
+#: functions.php:1375
+msgid "Original"
+msgstr "Original"
+
+#: functions.php:2131
+msgid "Para que las fotos de las columnas 2 y 3 queden parejas: usa la misma medida en ambas. Recomendado 600×450 px (proporción 4:3) o 600×600 px (cuadrado). No mezcles una imagen vertical con una horizontal. Cada columna tiene unos 300 px de ancho en escritorio; 600 px de origen es suficiente. Si solo usas la columna 1 (menú de Contacto / Aviso legal) y dejas 2 y 3 vacías, los enlaces se muestran en horizontal. Nota: el aviso «tu tema tiene 1 área de widget más…» es de WordPress: la «Sidebar Noticias» no se muestra en portada del blog, Contacto ni Portfolio; en la vista previa abre una entrada o una página con plantilla por defecto para editarla. Para editar un widget desde la vista previa: Mayúsculas (Shift) + clic en el widget."
+msgstr "Para que las fotos de las columnas 2 y 3 queden parejas: usa la misma medida en ambas. Recomendado 600×450 px (proporción 4:3) o 600×600 px (cuadrado). No mezcles una imagen vertical con una horizontal. Cada columna tiene unos 300 px de ancho en escritorio; 600 px de origen es suficiente. Si solo usas la columna 1 (menú de Contacto / Aviso legal) y dejas 2 y 3 vacías, los enlaces se muestran en horizontal. Nota: el aviso «tu tema tiene 1 área de widget más…» es de WordPress: la «Sidebar Noticias» no se muestra en portada del blog, Contacto ni Portfolio; en la vista previa abre una entrada o una página con plantilla por defecto para editarla. Para editar un widget desde la vista previa: Mayúsculas (Shift) + clic en el widget."
+
+#: 404.php:15
+msgid "Parece que lo que buscas no está aquí. Prueba a buscar o vuelve al inicio."
+msgstr "Parece que lo que buscas no está aquí. Prueba a buscar o vuelve al inicio."
+
+#: functions.php:4603
+msgid "Periodo (p. ej. /mes) — opcional"
+msgstr "Periodo (p. ej. /mes) — opcional"
+
+#: functions.php:2893
+msgid "Personas"
+msgstr "Personas"
+
+#: functions.php:957
+msgid "Pie de página (menús, texto…). Si solo usas esta columna y dejas 2 y 3 vacías, los menús salen en horizontal. Con 2 o 3 columnas, layout en columnas iguales."
+msgstr "Pie de página (menús, texto…). Si solo usas esta columna y dejas 2 y 3 vacías, los menús salen en horizontal. Con 2 o 3 columnas, layout en columnas iguales."
+
+#: functions.php:2236
+msgid "Pie de página: fondo, títulos de widgets, textos, copyright y líneas separadoras."
+msgstr "Pie de página: fondo, títulos de widgets, textos, copyright y líneas separadoras."
+
+#: functions.php:2335
+msgid "Pie: copyright / texto secundario"
+msgstr "Pie: copyright / texto secundario"
+
+#: functions.php:2336
+msgid "Pie: líneas y bordes"
+msgstr "Pie: líneas y bordes"
+
+#: functions.php:2334
+msgid "Pie: texto y enlaces"
+msgstr "Pie: texto y enlaces"
+
+#: functions.php:2333
+msgid "Pie: títulos de widgets"
+msgstr "Pie: títulos de widgets"
+
+#: functions.php:4423
+msgid "Plan avanzado"
+msgstr "Plan avanzado"
+
+#: functions.php:4391
+msgid "Plan básico"
+msgstr "Plan básico"
+
+#: functions.php:4407
+msgid "Plan recomendado"
+msgstr "Plan recomendado"
+
+#: functions.php:2924
+msgid "Planes"
+msgstr "Planes"
+
+#: functions.php:2906
+msgid "Planes para la plantilla de página «Precios». Si lo dejas vacío, la página mostrará el contenido de bloques (patrón «Precios (3 planes)»)."
+msgstr "Planes para la plantilla de página «Precios». Si lo dejas vacío, la página mostrará el contenido de bloques (patrón «Precios (3 planes)»)."
+
+#: functions.php:403
+msgid "Plano (sin botones)"
+msgstr "Plano (sin botones)"
+
+#: functions.php:1453
+msgid "Plantilla Portfolio: usa bloques Galería o Imagen (JPG, PNG, WebP, GIF). En la web se muestra la galería con nombre y descargas (1920×1080 y otros). Si faltan tamaños en fotos antiguas, regenera miniaturas tras activar el tema."
+msgstr "Plantilla Portfolio: usa bloques Galería o Imagen (JPG, PNG, WebP, GIF). En la web se muestra la galería con nombre y descargas (1920×1080 y otros). Si faltan tamaños en fotos antiguas, regenera miniaturas tras activar el tema."
+
+#: functions.php:1995
+msgid "Plantillas"
+msgstr "Plantillas"
+
+#: functions.php:1996
+msgid "Plantillas de Contacto, Equipo, Precios y Landing, y el anuncio superior."
+msgstr "Plantillas de Contacto, Equipo, Precios y Landing, y el anuncio superior."
+
+#: functions.php:4250
+#: page-templates/contact.php:34
+msgid "Ponte en contacto"
+msgstr "Ponte en contacto"
+
+#: functions.php:3127
+msgid "Por defecto 60 (1 minuto). Cada cambio entra con el mismo desplazamiento hacia el centro."
+msgstr "Por defecto 60 (1 minuto). Cada cambio entra con el mismo desplazamiento hacia el centro."
+
+#: functions.php:4598
+msgid "Precio (p. ej. 19,99 €)"
+msgstr "Precio (p. ej. 19,99 €)"
+
+#: functions.php:2905
+msgid "Precios"
+msgstr "Precios"
+
+#: functions.php:4383
+msgid "Precios (3 planes)"
+msgstr "Precios (3 planes)"
+
+#: functions.php:769
+msgid "Primary"
+msgstr "Primary"
+
+#: functions.php:2211
+msgid "Principal"
+msgstr "Principal"
+
+#: functions.php:1658
+msgid "Publicar comentario"
+msgstr "Publicar comentario"
+
+#: 404.php:13
+msgid "Página no encontrada"
+msgstr "Página no encontrada"
+
+#: page-templates/full-width.php:26
+#: page.php:12
+#: single.php:76
+msgid "Páginas:"
+msgstr "Páginas:"
+
+#: functions.php:401
+msgid "Píldoras"
+msgstr "Píldoras"
+
+#: class-tsotheme-customize-repeater-control.php:84
+msgid "Quitar"
+msgstr "Quitar"
+
+#: functions.php:4872
+msgid "Recomendado"
+msgstr "Recomendado"
+
+#: functions.php:2141
+#: functions.php:3267
+msgid "Redes sociales"
+msgstr "Redes sociales"
+
+#: functions.php:399
+msgid "Relieve clásico"
+msgstr "Relieve clásico"
+
+#: functions.php:400
+msgid "Relieve tallado"
+msgstr "Relieve tallado"
+
+#: functions.php:3244
+msgid "Requiere el plugin GTranslate activo. Si está desactivado o el plugin no está instalado, no se muestra nada."
+msgstr "Requiere el plugin GTranslate activo. Si está desactivado o el plugin no está instalado, no se muestra nada."
+
+#: functions.php:1656
+msgid "Responder a %s"
+msgstr "Responder a %s"
+
+#: search.php:15
+msgid "Resultados de búsqueda para:"
+msgstr "Resultados de búsqueda para:"
+
+#: functions.php:3087
+msgid "Rotación automática"
+msgstr "Rotación automática"
+
+#: functions.php:3083
+msgid "Rotación: cambia entre los anuncios con texto. Solo uno: muestra únicamente el número elegido."
+msgstr "Rotación: cambia entre los anuncios con texto. Solo uno: muestra únicamente el número elegido."
+
+#: template-parts/single-breadcrumb.php:12
+msgid "Ruta de navegación"
+msgstr "Ruta de navegación"
+
+#: functions.php:935
+msgid "Saltar al contenido"
+msgstr "Saltar al contenido"
+
+#: functions.php:962
+msgid "Segunda columna. Imágenes: usa 600×450 px (4:3) o 600×600 (cuadrado). Para que queden parejas con la columna 3, las dos fotos deben tener exactamente la misma medida y proporción."
+msgstr "Segunda columna. Imágenes: usa 600×450 px (4:3) o 600×600 (cuadrado). Para que queden parejas con la columna 3, las dos fotos deben tener exactamente la misma medida y proporción."
+
+#: functions.php:3126
+msgid "Segundos entre anuncios (rotación)"
+msgstr "Segundos entre anuncios (rotación)"
+
+#: class-tsotheme-customize-repeater-control.php:83
+msgid "Seleccionar imagen"
+msgstr "Seleccionar imagen"
+
+#: functions.php:4347
+msgid "Servicio 1"
+msgstr "Servicio 1"
+
+#: functions.php:4357
+msgid "Servicio 2"
+msgstr "Servicio 2"
+
+#: functions.php:4367
+msgid "Servicio 3"
+msgstr "Servicio 3"
+
+#: functions.php:4339
+msgid "Servicios (3 tarjetas)"
+msgstr "Servicios (3 tarjetas)"
+
+#: functions.php:2846
+msgid "Shortcode del formulario"
+msgstr "Shortcode del formulario"
+
+#: functions.php:5540
+msgid "Si lo desactivas, el sitio seguirá respetando el modo del sistema del visitante, pero no se mostrará el botón para cambiarlo a mano."
+msgstr "Si lo desactivas, el sitio seguirá respetando el modo del sistema del visitante, pero no se mostrará el botón para cambiarlo a mano."
+
+#: functions.php:2583
+msgid "Sidebar / widgets"
+msgstr "Sidebar / widgets"
+
+#: functions.php:950
+msgid "Sidebar Noticias"
+msgstr "Sidebar Noticias"
+
+#: archive.php:35
+#: index.php:33
+#: search.php:48
+msgid "Siguiente &raquo;"
+msgstr "Siguiente &raquo;"
+
+#: comments.php:52
+msgid "Siguientes"
+msgstr "Siguientes"
+
+#: functions.php:1694
+msgid "Sitio web"
+msgstr "Sitio web"
+
+#: functions.php:3088
+msgid "Solo un anuncio"
+msgstr "Solo un anuncio"
+
+#: functions.php:4429
+msgid "Soporte prioritario"
+msgstr "Soporte prioritario"
+
+#: functions.php:2020
+msgid "Sube el logo y define su ancho en escritorio y móvil. No hay logo «sticky»: la cabecera no queda fija al hacer scroll."
+msgstr "Sube el logo y define su ancho en escritorio y móvil. No hay logo «sticky»: la cabecera no queda fija al hacer scroll."
+
+#: functions.php:402
+msgid "Subrayado animado"
+msgstr "Subrayado animado"
+
+#: functions.php:2709
+msgid "Subtítulo del hero"
+msgstr "Subtítulo del hero"
+
+#: searchform.php:56
+msgid "Sugerencias de búsqueda"
+msgstr "Sugerencias de búsqueda"
+
+#: page-templates/contact.php:99
+msgid "Síguenos"
+msgstr "Síguenos"
+
+#: functions.php:4384
+msgid "Tabla comparativa de 3 planes o tarifas."
+msgstr "Tabla comparativa de 3 planes o tarifas."
+
+#: functions.php:2417
+msgid "Tamaño (px)"
+msgstr "Tamaño (px)"
+
+#: functions.php:2545
+msgid "Tamaño H1 / título de artículo (px)"
+msgstr "Tamaño H1 / título de artículo (px)"
+
+#: functions.php:1245
+msgid "Tamaño aún no generado. Regenera miniaturas o vuelve a subir la imagen."
+msgstr "Tamaño aún no generado. Regenera miniaturas o vuelve a subir la imagen."
+
+#: functions.php:2584
+msgid "Tamaño de los títulos con barra azul y del texto de la columna lateral."
+msgstr "Tamaño de los títulos con barra azul y del texto de la columna lateral."
+
+#: functions.php:2622
+msgid "Tamaño texto del sidebar (px)"
+msgstr "Tamaño texto del sidebar (px)"
+
+#: functions.php:2600
+msgid "Tamaño título de widget (px)"
+msgstr "Tamaño título de widget (px)"
+
+#: functions.php:2794
+#: page-templates/contact.php:80
+msgid "Teléfono"
+msgstr "Teléfono"
+
+#: functions.php:2811
+msgid "Teléfono / fax alternativo (opcional)"
+msgstr "Teléfono / fax alternativo (opcional)"
+
+#: functions.php:967
+msgid "Tercera columna. Imágenes: 600×450 px (4:3) o 600×600 (cuadrado), la misma medida que en la columna 2. Si una es vertical y la otra horizontal, no quedarán alineadas."
+msgstr "Tercera columna. Imágenes: 600×450 px (4:3) o 600×600 (cuadrado), la misma medida que en la columna 2. Si una es vertical y la otra horizontal, no quedarán alineadas."
+
+#: functions.php:4445
+msgid "Testimonios (2 tarjetas)"
+msgstr "Testimonios (2 tarjetas)"
+
+#: functions.php:789
+msgid "Text"
+msgstr "Text"
+
+#: functions.php:2252
+msgid "Texto"
+msgstr "Texto"
+
+#: functions.php:2230
+msgid "Texto al pasar el ratón / activo"
+msgstr "Texto al pasar el ratón / activo"
+
+#: functions.php:2650
+msgid "Texto botón «Cargar más»"
+msgstr "Texto botón «Cargar más»"
+
+#: functions.php:4648
+msgid "Texto breve"
+msgstr "Texto breve"
+
+#: functions.php:2671
+msgid "Texto copyright del footer"
+msgstr "Texto copyright del footer"
+
+#: functions.php:2229
+msgid "Texto de los enlaces"
+msgstr "Texto de los enlaces"
+
+#: functions.php:4613
+msgid "Texto del botón"
+msgstr "Texto del botón"
+
+#: functions.php:2339
+msgid "Texto del contenido"
+msgstr "Texto del contenido"
+
+#: functions.php:2383
+msgid "Texto del cuerpo"
+msgstr "Texto del cuerpo"
+
+#: functions.php:2726
+msgid "Texto introductorio (columna izquierda)"
+msgstr "Texto introductorio (columna izquierda)"
+
+#: functions.php:2682
+msgid "Texto legal del footer (HTML permitido)"
+msgstr "Texto legal del footer (HTML permitido)"
+
+#: functions.php:2953
+msgid "Texto pequeño sobre el título"
+msgstr "Texto pequeño sobre el título"
+
+#: functions.php:2241
+msgid "Texto y enlaces"
+msgstr "Texto y enlaces"
+
+#: functions.php:2638
+msgid "Textos de la interfaz"
+msgstr "Textos de la interfaz"
+
+#: functions.php:2659
+msgid "Textos del pie"
+msgstr "Textos del pie"
+
+#: functions.php:2639
+msgid "Textos generales del tema (botones). El copyright y el texto legal están en Footer."
+msgstr "Textos generales del tema (botones). El copyright y el texto legal están en Footer."
+
+#: functions.php:2369
+msgid "Tipografía"
+msgstr "Tipografía"
+
+#: functions.php:2384
+msgid "Tipografía general del sitio (párrafos y contenido)."
+msgstr "Tipografía general del sitio (párrafos y contenido)."
+
+#: functions.php:4413
+msgid "Todo lo del plan básico"
+msgstr "Todo lo del plan básico"
+
+#: functions.php:4429
+msgid "Todo lo del plan recomendado"
+msgstr "Todo lo del plan recomendado"
+
+#: functions.php:2567
+msgid "Transformación de títulos"
+msgstr "Transformación de títulos"
+
+#: functions.php:3864
+msgid "Tu Soporte Online"
+msgstr "Tu Soporte Online"
+
+#: functions.php:1659
+msgid "Tu dirección de correo electrónico no será publicada. Los campos obligatorios están marcados con"
+msgstr "Tu dirección de correo electrónico no será publicada. Los campos obligatorios están marcados con"
+
+#: functions.php:4643
+msgid "Título breve"
+msgstr "Título breve"
+
+#: functions.php:4484
+#: functions.php:4497
+#: functions.php:4510
+msgid "Título del hito"
+msgstr "Título del hito"
+
+#: functions.php:3218
+msgid "Título sección relacionados"
+msgstr "Título sección relacionados"
+
+#: functions.php:2470
+msgid "Títulos"
+msgstr "Títulos"
+
+#: functions.php:2240
+msgid "Títulos de widgets"
+msgstr "Títulos de widgets"
+
+#: functions.php:2340
+msgid "Títulos del contenido"
+msgstr "Títulos del contenido"
+
+#: functions.php:4618
+msgid "URL del botón"
+msgstr "URL del botón"
+
+#: comments.php:28
+msgid "Un comentario"
+msgstr "Un comentario"
+
+#: functions.php:2325
+msgid "Vacío = automático: si la cabecera del modo día es clara, se usa el color del contenido."
+msgstr "Vacío = automático: si la cabecera del modo día es clara, se usa el color del contenido."
+
+#: functions.php:2102
+msgid "Valores más altos aprovechan pantallas grandes. «Casi pantalla completa» usa todo el ancho disponible."
+msgstr "Valores más altos aprovechan pantallas grandes. «Casi pantalla completa» usa todo el ancho disponible."
+
+#: 404.php:24
+msgid "Volver al inicio"
+msgstr "Volver al inicio"
+
+#: functions.php:784
+msgid "White"
+msgstr "White"
+
+#: functions.php:372
+msgid "por defecto"
+msgstr "por defecto"
+
+#: functions.php:3875
+msgid "¿Necesitas ayuda?"
+msgstr "¿Necesitas ayuda?"
+
+#: functions.php:4215
+msgid "Índice"
+msgstr "Índice"
+
+#: functions.php:4214
+msgid "Índice del documento"
+msgstr "Índice del documento"
+
+#: functions.php:4453
+#: functions.php:4460
+msgid "“Un testimonio breve sobre la experiencia con el servicio.”"
+msgstr "“Un testimonio breve sobre la experiencia con el servicio.”"
+
+#: search.php:23
+#: search.php:23
+msgid "%s artículo encontrado"
+msgid_plural "%s artículos encontrados"
+msgstr[0] "%s artículo encontrado"
+msgstr[1] "%s artículos encontrados"
+

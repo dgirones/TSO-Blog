@@ -1,0 +1,48 @@
+/* Customizer — social icon order (drag handle) */
+.tso-social-order-list {
+	margin: 8px 0 16px;
+	padding: 0;
+	border: 1px solid #c3c4c7;
+	background: #fff;
+	list-style: none;
+}
+
+.tso-social-order-item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0;
+	padding: 8px 10px;
+	border-bottom: 1px solid #dcdcde;
+	background: #fff;
+	cursor: grab;
+}
+
+.tso-social-order-item:last-child {
+	border-bottom: none;
+}
+
+.tso-social-order-item.ui-sortable-helper {
+	cursor: grabbing;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.tso-social-order-item.ui-sortable-placeholder {
+	visibility: visible !important;
+	height: 36px;
+	background: #f0f0f1;
+	border: 1px dashed #c3c4c7;
+}
+
+.tso-social-order-handle {
+	flex-shrink: 0;
+	width: 20px;
+	height: 20px;
+	color: #787c82;
+	cursor: grab;
+}
+
+.tso-social-order-label {
+	font-weight: 600;
+	line-height: 1.3;
+}

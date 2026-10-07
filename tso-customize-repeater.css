@@ -1,0 +1,75 @@
+/**
+ * Customizer: estilos del control repetidor (panel de administración).
+ */
+.tso-repeater-list {
+	margin: 0 0 10px;
+	padding: 0;
+	list-style: none;
+}
+
+.tso-repeater-row {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	padding: 10px;
+	margin-bottom: 8px;
+	background: #f6f7f7;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+}
+
+.tso-repeater-handle {
+	cursor: move;
+	margin-top: 6px;
+	color: #787c82;
+	flex-shrink: 0;
+}
+
+.tso-repeater-fields {
+	flex: 1;
+	min-width: 0;
+}
+
+.tso-repeater-field {
+	margin-bottom: 8px;
+}
+
+.tso-repeater-field:last-child {
+	margin-bottom: 0;
+}
+
+.tso-repeater-field label {
+	display: block;
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+	color: #50575e;
+	margin-bottom: 2px;
+}
+
+.tso-repeater-field input[type="text"],
+.tso-repeater-field textarea {
+	width: 100%;
+}
+
+.tso-repeater-image-preview img {
+	max-width: 60px;
+	max-height: 60px;
+	display: block;
+	margin-bottom: 6px;
+	border-radius: 4px;
+	object-fit: cover;
+}
+
+.tso-repeater-remove {
+	background: none;
+	border: none;
+	color: #b32d2e;
+	cursor: pointer;
+	flex-shrink: 0;
+	margin-top: 6px;
+}
+
+.tso-repeater-add {
+	margin-bottom: 10px;
+}

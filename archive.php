@@ -1,31 +1,53 @@
 <?php
 /**
- * 404.php — Not found.
+ * archive.php — Category / tag / author archives (same cards as home).
  *
- * @package tso-theme
+ * @package tso-blog
  */
 get_header();
 ?>
 
-<main id="primary" class="error-404 main-content-area" role="main">
-	<div class="error-404-inner">
-		<p class="error-404-code" aria-hidden="true">404</p>
-		<h1 class="error-404-title"><?php esc_html_e( 'Página no encontrada', 'tso-theme' ); ?></h1>
-		<p class="error-404-text">
-			<?php esc_html_e( 'Parece que lo que buscas no está aquí. Prueba a buscar o vuelve al inicio.', 'tso-theme' ); ?>
-		</p>
+<div class="archive-layout">
+	<main id="primary" class="main-content" role="main">
 
-		<div class="error-404-search">
-			<?php get_search_form(); ?>
-		</div>
+		<header class="archive-header">
+			<h1 class="archive-title"><?php the_archive_title(); ?></h1>
+			<?php the_archive_description( '<div class="archive-description">', '</div>' ); ?>
+		</header>
 
-		<p class="error-404-home">
-			<a class="error-404-home-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">
-				<?php esc_html_e( 'Volver al inicio', 'tso-theme' ); ?>
-			</a>
-		</p>
-	</div>
-</main>
+		<?php if ( have_posts() ) : ?>
+
+			<div class="posts-grid-container" id="posts-container">
+				<?php
+				while ( have_posts() ) :
+					the_post();
+					get_template_part( 'template-parts/content', 'card' );
+				endwhile;
+				?>
+			</div>
+
+			<div class="posts-pagination pagination">
+				<?php
+				the_posts_pagination(
+					array(
+						'mid_size'  => 2,
+						'prev_text' => esc_html__( '&laquo; Anterior', 'tso-blog' ),
+						'next_text' => esc_html__( 'Siguiente &raquo;', 'tso-blog' ),
+					)
+				);
+				?>
+			</div>
+
+		<?php else : ?>
+
+			<p><?php esc_html_e( 'No se han encontrado artículos.', 'tso-blog' ); ?></p>
+
+		<?php endif; ?>
+
+	</main>
+
+	<?php get_sidebar(); ?>
+</div>
 
 <?php
 get_footer();

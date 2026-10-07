@@ -4,10 +4,10 @@
 ( function () {
 	'use strict';
 
-	var cfg       = window.tsoLoadMore || {};
+	var cfg       = window.tsothmLoadMore || {};
 	var button    = document.getElementById( 'load-more-btn' );
 	var container = document.getElementById( 'posts-container' );
-	var CACHE_KEY = cfg.cacheKey || 'tso_loadmore_state';
+	var CACHE_KEY = cfg.cacheKey || 'tsothm_loadmore_state';
 	var loadText  = cfg.loadText || 'Cargar más';
 	var loadingText = cfg.loadingText || 'Cargando...';
 
@@ -106,10 +106,10 @@
 	} );
 
 	function bindButton() {
-		if ( ! button || button.dataset.tsoBound === '1' ) {
+		if ( ! button || button.dataset.tsothmBound === '1' ) {
 			return;
 		}
-		button.dataset.tsoBound = '1';
+		button.dataset.tsothmBound = '1';
 		button.addEventListener( 'click', function () {
 			var nextUrl = button.getAttribute( 'data-next-page' );
 			var label   = button.getAttribute( 'data-load-text' ) || loadText;
@@ -125,6 +125,9 @@
 				},
 			} )
 				.then( function ( r ) {
+					if ( ! r.ok ) {
+						throw new Error( 'HTTP ' + r.status );
+					}
 					return r.text();
 				} )
 				.then( function ( html ) {

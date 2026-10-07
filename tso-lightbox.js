@@ -91,13 +91,15 @@
     overlay.appendChild(counter);
 
     /* ── Estat ──────────────────────────────────────────────── */
-    var images  = [];
-    var current = 0;
+    var images      = [];
+    var current     = 0;
+    var lastFocused = null;
 
     /* ── Obrir ──────────────────────────────────────────────── */
-    function open(list, index) {
-        images  = list;
-        current = index;
+    function open(list, index, trigger) {
+        images      = list;
+        current     = index;
+        lastFocused = trigger || document.activeElement;
         render();
         overlay.classList.add('is-open');
         document.body.style.overflow = 'hidden';
@@ -109,6 +111,12 @@
         overlay.classList.remove('is-open');
         document.body.style.overflow = '';
         setTimeout(function () { imgEl.src = ''; }, 200);
+        // Retornar el focus a l'element que ha obert el lightbox
+        // (accessibilitat: teclat / lectors de pantalla).
+        if (lastFocused && document.contains(lastFocused) && typeof lastFocused.focus === 'function') {
+            lastFocused.focus();
+        }
+        lastFocused = null;
     }
 
     /* ── Navegar ────────────────────────────────────────────── */
@@ -261,85 +269,92 @@
             img.classList.add('tso-lb-img-trigger');
             img.addEventListener('click', function (e) {
                 e.preventDefault();
-                open([{ src: src, alt: img.alt || '' }], 0);
+                open([{ src: src, alt: img.alt || '' }], 0, img);
             });
         });
     }
 
     /* ── Init: recórrer el contingut i assignar events ────────── */
+    function isLightboxCandidate(a) {
+        if (!a || !a.getAttribute('href')) return false;
+        // Descàrregues / enllaços explícits fora del lightbox
+        if (a.hasAttribute('download')) return false;
+        if (a.classList.contains('tso-portfolio-download')) return false;
+        if (a.classList.contains('tso-portfolio-download--go')) return false;
+        if (a.closest('.tso-portfolio-downloads')) return false;
+        // Només galeries, thumb portfolio o data-tso-lightbox / href d'imatge
+        if (a.getAttribute('data-tso-lightbox')) return true;
+        if (a.classList.contains('tso-portfolio-thumb')) return true;
+        if (a.closest('.wp-block-gallery, .blocks-gallery-grid, .wp-block-jetpack-tiled-gallery, .tiled-gallery, .gallery')) {
+            return isImg(a.href) || !!a.querySelector('img');
+        }
+        // Enllaç solt a una imatge (no CTA amb img + href a pàgina)
+        return isImg(a.href);
+    }
+
     function init() {
         document.body.appendChild(overlay);
 
-        var content = document.querySelector('.entry-content');
-        if (!content) return;
+        var roots = Array.prototype.slice.call(
+            document.querySelectorAll('.entry-content, .tso-portfolio-gallery')
+        );
+        if (!roots.length) return;
 
-        // Selectors de contenidors de galeria — cobreix totes les versions:
-        // wp-block-gallery      → Gutenberg ≥ 5.0 (estructura figura/ul/li)
-        // blocks-gallery-grid   → Gutenberg antic (< WP 5.9)
-        // wp-block-jetpack-tiled-gallery → bloc natiu Jetpack
-        // tiled-gallery         → galeria mosaic Jetpack (shortcode)
-        // gallery               → galeria clàssica WordPress ([gallery])
         var GAL = [
             '.wp-block-gallery',
             '.blocks-gallery-grid',
             '.wp-block-jetpack-tiled-gallery',
             '.tiled-gallery',
-            '.gallery'
+            '.gallery',
+            '.tso-portfolio-gallery'
         ].join(',');
 
-        // Seleccionem tots els <a> del contingut que:
-        // a) apunten directament a una imatge, O
-        // b) contenen un <img> fill (Gutenberg amb href d'adjunt)
-        var allLinks = Array.prototype.slice.call(
-            content.querySelectorAll('a[href]')
-        ).filter(function(a) {
-            return isImg(a.href) || !!a.querySelector('img');
-        });
+        roots.forEach(function(content) {
+            var allLinks = Array.prototype.slice.call(
+                content.querySelectorAll('a[href]')
+            ).filter(isLightboxCandidate);
 
-        var processed = [];
+            var processed = [];
 
-        allLinks.forEach(function(link) {
-            if (processed.indexOf(link) !== -1) return;
+            allLinks.forEach(function(link) {
+                if (processed.indexOf(link) !== -1) return;
+                if (!resolveImgUrl(link)) return;
 
-            // Descartar links que no resolen a cap imatge
-            if (!resolveImgUrl(link)) return;
+                var galContainer = link.closest(GAL);
+                var group;
 
-            var galContainer = link.closest(GAL);
-            var group;
-
-            if (galContainer) {
-                // Tots els links d'imatge dins la mateixa galeria
-                group = Array.prototype.slice.call(
-                    galContainer.querySelectorAll('a[href]')
-                ).filter(function(a) {
-                    return (isImg(a.href) || !!a.querySelector('img')) && resolveImgUrl(a);
-                });
-            } else {
-                group = [link];
-            }
-
-            // Marcar com a processats per evitar events duplicats
-            group.forEach(function(a) {
-                if (processed.indexOf(a) === -1) processed.push(a);
-            });
-
-            var list = toList(group);
-            if (!list.length) return;
-
-            group.forEach(function(a) {
-                var srcA = resolveImgUrl(a);
-                var idx  = 0;
-                for (var j = 0; j < list.length; j++) {
-                    if (list[j].src === srcA) { idx = j; break; }
+                if (galContainer) {
+                    group = Array.prototype.slice.call(
+                        galContainer.querySelectorAll('a[href]')
+                    ).filter(function(a) {
+                        return isLightboxCandidate(a) && resolveImgUrl(a);
+                    });
+                } else {
+                    group = [link];
                 }
-                a.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    open(list, idx);
+
+                group.forEach(function(a) {
+                    if (processed.indexOf(a) === -1) processed.push(a);
+                });
+
+                var list = toList(group);
+                if (!list.length) return;
+
+                group.forEach(function(a) {
+                    var srcA = resolveImgUrl(a);
+                    var idx  = 0;
+                    for (var j = 0; j < list.length; j++) {
+                        if (list[j].src === srcA) { idx = j; break; }
+                    }
+                    a.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        open(list, idx, a);
+                    });
                 });
             });
-        });
 
-        bindStandaloneImages(content, GAL);
+            bindStandaloneImages(content, GAL);
+        });
     }
 
     // Executar quan el DOM estigui llest

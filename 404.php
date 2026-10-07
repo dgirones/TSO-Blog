@@ -1,34 +1,31 @@
 <?php
 /**
- * Template part: single post breadcrumb.
+ * 404.php — Not found.
  *
- * @package tso-theme
+ * @package tso-blog
  */
-
-$tso_categories  = get_the_category();
-$tso_cat_primary = ! empty( $tso_categories ) ? $tso_categories[0] : null;
-$tso_post_title  = get_the_title();
+get_header();
 ?>
-<nav class="single-breadcrumb" aria-label="<?php esc_attr_e( 'Ruta de navegación', 'tso-theme' ); ?>" itemscope itemtype="https://schema.org/BreadcrumbList">
-	<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-		<a itemprop="item" href="<?php echo esc_url( home_url( '/' ) ); ?>">
-			<span itemprop="name"><?php esc_html_e( 'Inicio', 'tso-theme' ); ?></span>
-		</a>
-		<meta itemprop="position" content="1" />
-	</span>
-	<?php if ( $tso_cat_primary ) : ?>
-		&rsaquo;
-		<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-			<span itemprop="name" class="breadcrumb-cat"><?php echo esc_html( $tso_cat_primary->name ); ?></span>
-			<meta itemprop="item" content="<?php echo esc_url( get_category_link( $tso_cat_primary->term_id ) ); ?>" />
-			<meta itemprop="position" content="2" />
-		</span>
-		&rsaquo;
-		<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-			<span itemprop="name"><?php echo esc_html( $tso_post_title ); ?></span>
-			<meta itemprop="position" content="3" />
-		</span>
-	<?php else : ?>
-		&rsaquo; <span><?php echo esc_html( $tso_post_title ); ?></span>
-	<?php endif; ?>
-</nav>
+
+<main id="primary" class="error-404 main-content-area" role="main">
+	<div class="error-404-inner">
+		<p class="error-404-code" aria-hidden="true">404</p>
+		<h1 class="error-404-title"><?php esc_html_e( 'Página no encontrada', 'tso-blog' ); ?></h1>
+		<p class="error-404-text">
+			<?php esc_html_e( 'Parece que lo que buscas no está aquí. Prueba a buscar o vuelve al inicio.', 'tso-blog' ); ?>
+		</p>
+
+		<div class="error-404-search">
+			<?php get_search_form(); ?>
+		</div>
+
+		<p class="error-404-home">
+			<a class="error-404-home-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">
+				<?php esc_html_e( 'Volver al inicio', 'tso-blog' ); ?>
+			</a>
+		</p>
+	</div>
+</main>
+
+<?php
+get_footer();
