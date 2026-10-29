@@ -30,7 +30,7 @@ if ( ! $tsothm_related_query->have_posts() ) {
 }
 ?>
 <section class="related-posts-box" aria-labelledby="related-heading">
-	<h2 id="related-heading" class="related-posts-title"><?php echo tsothm_related_title(); ?></h2>
+	<h2 id="related-heading" class="related-posts-title"><?php echo esc_html( tsothm_related_title() ); ?></h2>
 	<div class="related-posts-grid">
 		<?php
 		while ( $tsothm_related_query->have_posts() ) :

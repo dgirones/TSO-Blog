@@ -1,14 +1,15 @@
 <?php
 /**
- * functions.php — Tu Soporte Online v1.0
- * Tema limpio. Compatible con Jetpack, LiteSpeed Cache, WP Super Cache y W3TC.
- *
- * Theme version is fixed at 1.0 — do not bump the version number.
+ * functions.php — TSO Blog (tso-blog).
+ * Compatible with Jetpack, LiteSpeed Cache, WP Super Cache and W3TC.
+ * Version: keep TSOTHM_VERSION, style.css Version and readme Stable tag in sync.
  */
 
 if ( ! defined( 'TSOTHM_VERSION' ) ) {
-    define( 'TSOTHM_VERSION', '1.0.1' );
+    define( 'TSOTHM_VERSION', '1.0.8' );
 }
+
+require_once get_template_directory() . '/tsothm-mobile-menu.php';
 
 /**
  * One-time migration: copy legacy tso_* theme_mods to tsothm_* keys.
@@ -53,11 +54,13 @@ add_action( 'after_setup_theme', 'tsothm_migrate_legacy_theme_mods', 1 );
 
 /**
  * Global content width (Required for theme review / media embeds).
+ * Matches the main column under the default ~1200px layout + 300px sidebar,
+ * and aligns with WordPress “large” so content images can pick sharper srcset candidates.
  *
  * @global int $content_width
  */
 if ( ! isset( $content_width ) ) {
-    $content_width = 800;
+    $content_width = 1024;
 }
 
 add_action( 'after_setup_theme', function() {
@@ -104,12 +107,35 @@ add_action( 'after_setup_theme', function() {
     add_image_size( 'tsothm-wall-4k', 3840, 2160, true );
     add_image_size( 'tsothm-wall-mobile', 1080, 1920, true );
 
-    register_nav_menus( array( 'main-menu' => __( 'Menú Principal', 'tso-blog' ) ) );
+    register_nav_menus( array( 'main-menu' => __( 'Primary Menu', 'tso-blog' ) ) );
 
     add_editor_style( 'editor-style.css' );
 
     load_theme_textdomain( 'tso-blog', get_template_directory() . '/languages' );
 } );
+
+/**
+ * Prefer sharper srcset candidates for in-content images on desktop / HiDPI.
+ * Mobile keeps 100vw. Older posts often ship sizes=800px from the previous $content_width.
+ *
+ * @param string           $sizes Sizes attribute value.
+ * @param int[]|string     $size  Requested width/height or named size.
+ * @return string
+ */
+function tsothm_content_image_sizes( $sizes, $size ) {
+    if ( is_admin() ) {
+        return $sizes;
+    }
+    $width = 0;
+    if ( is_array( $size ) ) {
+        $width = isset( $size[0] ) ? (int) $size[0] : 0;
+    }
+    if ( $width < 600 ) {
+        return $sizes;
+    }
+    return '(max-width: 768px) 100vw, 1024px';
+}
+add_filter( 'wp_calculate_image_sizes', 'tsothm_content_image_sizes', 10, 2 );
 
 /* ============================================================
    2. ESTILOS Y SCRIPTS
@@ -321,13 +347,66 @@ function tsothm_sanitize_text_transform( $value ) {
 }
 
 /**
+ * Sanitize letter-spacing value for em (0–0.2), unitless for Customizer number controls.
+ *
+ * @param mixed $value Raw value.
+ * @return string e.g. 0.03
+ */
+function tsothm_sanitize_letter_spacing_em_value( $value ) {
+    $n = (float) preg_replace( '/[^0-9.]/', '', (string) $value );
+    if ( $n < 0 || $n > 0.2 ) {
+        $n = 0.03;
+    }
+    return (string) round( $n, 3 );
+}
+
+/**
+ * Sanitize letter-spacing value for px (0–3), unitless for Customizer number controls.
+ *
+ * @param mixed $value Raw value.
+ * @return string e.g. 0.5
+ */
+function tsothm_sanitize_letter_spacing_px_value( $value ) {
+    $n = (float) preg_replace( '/[^0-9.]/', '', (string) $value );
+    if ( $n < 0 || $n > 3 ) {
+        $n = 0.5;
+    }
+    return (string) round( $n, 2 );
+}
+
+/**
+ * Sanitize announcement / nav font size (12–28 px).
+ *
+ * @param mixed $value   Raw value.
+ * @param int   $default Fallback.
+ * @return string e.g. 16px
+ */
+function tsothm_sanitize_ui_font_size( $value, $default = 16 ) {
+    $n = (int) preg_replace( '/[^0-9]/', '', (string) $value );
+    $n = max( 12, min( 28, $n ? $n : (int) $default ) );
+    return $n . 'px';
+}
+
+/**
+ * Sanitize card title size (14–28 px).
+ *
+ * @param mixed $value Raw value.
+ * @return string e.g. 16px
+ */
+function tsothm_sanitize_card_title_size( $value ) {
+    $n = (int) preg_replace( '/[^0-9]/', '', (string) $value );
+    $n = max( 14, min( 28, $n ? $n : 16 ) );
+    return $n . 'px';
+}
+
+/**
  * Sanitize logo width in px.
  *
  * @param mixed $value   Raw value.
  * @param int   $default Fallback if empty/invalid.
  * @param int   $min     Minimum px.
  * @param int   $max     Maximum px.
- * @return string e.g. 300px
+ * @return string Digits only (e.g. 300) for number controls; append px in CSS.
  */
 function tsothm_sanitize_logo_width( $value, $default = 300, $min = 40, $max = 500 ) {
     $n = (int) preg_replace( '/[^0-9]/', '', (string) $value );
@@ -335,7 +414,7 @@ function tsothm_sanitize_logo_width( $value, $default = 300, $min = 40, $max = 5
         $n = (int) $default;
     }
     $n = max( (int) $min, min( (int) $max, $n ) );
-    return $n . 'px';
+    return (string) $n;
 }
 
 /**
@@ -355,7 +434,7 @@ function tsothm_sanitize_logo_width_desktop( $value ) {
  * @return string
  */
 function tsothm_sanitize_logo_width_mobile( $value ) {
-    return tsothm_sanitize_logo_width( $value, 180, 40, 400 );
+    return tsothm_sanitize_logo_width( $value, 180, 40, 500 );
 }
 
 /**
@@ -369,12 +448,12 @@ function tsothm_get_layout_width_choices() {
         '1060' => sprintf(
             /* translators: %s: default label */
             '1060 px (%s)',
-            __( 'por defecto', 'tso-blog' )
+            __( 'default', 'tso-blog' )
         ),
         '1200' => '1200 px',
         '1400' => '1400 px',
         '1600' => '1600 px',
-        'full' => __( 'Casi pantalla completa', 'tso-blog' ),
+        'full' => __( 'Nearly full screen', 'tso-blog' ),
     );
 }
 
@@ -396,11 +475,11 @@ function tsothm_sanitize_layout_width( $value ) {
  */
 function tsothm_get_nav_button_style_choices() {
     return array(
-        'raised' => __( 'Relieve clásico', 'tso-blog' ),
-        'carved' => __( 'Relieve tallado', 'tso-blog' ),
-        'pill'      => __( 'Píldoras', 'tso-blog' ),
-        'underline' => __( 'Subrayado animado', 'tso-blog' ),
-        'flat'   => __( 'Plano (sin botones)', 'tso-blog' ),
+        'raised' => __( 'Classic raised', 'tso-blog' ),
+        'carved' => __( 'Carved relief', 'tso-blog' ),
+        'pill'      => __( 'Pills', 'tso-blog' ),
+        'underline' => __( 'Animated underline', 'tso-blog' ),
+        'flat'   => __( 'Flat (no buttons)', 'tso-blog' ),
     );
 }
 
@@ -413,6 +492,39 @@ function tsothm_get_nav_button_style_choices() {
 function tsothm_sanitize_nav_button_style( $value ) {
     $value = sanitize_key( (string) $value );
     return isset( tsothm_get_nav_button_style_choices()[ $value ] ) ? $value : 'raised';
+}
+
+/**
+ * Blog / home posts layout choices.
+ *
+ * @return array<string, string>
+ */
+function tsothm_get_blog_layout_choices() {
+    return array(
+        'grid'     => __( 'Grid (2 columns)', 'tso-blog' ),
+        'list'     => __( 'List (image + text)', 'tso-blog' ),
+        'magazine' => __( 'Magazine (featured + grid)', 'tso-blog' ),
+    );
+}
+
+/**
+ * Sanitize blog layout key.
+ *
+ * @param mixed $value Raw value.
+ * @return string
+ */
+function tsothm_sanitize_blog_layout( $value ) {
+    $value = sanitize_key( (string) $value );
+    return isset( tsothm_get_blog_layout_choices()[ $value ] ) ? $value : 'grid';
+}
+
+/**
+ * Current blog layout key.
+ *
+ * @return string
+ */
+function tsothm_get_blog_layout() {
+    return tsothm_sanitize_blog_layout( get_theme_mod( 'tsothm_blog_layout', 'grid' ) );
 }
 
 /**
@@ -435,8 +547,10 @@ function tsothm_get_layout_max_css() {
  */
 function tsothm_get_typography_settings() {
     $catalog = tsothm_get_font_catalog();
-    $body_key = tsothm_sanitize_font_key( get_theme_mod( 'tsothm_font_body', 'arial' ) );
-    $head_key = tsothm_sanitize_font_key( get_theme_mod( 'tsothm_font_heading', 'arial' ) );
+    $body_key     = tsothm_sanitize_font_key( get_theme_mod( 'tsothm_font_body', 'arial' ) );
+    $head_key     = tsothm_sanitize_font_key( get_theme_mod( 'tsothm_font_heading', 'arial' ) );
+    $announce_key = tsothm_sanitize_font_key( get_theme_mod( 'tsothm_font_announce', 'arial' ) );
+    $nav_key      = tsothm_sanitize_font_key( get_theme_mod( 'tsothm_font_nav', 'arial' ) );
 
     $body_color = sanitize_hex_color( get_theme_mod( 'tsothm_font_body_color', '#333333' ) );
     $head_color = sanitize_hex_color( get_theme_mod( 'tsothm_font_heading_color', '#111111' ) );
@@ -444,8 +558,12 @@ function tsothm_get_typography_settings() {
     return array(
         'body_key'       => $body_key,
         'heading_key'    => $head_key,
+        'announce_key'   => $announce_key,
+        'nav_key'        => $nav_key,
         'body_stack'     => $catalog[ $body_key ]['stack'],
         'heading_stack'  => $catalog[ $head_key ]['stack'],
+        'announce_stack' => $catalog[ $announce_key ]['stack'],
+        'nav_stack'      => $catalog[ $nav_key ]['stack'],
         'body_size'      => tsothm_sanitize_font_size_px( get_theme_mod( 'tsothm_font_body_size', '15' ) ),
         'body_line'      => tsothm_sanitize_line_height( get_theme_mod( 'tsothm_font_body_line', '1.6' ) ),
         'body_color'     => $body_color ? $body_color : '#333333',
@@ -455,6 +573,16 @@ function tsothm_get_typography_settings() {
         'h1_transform'         => tsothm_sanitize_text_transform( get_theme_mod( 'tsothm_font_h1_transform', 'none' ) ),
         'widget_title_size'    => tsothm_sanitize_widget_font_size( get_theme_mod( 'tsothm_font_widget_title_size', '14' ) ),
         'widget_text_size'     => tsothm_sanitize_widget_font_size( get_theme_mod( 'tsothm_font_widget_text_size', '14' ) ),
+        'announce_size'        => tsothm_sanitize_ui_font_size( get_theme_mod( 'tsothm_font_announce_size', '16' ), 16 ),
+        'announce_weight'      => tsothm_sanitize_font_weight( get_theme_mod( 'tsothm_font_announce_weight', '800' ) ),
+        'announce_transform'   => tsothm_sanitize_text_transform( get_theme_mod( 'tsothm_font_announce_transform', 'uppercase' ) ),
+        'announce_tracking'    => tsothm_sanitize_letter_spacing_em_value( get_theme_mod( 'tsothm_font_announce_tracking', '0.03' ) ) . 'em',
+        'nav_size'             => tsothm_sanitize_ui_font_size( get_theme_mod( 'tsothm_font_nav_size', '15' ), 15 ),
+        'nav_weight'           => tsothm_sanitize_font_weight( get_theme_mod( 'tsothm_font_nav_weight', '700' ) ),
+        'nav_transform'        => tsothm_sanitize_text_transform( get_theme_mod( 'tsothm_font_nav_transform', 'uppercase' ) ),
+        'nav_tracking'         => tsothm_sanitize_letter_spacing_px_value( get_theme_mod( 'tsothm_font_nav_tracking', '0.5' ) ) . 'px',
+        'card_title_size'      => tsothm_sanitize_card_title_size( get_theme_mod( 'tsothm_font_card_title_size', '16' ) ),
+        'footer_text_size'     => tsothm_sanitize_widget_font_size( get_theme_mod( 'tsothm_font_footer_text_size', '12' ) ),
     );
 }
 
@@ -471,6 +599,189 @@ function tsothm_sanitize_widget_font_size( $value ) {
 }
 
 /**
+ * Sanitize sidebar content width (260–360 px).
+ *
+ * @param mixed $value Raw value.
+ * @return string Digits only.
+ */
+function tsothm_sanitize_sidebar_width( $value ) {
+    $n = (int) preg_replace( '/[^0-9]/', '', (string) $value );
+    if ( ! $n ) {
+        $n = 300;
+    }
+    return (string) max( 260, min( 360, $n ) );
+}
+
+/**
+ * Sanitize sidebar gap (10–60 px).
+ *
+ * @param mixed $value Raw value.
+ * @return string Digits only.
+ */
+function tsothm_sanitize_sidebar_gap( $value ) {
+    $n = (int) preg_replace( '/[^0-9]/', '', (string) $value );
+    if ( ! $n ) {
+        $n = 30;
+    }
+    return (string) max( 10, min( 60, $n ) );
+}
+
+/**
+ * Sanitize sidebar border radius (0–24 px).
+ *
+ * @param mixed $value Raw value.
+ * @return string Digits only.
+ */
+function tsothm_sanitize_sidebar_radius( $value ) {
+    $n = (int) preg_replace( '/[^0-9]/', '', (string) $value );
+    return (string) max( 0, min( 24, $n ) );
+}
+
+/**
+ * Sanitize sidebar position (right|left).
+ *
+ * @param mixed $value Raw value.
+ * @return string
+ */
+function tsothm_sanitize_sidebar_position( $value ) {
+    $value = sanitize_key( (string) $value );
+    return ( 'left' === $value ) ? 'left' : 'right';
+}
+
+/**
+ * Resolved sidebar layout / behavior settings.
+ *
+ * @return array<string, mixed>
+ */
+function tsothm_get_sidebar_settings() {
+    return array(
+        'visible'      => (bool) absint( get_theme_mod( 'tsothm_sidebar_visible', 1 ) ),
+        'position'     => tsothm_sanitize_sidebar_position( get_theme_mod( 'tsothm_sidebar_position', 'right' ) ),
+        'width'        => tsothm_sanitize_sidebar_width( get_theme_mod( 'tsothm_sidebar_width', '300' ) ),
+        'gap'          => tsothm_sanitize_sidebar_gap( get_theme_mod( 'tsothm_sidebar_gap', '30' ) ),
+        'radius'       => tsothm_sanitize_sidebar_radius( get_theme_mod( 'tsothm_sidebar_radius', '6' ) ),
+        'sticky'       => (bool) absint( get_theme_mod( 'tsothm_sidebar_sticky', 0 ) ),
+        'border'       => (bool) absint( get_theme_mod( 'tsothm_sidebar_border', 0 ) ),
+        'shadow'       => (bool) absint( get_theme_mod( 'tsothm_sidebar_shadow', 0 ) ),
+        'on_home'      => (bool) absint( get_theme_mod( 'tsothm_sidebar_on_home', 0 ) ),
+        'on_contact'   => (bool) absint( get_theme_mod( 'tsothm_sidebar_on_contact', 0 ) ),
+        'on_portfolio' => (bool) absint( get_theme_mod( 'tsothm_sidebar_on_portfolio', 0 ) ),
+        'bg_enabled'   => (bool) absint( get_theme_mod( 'tsothm_sidebar_bg_enabled', 1 ) ),
+    );
+}
+
+/**
+ * Whether the news sidebar should render on the current view.
+ *
+ * @return bool
+ */
+function tsothm_is_sidebar_visible() {
+    $s = tsothm_get_sidebar_settings();
+    if ( ! $s['visible'] ) {
+        return false;
+    }
+
+    if ( is_home() ) {
+        return $s['on_home'];
+    }
+
+    if ( is_page() && tsothm_is_contact_page() ) {
+        return $s['on_contact'];
+    }
+
+    if ( is_page() && tsothm_is_portfolio_gallery_page() ) {
+        return $s['on_portfolio'];
+    }
+
+    return true;
+}
+
+/**
+ * Whether the sidebar column uses a background fill.
+ *
+ * @return bool
+ */
+function tsothm_sidebar_has_background() {
+    return (bool) absint( get_theme_mod( 'tsothm_sidebar_bg_enabled', 1 ) );
+}
+
+/**
+ * Sidebar column background for CSS (hex or transparent). Day mode.
+ *
+ * @return string
+ */
+function tsothm_get_sidebar_bg_css() {
+    if ( ! tsothm_sidebar_has_background() ) {
+        return 'transparent';
+    }
+    $default = '#f1f1f1';
+    $mod     = sanitize_hex_color( get_theme_mod( 'tsothm_color_sidebar_bg', $default ) );
+    return $mod ? $mod : $default;
+}
+
+/**
+ * Night-mode sidebar column background (hex), or empty to use surface-alt.
+ *
+ * @return string
+ */
+function tsothm_get_sidebar_bg_night_css() {
+    if ( ! tsothm_sidebar_has_background() ) {
+        return 'transparent';
+    }
+    $mod = tsothm_sanitize_optional_hex_color( get_theme_mod( 'tsothm_color_sidebar_bg_night', '' ) );
+    return $mod ? $mod : '';
+}
+
+/**
+ * Widget card background inside the sidebar.
+ *
+ * @return string
+ */
+function tsothm_get_sidebar_widget_bg_css() {
+    $default = '#ffffff';
+    $mod     = sanitize_hex_color( get_theme_mod( 'tsothm_color_sidebar_widget_bg', $default ) );
+    return $mod ? $mod : $default;
+}
+
+/**
+ * Widget title bar background (defaults to theme primary).
+ *
+ * @param string $primary Primary color hex.
+ * @return string
+ */
+function tsothm_get_sidebar_title_bg_css( $primary = '' ) {
+    $mod = tsothm_sanitize_optional_hex_color( get_theme_mod( 'tsothm_color_sidebar_title_bg', '' ) );
+    if ( $mod ) {
+        return $mod;
+    }
+    $primary = sanitize_hex_color( $primary );
+    return $primary ? $primary : '#1e73be';
+}
+
+/**
+ * Sanitize optional hex color (empty allowed).
+ *
+ * @param mixed $value Raw value.
+ * @return string Hex or empty string.
+ */
+function tsothm_sanitize_optional_hex_color( $value ) {
+    if ( null === $value || '' === $value ) {
+        return '';
+    }
+    $hex = sanitize_hex_color( $value );
+    return $hex ? $hex : '';
+}
+
+/**
+ * Customizer active_callback: sidebar background color control.
+ *
+ * @return bool
+ */
+function tsothm_customize_sidebar_bg_color_active() {
+    return tsothm_sidebar_has_background();
+}
+
+/**
  * Enqueue Google Fonts only when a Google family is selected.
  */
 function tsothm_enqueue_google_fonts() {
@@ -478,7 +789,7 @@ function tsothm_enqueue_google_fonts() {
     $typo    = tsothm_get_typography_settings();
     $families = array();
 
-    foreach ( array( $typo['body_key'], $typo['heading_key'] ) as $key ) {
+    foreach ( array( $typo['body_key'], $typo['heading_key'], $typo['announce_key'], $typo['nav_key'] ) as $key ) {
         if ( ! empty( $catalog[ $key ]['google'] ) ) {
             $families[ $catalog[ $key ]['google'] ] = true;
         }
@@ -514,7 +825,7 @@ function tsothm_google_fonts_resource_hints( $urls, $relation_type ) {
     $typo    = tsothm_get_typography_settings();
     $needs   = false;
 
-    foreach ( array( $typo['body_key'], $typo['heading_key'] ) as $key ) {
+    foreach ( array( $typo['body_key'], $typo['heading_key'], $typo['announce_key'], $typo['nav_key'] ) as $key ) {
         if ( ! empty( $catalog[ $key ]['google'] ) ) {
             $needs = true;
             break;
@@ -688,6 +999,15 @@ function tsothm_get_night_css_variables( $c ) {
         }
     }
 
+    $sidebar_night_bg = tsothm_get_sidebar_bg_night_css();
+    if ( 'transparent' === $sidebar_night_bg ) {
+        $css .= '--tso-sidebar-bg:transparent;';
+    } elseif ( '' !== $sidebar_night_bg ) {
+        $css .= '--tso-sidebar-bg:' . $sidebar_night_bg . ';';
+    } elseif ( tsothm_sidebar_has_background() ) {
+        $css .= '--tso-sidebar-bg:var(--tso-color-surface-alt);';
+    }
+
     return 'html[data-theme="dark"]{' . $css . '}';
 }
 
@@ -695,6 +1015,7 @@ function tsothm_get_theme_css_variables() {
     $c = tsothm_get_theme_colors();
     $header_contrast        = tsothm_get_contrast_color( $c['header_bg'] );
     $t = tsothm_get_typography_settings();
+    $sb = tsothm_get_sidebar_settings();
 
     return ':root{'
         . '--tso-color-accent:' . $c['accent'] . ';'
@@ -731,21 +1052,43 @@ function tsothm_get_theme_css_variables() {
         . '--tso-font-h1-transform:' . $t['h1_transform'] . ';'
         . '--tso-font-widget-title-size:' . $t['widget_title_size'] . ';'
         . '--tso-font-widget-text-size:' . $t['widget_text_size'] . ';'
-        . '--tso-logo-width:' . tsothm_sanitize_logo_width_desktop( get_theme_mod( 'tsothm_logo_width', '300' ) ) . ';'
-        . '--tso-logo-width-mobile:' . tsothm_sanitize_logo_width_mobile( get_theme_mod( 'tsothm_logo_width_mobile', '180' ) ) . ';'
+        . '--tso-font-announce:' . $t['announce_stack'] . ';'
+        . '--tso-font-announce-size:' . $t['announce_size'] . ';'
+        . '--tso-font-announce-weight:' . $t['announce_weight'] . ';'
+        . '--tso-font-announce-transform:' . $t['announce_transform'] . ';'
+        . '--tso-font-announce-tracking:' . $t['announce_tracking'] . ';'
+        . '--tso-font-nav:' . $t['nav_stack'] . ';'
+        . '--tso-font-nav-size:' . $t['nav_size'] . ';'
+        . '--tso-font-nav-weight:' . $t['nav_weight'] . ';'
+        . '--tso-font-nav-transform:' . $t['nav_transform'] . ';'
+        . '--tso-font-nav-tracking:' . $t['nav_tracking'] . ';'
+        . '--tso-font-card-title-size:' . $t['card_title_size'] . ';'
+        . '--tso-font-footer-text-size:' . $t['footer_text_size'] . ';'
+        . '--tso-logo-width:' . tsothm_sanitize_logo_width_desktop( get_theme_mod( 'tsothm_logo_width', '300' ) ) . 'px;'
+        . '--tso-logo-width-mobile:' . tsothm_sanitize_logo_width_mobile( get_theme_mod( 'tsothm_logo_width_mobile', '180' ) ) . 'px;'
         . '--tso-layout-max:' . tsothm_get_layout_max_css() . ';'
+        . '--tso-sidebar-width:' . $sb['width'] . 'px;'
+        . '--tso-sidebar-gap:' . $sb['gap'] . 'px;'
+        . '--tso-sidebar-radius:' . $sb['radius'] . 'px;'
+        . '--tso-sidebar-bg:' . tsothm_get_sidebar_bg_css() . ';'
+        . '--tso-sidebar-widget-bg:' . tsothm_get_sidebar_widget_bg_css() . ';'
+        . '--tso-sidebar-title-bg:' . tsothm_get_sidebar_title_bg_css( $c['primary'] ) . ';'
         . '}'
         . tsothm_get_night_css_variables( $c )
         . 'body{background-color:var(--tso-color-body-bg);}'
         . 'body{font-family:var(--tso-font-body);font-size:var(--tso-font-body-size);line-height:var(--tso-font-body-line);color:var(--tso-color-text);}'
         . 'h1,h2,h3,h4,h5,h6,.single-title,.page-title,.archive-title,.post-card-title,.related-posts-title,.related-post-title,.comments-title,.comment-reply-title,.widget-title{font-family:var(--tso-font-heading);font-weight:var(--tso-font-heading-weight);}'
-        . '.single-title,.page-title,.archive-title,.post-card-title,.related-posts-title,.related-post-title,.entry-content h1,.entry-content h2,.entry-content h3,.entry-content h4,.entry-content h5,.entry-content h6{color:var(--tso-color-heading);}'
+        . '.single-title,.page-title,.archive-title,.post-card-title,.related-post-title,.entry-content h1,.entry-content h2,.entry-content h3,.entry-content h4,.entry-content h5,.entry-content h6{color:var(--tso-color-heading);}'
         . '.single-title,.page-title,.archive-title,.entry-content h1{font-size:var(--tso-font-h1-size);}'
         . '.single-title,.page-title,.archive-title,.post-card-title,.related-post-title,.entry-content h1{text-transform:var(--tso-font-h1-transform);}'
         . '.post-card-title a,.related-post-title a{color:inherit;}'
-        . '.logo img,.custom-logo{max-width:var(--tso-logo-width);width:auto;height:auto;}'
-        . '@media screen and (max-width:768px){.logo img,.custom-logo{max-width:var(--tso-logo-width-mobile);}}'
+        . '.logo img,.custom-logo{width:var(--tso-logo-width);max-width:100%;height:auto;}'
+        . '@media screen and (max-width:768px){.logo img,.custom-logo{width:var(--tso-logo-width-mobile);max-width:100%;}}'
         . '#page-wrapper{max-width:var(--tso-layout-max);}'
+        . '.widget-area{--tso-sidebar-pad-x:16px;width:calc(var(--tso-sidebar-width) + (2 * var(--tso-sidebar-pad-x)));flex:0 0 calc(var(--tso-sidebar-width) + (2 * var(--tso-sidebar-pad-x)));max-width:100%;box-sizing:border-box;background-color:var(--tso-sidebar-bg);border-radius:var(--tso-sidebar-radius);}'
+        . '.widget-area .widget{background:var(--tso-sidebar-widget-bg);}'
+        . '.widget-area .widget-title,.widget-area .widget .widget-title,.widget-area .wp-block-heading,.widget-area .widget .wp-block-heading,.widget-area .widget h1,.widget-area .widget h2,.widget-area .widget h3,.widget-area .widget h4,.widget-area .widget h5,.widget-area .widget h6,.widget-area h1,.widget-area h2,.widget-area h3,.widget-area h4,.widget-area h5,.widget-area h6{background:var(--tso-sidebar-title-bg)!important;}'
+        . '.single-layout,.archive-layout,.main-container{gap:var(--tso-sidebar-gap);}'
     ;
 }
 
@@ -840,8 +1183,8 @@ add_action( 'wp_enqueue_scripts', function() {
             'nonce'            => wp_create_nonce( 'tsothm_live_search_nonce' ),
             'loadMoreCacheKey' => 'tsothm_loadmore_state',
             'i18n'             => array(
-                'searching'  => __( 'Buscando…', 'tso-blog' ),
-                'noResults'  => __( 'No se encontraron artículos.', 'tso-blog' ),
+                'searching'  => __( 'Searching…', 'tso-blog' ),
+                'noResults'  => __( 'No posts found.', 'tso-blog' ),
             ),
         )
     );
@@ -860,7 +1203,7 @@ add_action( 'wp_enqueue_scripts', function() {
             array(
                 'cacheKey'    => 'tsothm_loadmore_state',
                 'loadText'    => tsothm_load_more_text(),
-                'loadingText' => __( 'Cargando...', 'tso-blog' ),
+                'loadingText' => __( 'Loading...', 'tso-blog' ),
             )
         );
     }
@@ -874,13 +1217,13 @@ add_action( 'wp_enqueue_scripts', function() {
     );
 
     if ( tsothm_is_announcement_enabled() ) {
-        $announce_js = get_stylesheet_directory() . '/tso-announcement.js';
+        $announce_js = get_stylesheet_directory() . '/tsothm-announcement.js';
         if ( file_exists( $announce_js ) ) {
             wp_enqueue_script(
                 'tsothm-announcement',
-                $theme_uri . '/tso-announcement.js',
+                $theme_uri . '/tsothm-announcement.js',
                 array(),
-                tsothm_get_asset_version( 'tso-announcement.js' ),
+                tsothm_get_asset_version( 'tsothm-announcement.js' ),
                 true
             );
         }
@@ -921,18 +1264,16 @@ add_action( 'wp_enqueue_scripts', function() {
    WordPress.org theme review. Use a plugin/mu-plugin if needed.
    ============================================================ */
 
-add_filter( 'wp_lazy_loading_enabled', '__return_true' );
-
 /*
  * WP_POST_REVISIONS and DISALLOW_FILE_EDIT belong in wp-config.php
  * (see readme.txt → Installation). Do not define them in the theme.
  */
 
 /* ============================================================
-   4. ACCESIBILIDAD — SKIP TO CONTENT
+   4. ACCESSIBILITY — SKIP TO CONTENT
    ============================================================ */
 add_action( 'wp_body_open', function() {
-    echo '<a class="skip-to-content" href="#primary">' . esc_html__( 'Saltar al contenido', 'tso-blog' ) . '</a>';
+    echo '<a class="skip-to-content" href="#primary">' . esc_html__( 'Skip to content', 'tso-blog' ) . '</a>';
 } );
 
 /* ============================================================
@@ -947,24 +1288,24 @@ add_action( 'widgets_init', function() {
     );
 
     register_sidebar( array_merge( $widget_args, array(
-        'name'        => __( 'Sidebar Noticias', 'tso-blog' ),
+        'name'        => __( 'News Sidebar', 'tso-blog' ),
         'id'          => 'sidebar-1',
-        'description' => __( 'Columna lateral. Se muestra en entradas, páginas (plantilla por defecto), archivos y búsqueda. No aparece en la portada del blog, ni en las plantillas Contacto o Portfolio. Si el personalizador dice que hay un área más sin mostrar, abre una entrada o una página normal en la vista previa.', 'tso-blog' ),
+        'description' => __( 'Sidebar column. Shown on posts, pages (default template), archives and search. Optionally also on the blog home, Contact and Portfolio (Appearance → Sidebar). If the Customizer says another area is not displayed, open a view that shows the sidebar.', 'tso-blog' ),
     ) ) );
     register_sidebar( array_merge( $widget_args, array(
-        'name'        => __( 'Footer columna 1', 'tso-blog' ),
+        'name'        => __( 'Footer column 1', 'tso-blog' ),
         'id'          => 'footer-1',
-        'description' => __( 'Pie de página (menús, texto…). Si solo usas esta columna y dejas 2 y 3 vacías, los menús salen en horizontal. Con 2 o 3 columnas, layout en columnas iguales.', 'tso-blog' ),
+        'description' => __( 'Footer (menus, text…). If you only use this column and leave 2 and 3 empty, menus display horizontally. With 2 or 3 columns, equal-column layout.', 'tso-blog' ),
     ) ) );
     register_sidebar( array_merge( $widget_args, array(
-        'name'        => __( 'Footer columna 2', 'tso-blog' ),
+        'name'        => __( 'Footer column 2', 'tso-blog' ),
         'id'          => 'footer-2',
-        'description' => __( 'Segunda columna. Imágenes: usa 600×450 px (4:3) o 600×600 (cuadrado). Para que queden parejas con la columna 3, las dos fotos deben tener exactamente la misma medida y proporción.', 'tso-blog' ),
+        'description' => __( 'Second column. Images: use 600×450 px (4:3) or 600×600 (square). To match column 3, both photos must have exactly the same size and aspect ratio.', 'tso-blog' ),
     ) ) );
     register_sidebar( array_merge( $widget_args, array(
-        'name'        => __( 'Footer columna 3', 'tso-blog' ),
+        'name'        => __( 'Footer column 3', 'tso-blog' ),
         'id'          => 'footer-3',
-        'description' => __( 'Tercera columna. Imágenes: 600×450 px (4:3) o 600×600 (cuadrado), la misma medida que en la columna 2. Si una es vertical y la otra horizontal, no quedarán alineadas.', 'tso-blog' ),
+        'description' => __( 'Third column. Images: 600×450 px (4:3) or 600×600 (square), the same size as column 2. If one is portrait and the other landscape, they will not align.', 'tso-blog' ),
     ) ) );
 } );
 
@@ -1000,7 +1341,7 @@ function tsothm_get_wallpaper_sizes() {
             'height' => 2160,
         ),
         'tsothm-wall-mobile' => array(
-            'label'  => __( '1080 × 1920 (Móvil)', 'tso-blog' ),
+            'label'  => __( '1080 × 1920 (Mobile)', 'tso-blog' ),
             'width'  => 1080,
             'height' => 1920,
         ),
@@ -1202,7 +1543,7 @@ function tsothm_get_portfolio_image_label( $attachment_id ) {
         return $alt;
     }
     $file = get_attached_file( $attachment_id );
-    return $file ? pathinfo( $file, PATHINFO_FILENAME ) : __( 'Imagen', 'tso-blog' );
+    return $file ? pathinfo( $file, PATHINFO_FILENAME ) : __( 'Image', 'tso-blog' );
 }
 
 /**
@@ -1242,11 +1583,11 @@ function tsothm_get_portfolio_downloads( $attachment_id ) {
             $available = true;
         } elseif ( $full_w >= (int) $meta['width'] && $full_h >= (int) $meta['height'] ) {
             // Source is large enough but crop missing (old upload) — tip to regenerate.
-            $tip = __( 'Tamaño aún no generado. Regenera miniaturas o vuelve a subir la imagen.', 'tso-blog' );
+            $tip = __( 'Size not generated yet. Regenerate thumbnails or re-upload the image.', 'tso-blog' );
         } else {
             $tip = sprintf(
                 /* translators: 1: required width, 2: required height, 3: original width, 4: original height */
-                __( 'No disponible: hace falta al menos %1$s×%2$s px. Esta imagen mide %3$s×%4$s px.', 'tso-blog' ),
+                __( 'Unavailable: at least %1$s×%2$s px required. This image is %3$s×%4$s px.', 'tso-blog' ),
                 (int) $meta['width'],
                 (int) $meta['height'],
                 $full_w,
@@ -1318,7 +1659,7 @@ function tsothm_render_portfolio_gallery( $post_id ) {
 
     if ( empty( $ids ) ) {
         if ( current_user_can( 'edit_post', $post_id ) ) {
-            echo '<p class="tso-portfolio-empty">' . esc_html__( 'Añade un bloque Galería o Imagen (JPG, PNG, WebP o GIF) en el editor y publica la página.', 'tso-blog' ) . '</p>';
+            echo '<p class="tso-portfolio-empty">' . esc_html__( 'Add a Gallery or Image block (JPG, PNG, WebP or GIF) in the editor and publish the page.', 'tso-blog' ) . '</p>';
         }
         return;
     }
@@ -1356,7 +1697,7 @@ function tsothm_render_portfolio_gallery( $post_id ) {
         echo '<span class="tso-portfolio-name">' . esc_html( $label ) . '</span>';
         if ( ! empty( $downloads ) ) {
             echo '<div class="tso-portfolio-downloads">';
-            echo '<span class="tso-portfolio-downloads-label">' . esc_html__( 'Descargar:', 'tso-blog' ) . '</span> ';
+            echo '<span class="tso-portfolio-downloads-label">' . esc_html__( 'Download:', 'tso-blog' ) . '</span> ';
             echo '<ul class="tso-portfolio-download-list">';
             foreach ( $downloads as $dl ) {
                 if ( empty( $dl['available'] ) || ( empty( $dl['url'] ) && 'full' !== $dl['key'] ) ) {
@@ -1373,13 +1714,13 @@ function tsothm_render_portfolio_gallery( $post_id ) {
                     );
                     echo '<details class="tso-portfolio-original">';
                     echo '<summary class="tso-portfolio-download tso-portfolio-download--original">' . esc_html__( 'Original', 'tso-blog' ) . '</summary>';
-                    echo '<div class="tso-portfolio-original-pop" role="dialog" aria-label="' . esc_attr__( 'Medidas de la imagen original', 'tso-blog' ) . '">';
-                    echo '<p class="tso-portfolio-original-dims"><strong>' . esc_html__( 'Medidas:', 'tso-blog' ) . '</strong> ' . esc_html( $dim_text ) . '</p>';
+                    echo '<div class="tso-portfolio-original-pop" role="dialog" aria-label="' . esc_attr__( 'Original image dimensions', 'tso-blog' ) . '">';
+                    echo '<p class="tso-portfolio-original-dims"><strong>' . esc_html__( 'Dimensions:', 'tso-blog' ) . '</strong> ' . esc_html( $dim_text ) . '</p>';
                     printf(
                         '<a class="tso-portfolio-download tso-portfolio-download--go" href="%s" download="%s" target="_blank" rel="noopener noreferrer">%s</a>',
                         esc_url( $dl['url'] ),
                         esc_attr( $filename ),
-                        esc_html__( 'Descargar original', 'tso-blog' )
+                        esc_html__( 'Download original', 'tso-blog' )
                     );
                     echo '</div></details>';
                 } else {
@@ -1450,8 +1791,8 @@ function tsothm_portfolio_admin_notice() {
         'tsothm_dismiss_portfolio_notice'
     );
     echo '<div class="notice notice-info is-dismissible"><p>';
-    echo esc_html__( 'Plantilla Portfolio: usa bloques Galería o Imagen (JPG, PNG, WebP, GIF). En la web se muestra la galería con nombre y descargas (1920×1080 y otros). Si faltan tamaños en fotos antiguas, regenera miniaturas tras activar el tema.', 'tso-blog' );
-    echo ' <a href="' . esc_url( $dismiss_url ) . '">' . esc_html__( 'Descartar aviso', 'tso-blog' ) . '</a>';
+    echo esc_html__( 'Portfolio template: use Gallery or Image blocks (JPG, PNG, WebP, GIF). On the site the gallery shows the name and downloads (1920×1080 and others). If old photos are missing sizes, regenerate thumbnails after activating the theme.', 'tso-blog' );
+    echo ' <a href="' . esc_url( $dismiss_url ) . '">' . esc_html__( 'Dismiss notice', 'tso-blog' ) . '</a>';
     echo '</p></div>';
 }
 add_action( 'admin_notices', 'tsothm_portfolio_admin_notice' );
@@ -1503,6 +1844,20 @@ function tsothm_nav_button_style_body_class( $classes ) {
     return $classes;
 }
 add_filter( 'body_class', 'tsothm_nav_button_style_body_class' );
+
+/**
+ * Body class for blog / home posts layout.
+ *
+ * @param string[] $classes Body classes.
+ * @return string[]
+ */
+function tsothm_blog_layout_body_class( $classes ) {
+    if ( is_home() || is_archive() || is_search() ) {
+        $classes[] = 'tsothm-blog-layout-' . tsothm_get_blog_layout();
+    }
+    return $classes;
+}
+add_filter( 'body_class', 'tsothm_blog_layout_body_class' );
 
 /**
  * Sanitize Google Maps embed URL (or pasted embed markup → src).
@@ -1619,6 +1974,38 @@ function tsothm_layout_body_class( $classes ) {
 add_filter( 'body_class', 'tsothm_layout_body_class' );
 
 /**
+ * Body classes for sidebar visibility and background.
+ *
+ * @param string[] $classes Body classes.
+ * @return string[]
+ */
+function tsothm_sidebar_body_class( $classes ) {
+    $s = tsothm_get_sidebar_settings();
+
+    if ( ! tsothm_is_sidebar_visible() ) {
+        $classes[] = 'tso-no-sidebar';
+    }
+    if ( ! $s['bg_enabled'] ) {
+        $classes[] = 'tso-sidebar-no-bg';
+    }
+    if ( 'left' === $s['position'] ) {
+        $classes[] = 'tso-sidebar-left';
+    }
+    if ( $s['sticky'] ) {
+        $classes[] = 'tso-sidebar-sticky';
+    }
+    if ( $s['border'] ) {
+        $classes[] = 'tso-sidebar-border';
+    }
+    if ( $s['shadow'] ) {
+        $classes[] = 'tso-sidebar-shadow';
+    }
+
+    return $classes;
+}
+add_filter( 'body_class', 'tsothm_sidebar_body_class' );
+
+/**
  * Render Google Maps embed placeholder if configured (mounted via JS).
  *
  * @param string $embed_url Sanitized embed URL.
@@ -1631,7 +2018,7 @@ function tsothm_render_contact_map( $embed_url ) {
     printf(
         '<div class="tsothm-contact-map" data-map-src="%1$s" data-map-title="%2$s"></div>',
         esc_url( $embed_url ),
-        esc_attr__( 'Mapa de ubicación', 'tso-blog' )
+        esc_attr__( 'Location map', 'tso-blog' )
     );
 }
 
@@ -1652,11 +2039,12 @@ function tsothm_comment_form_defaults_es( $defaults ) {
     if ( ! is_singular( 'post' ) ) {
         return $defaults;
     }
-    $defaults['title_reply']          = __( 'Deja un comentario', 'tso-blog' );
-    $defaults['title_reply_to']       = __( 'Responder a %s', 'tso-blog' );
-    $defaults['cancel_reply_link']    = __( 'Cancelar respuesta', 'tso-blog' );
-    $defaults['label_submit']         = __( 'Publicar comentario', 'tso-blog' );
-    $defaults['comment_notes_before'] = '<p class="comment-notes">' . __( 'Tu dirección de correo electrónico no será publicada. Los campos obligatorios están marcados con', 'tso-blog' ) . ' <span aria-hidden="true">*</span></p>';
+    $defaults['title_reply']          = __( 'Leave a comment', 'tso-blog' );
+    /* translators: %s: name of the author being replied to */
+    $defaults['title_reply_to']       = __( 'Reply to %s', 'tso-blog' );
+    $defaults['cancel_reply_link']    = __( 'Cancel reply', 'tso-blog' );
+    $defaults['label_submit']         = __( 'Post comment', 'tso-blog' );
+    $defaults['comment_notes_before'] = '<p class="comment-notes">' . __( 'Your email address will not be published. Required fields are marked with', 'tso-blog' ) . ' <span aria-hidden="true">*</span></p>';
     $defaults['comment_notes_after']  = '';
     return $defaults;
 }
@@ -1675,7 +2063,7 @@ function tsothm_comment_form_fields_es( $fields ) {
     if ( isset( $fields['author'] ) ) {
         $fields['author'] = preg_replace(
             '/<label for="author">(.*?)<\/label>/',
-            '<label for="author">' . esc_html__( 'Nombre', 'tso-blog' ) . ' <span class="required" aria-hidden="true">*</span></label>',
+            '<label for="author">' . esc_html__( 'Name', 'tso-blog' ) . ' <span class="required" aria-hidden="true">*</span></label>',
             $fields['author'],
             1
         );
@@ -1683,7 +2071,7 @@ function tsothm_comment_form_fields_es( $fields ) {
     if ( isset( $fields['email'] ) ) {
         $fields['email'] = preg_replace(
             '/<label for="email">(.*?)<\/label>/',
-            '<label for="email">' . esc_html__( 'Correo electrónico', 'tso-blog' ) . ' <span class="required" aria-hidden="true">*</span></label>',
+            '<label for="email">' . esc_html__( 'Email', 'tso-blog' ) . ' <span class="required" aria-hidden="true">*</span></label>',
             $fields['email'],
             1
         );
@@ -1691,7 +2079,7 @@ function tsothm_comment_form_fields_es( $fields ) {
     if ( isset( $fields['url'] ) ) {
         $fields['url'] = preg_replace(
             '/<label for="url">(.*?)<\/label>/',
-            '<label for="url">' . esc_html__( 'Sitio web', 'tso-blog' ) . '</label>',
+            '<label for="url">' . esc_html__( 'Website', 'tso-blog' ) . '</label>',
             $fields['url'],
             1
         );
@@ -1712,7 +2100,7 @@ function tsothm_comment_form_field_comment_es( $field ) {
     }
     return preg_replace(
         '/<label for="comment">(.*?)<\/label>/',
-        '<label for="comment">' . esc_html__( 'Comentario', 'tso-blog' ) . ' <span class="required" aria-hidden="true">*</span></label>',
+        '<label for="comment">' . esc_html__( 'Comment', 'tso-blog' ) . ' <span class="required" aria-hidden="true">*</span></label>',
         $field,
         1
     );
@@ -1913,7 +2301,7 @@ function tsothm_get_social_order_keys() {
     $has_legacy = false;
 
     foreach ( $networks as $key => $data ) {
-        $index++;
+        ++$index;
         $legacy = get_theme_mod( 'tsothm_social_order_' . $key, null );
         if ( null !== $legacy && '' !== $legacy ) {
             $has_legacy         = true;
@@ -1974,8 +2362,8 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_panel(
         'tsothm_appearance_panel',
         array(
-            'title'       => __( 'Apariencia', 'tso-blog' ),
-            'description' => __( 'Logo, ancho del sitio, redes en la cabecera e imagen de cabecera.', 'tso-blog' ),
+            'title'       => __( 'Appearance', 'tso-blog' ),
+            'description' => __( 'Logo, site width, sidebar, header social links and header image.', 'tso-blog' ),
             'priority'    => 25,
         )
     );
@@ -1984,7 +2372,7 @@ add_action( 'customize_register', function( $wp_customize ) {
         'tsothm_footer_panel',
         array(
             'title'       => __( 'Footer', 'tso-blog' ),
-            'description' => __( 'Ayuda de columnas de widgets y textos del pie de página. Los colores del footer están en Colores → Footer.', 'tso-blog' ),
+            'description' => __( 'Help for widget columns and footer texts. Footer colors are under Colors → Footer.', 'tso-blog' ),
             'priority'    => 40,
         )
     );
@@ -1992,8 +2380,8 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_panel(
         'tsothm_content_panel',
         array(
-            'title'       => __( 'Plantillas', 'tso-blog' ),
-            'description' => __( 'Plantillas de Contacto, Equipo, Precios y Landing, y el anuncio superior.', 'tso-blog' ),
+            'title'       => __( 'Templates', 'tso-blog' ),
+            'description' => __( 'Contact, Team, Pricing and Landing templates, and the top announcement.', 'tso-blog' ),
             'priority'    => 45,
         )
     );
@@ -2005,7 +2393,7 @@ add_action( 'customize_register', function( $wp_customize ) {
     if ( $wp_customize->get_section( 'background_image' ) ) {
         $wp_customize->get_section( 'background_image' )->panel       = 'tsothm_appearance_panel';
         $wp_customize->get_section( 'background_image' )->priority    = 15;
-        $wp_customize->get_section( 'background_image' )->description = __( 'Imagen de fondo opcional para toda la web, por detrás del contenido. Puedes subirla y ajustar su posición, tamaño, repetición y desplazamiento (parallax).', 'tso-blog' );
+        $wp_customize->get_section( 'background_image' )->description = __( 'Optional background image for the whole site, behind the content. You can upload it and adjust its position, size, repeat and scrolling (parallax).', 'tso-blog' );
     }
     if ( $wp_customize->get_section( 'colors' ) ) {
         // Core “Colores” vacío: ocultar para no duplicar el panel TSO.
@@ -2017,7 +2405,7 @@ add_action( 'customize_register', function( $wp_customize ) {
         'tsothm_logo_section',
         array(
             'title'       => __( 'Logo', 'tso-blog' ),
-            'description' => __( 'Sube el logo y define su ancho en escritorio y móvil. No hay logo «sticky»: la cabecera no queda fija al hacer scroll.', 'tso-blog' ),
+            'description' => __( 'Upload the logo and set its width on desktop and mobile. There is no sticky logo: the header does not stay fixed on scroll.', 'tso-blog' ),
             'panel'       => 'tsothm_appearance_panel',
             'priority'    => 10,
         )
@@ -2040,8 +2428,8 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_logo_width',
         array(
-            'label'       => __( 'Ancho del logo (px)', 'tso-blog' ),
-            'description' => __( 'Ancho máximo en escritorio (40–500). La altura se ajusta sola.', 'tso-blog' ),
+            'label'       => __( 'Logo width (px)', 'tso-blog' ),
+            'description' => __( 'Desktop display width. Theme maximum: 500 px (minimum 40). Height adjusts automatically. For a sharp result, use a logo file at least this wide.', 'tso-blog' ),
             'section'     => 'tsothm_logo_section',
             'type'        => 'number',
             'priority'    => 10,
@@ -2064,14 +2452,14 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_logo_width_mobile',
         array(
-            'label'       => __( 'Ancho del logo en móvil (px)', 'tso-blog' ),
-            'description' => __( 'Ancho máximo en pantallas ≤ 768px (40–400).', 'tso-blog' ),
+            'label'       => __( 'Logo width on mobile (px)', 'tso-blog' ),
+            'description' => __( 'Mobile display width (screens ≤ 768 px). Theme maximum: 500 px (minimum 40). Use the Customizer mobile preview to see it. For a sharp result, use a logo file at least this wide.', 'tso-blog' ),
             'section'     => 'tsothm_logo_section',
             'type'        => 'number',
             'priority'    => 20,
             'input_attrs' => array(
                 'min'  => 40,
-                'max'  => 400,
+                'max'  => 500,
                 'step' => 1,
             ),
         )
@@ -2081,8 +2469,8 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_section(
         'tsothm_layout_section',
         array(
-            'title'       => __( 'Diseño / Ancho', 'tso-blog' ),
-            'description' => __( 'Ancho máximo del área blanca central. En móvil siempre ocupa casi toda la pantalla.', 'tso-blog' ),
+            'title'       => __( 'Layout / Width', 'tso-blog' ),
+            'description' => __( 'Maximum width of the central white area. Theme options: 960–1600 px, or nearly full screen. The news sidebar widgets use 300 px of content width (plus sidebar padding); the main column uses the remaining space. On mobile the sidebar is hidden and the content uses almost the full screen.', 'tso-blog' ),
             'panel'       => 'tsothm_appearance_panel',
             'priority'    => 20,
         )
@@ -2098,26 +2486,45 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_layout_width',
         array(
-            'label'       => __( 'Ancho del contenido', 'tso-blog' ),
-            'description' => __( 'Valores más altos aprovechan pantallas grandes. «Casi pantalla completa» usa todo el ancho disponible.', 'tso-blog' ),
+            'label'       => __( 'Content width', 'tso-blog' ),
+            'description' => __( 'Theme maximum fixed width: 1600 px. «Nearly full screen» uses the full available width. Sidebar widgets get 300 px content width on desktop. Values wider than your screen look the same until you use a larger display.', 'tso-blog' ),
             'section'     => 'tsothm_layout_section',
             'type'        => 'select',
             'choices'     => tsothm_get_layout_width_choices(),
         )
     );
 
-    /* Footer — guía de uso (imágenes) */
-    $wp_customize->add_section(
-        'tsothm_footer_help_section',
+    $wp_customize->add_setting(
+        'tsothm_blog_layout',
         array(
-            'title'       => __( 'Ayuda de columnas', 'tso-blog' ),
-            'description' => __( 'Hay 3 zonas de widgets: Footer columna 1, 2 y 3 (Personalizar → Widgets).', 'tso-blog' ),
-            'panel'       => 'tsothm_footer_panel',
-            'priority'    => 10,
+            'default'           => 'grid',
+            'sanitize_callback' => 'tsothm_sanitize_blog_layout',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_blog_layout',
+        array(
+            'label'       => __( 'Blog / home layout', 'tso-blog' ),
+            'description' => __( 'How posts are shown on the posts front page (home) and the Posts page.', 'tso-blog' ),
+            'section'     => 'tsothm_layout_section',
+            'type'        => 'select',
+            'choices'     => tsothm_get_blog_layout_choices(),
+        )
+    );
+
+    /* Sidebar — layout / behavior (Appearance) */
+    $wp_customize->add_section(
+        'tsothm_sidebar_section',
+        array(
+            'title'       => __( 'Sidebar', 'tso-blog' ),
+            'description' => __( 'News sidebar column: visibility, position, width and extras. Background on/off and colors are under Colors → Sidebar.', 'tso-blog' ),
+            'panel'       => 'tsothm_appearance_panel',
+            'priority'    => 22,
         )
     );
     $wp_customize->add_setting(
-        'tsothm_footer_help_note',
+        'tsothm_sidebar_visible',
         array(
             'default'           => 1,
             'sanitize_callback' => 'absint',
@@ -2125,21 +2532,225 @@ add_action( 'customize_register', function( $wp_customize ) {
         )
     );
     $wp_customize->add_control(
-        'tsothm_footer_help_note',
+        'tsothm_sidebar_visible',
         array(
-            'label'       => __( 'He leído la guía (opcional)', 'tso-blog' ),
-            'description' => __( 'Para que las fotos de las columnas 2 y 3 queden parejas: usa la misma medida en ambas. Recomendado 600×450 px (proporción 4:3) o 600×600 px (cuadrado). No mezcles una imagen vertical con una horizontal. Cada columna tiene unos 300 px de ancho en escritorio; 600 px de origen es suficiente. Si solo usas la columna 1 (menú de Contacto / Aviso legal) y dejas 2 y 3 vacías, los enlaces se muestran en horizontal. Nota: el aviso «tu tema tiene 1 área de widget más…» es de WordPress: la «Sidebar Noticias» no se muestra en portada del blog, Contacto ni Portfolio; en la vista previa abre una entrada o una página con plantilla por defecto para editarla. Para editar un widget desde la vista previa: Mayúsculas (Shift) + clic en el widget.', 'tso-blog' ),
-            'section'     => 'tsothm_footer_help_section',
+            'label'       => __( 'Show the news sidebar', 'tso-blog' ),
+            'description' => __( 'Master switch. If off, the main column uses the full content width on desktop. Widgets stay under Appearance → Widgets.', 'tso-blog' ),
+            'section'     => 'tsothm_sidebar_section',
             'type'        => 'checkbox',
+            'priority'    => 5,
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_sidebar_position',
+        array(
+            'default'           => 'right',
+            'sanitize_callback' => 'tsothm_sanitize_sidebar_position',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_sidebar_position',
+        array(
+            'label'    => __( 'Position', 'tso-blog' ),
+            'section'  => 'tsothm_sidebar_section',
+            'type'     => 'select',
+            'priority' => 10,
+            'choices'  => array(
+                'right' => __( 'Right', 'tso-blog' ),
+                'left'  => __( 'Left', 'tso-blog' ),
+            ),
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_sidebar_width',
+        array(
+            'default'           => '300',
+            'sanitize_callback' => 'tsothm_sanitize_sidebar_width',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_sidebar_width',
+        array(
+            'label'       => __( 'Content width (px)', 'tso-blog' ),
+            'description' => __( 'Useful width for widgets (260–360). Horizontal padding is added outside this value.', 'tso-blog' ),
+            'section'     => 'tsothm_sidebar_section',
+            'type'        => 'number',
+            'priority'    => 20,
+            'input_attrs' => array(
+                'min'  => 260,
+                'max'  => 360,
+                'step' => 4,
+            ),
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_sidebar_gap',
+        array(
+            'default'           => '30',
+            'sanitize_callback' => 'tsothm_sanitize_sidebar_gap',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_sidebar_gap',
+        array(
+            'label'       => __( 'Gap from content (px)', 'tso-blog' ),
+            'description' => __( 'Space between the main column and the sidebar (10–60).', 'tso-blog' ),
+            'section'     => 'tsothm_sidebar_section',
+            'type'        => 'number',
+            'priority'    => 30,
+            'input_attrs' => array(
+                'min'  => 10,
+                'max'  => 60,
+                'step' => 2,
+            ),
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_sidebar_radius',
+        array(
+            'default'           => '6',
+            'sanitize_callback' => 'tsothm_sanitize_sidebar_radius',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_sidebar_radius',
+        array(
+            'label'       => __( 'Corner radius (px)', 'tso-blog' ),
+            'section'     => 'tsothm_sidebar_section',
+            'type'        => 'number',
+            'priority'    => 40,
+            'input_attrs' => array(
+                'min'  => 0,
+                'max'  => 24,
+                'step' => 1,
+            ),
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_sidebar_sticky',
+        array(
+            'default'           => 0,
+            'sanitize_callback' => 'absint',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_sidebar_sticky',
+        array(
+            'label'       => __( 'Sticky sidebar while scrolling', 'tso-blog' ),
+            'description' => __( 'Keeps the sidebar in view on desktop while you scroll the article.', 'tso-blog' ),
+            'section'     => 'tsothm_sidebar_section',
+            'type'        => 'checkbox',
+            'priority'    => 50,
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_sidebar_border',
+        array(
+            'default'           => 0,
+            'sanitize_callback' => 'absint',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_sidebar_border',
+        array(
+            'label'    => __( 'Thin border around the column', 'tso-blog' ),
+            'section'  => 'tsothm_sidebar_section',
+            'type'     => 'checkbox',
+            'priority' => 60,
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_sidebar_shadow',
+        array(
+            'default'           => 0,
+            'sanitize_callback' => 'absint',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_sidebar_shadow',
+        array(
+            'label'    => __( 'Soft shadow on the column', 'tso-blog' ),
+            'section'  => 'tsothm_sidebar_section',
+            'type'     => 'checkbox',
+            'priority' => 70,
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_sidebar_on_home',
+        array(
+            'default'           => 0,
+            'sanitize_callback' => 'absint',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_sidebar_on_home',
+        array(
+            'label'       => __( 'Also on the blog home', 'tso-blog' ),
+            'description' => __( 'Posts index (front page of posts or the Posts page).', 'tso-blog' ),
+            'section'     => 'tsothm_sidebar_section',
+            'type'        => 'checkbox',
+            'priority'    => 80,
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_sidebar_on_contact',
+        array(
+            'default'           => 0,
+            'sanitize_callback' => 'absint',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_sidebar_on_contact',
+        array(
+            'label'    => __( 'Also on Contact template', 'tso-blog' ),
+            'section'  => 'tsothm_sidebar_section',
+            'type'     => 'checkbox',
+            'priority' => 90,
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_sidebar_on_portfolio',
+        array(
+            'default'           => 0,
+            'sanitize_callback' => 'absint',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_sidebar_on_portfolio',
+        array(
+            'label'    => __( 'Also on Portfolio template', 'tso-blog' ),
+            'section'  => 'tsothm_sidebar_section',
+            'type'     => 'checkbox',
+            'priority' => 100,
         )
     );
 
+    /* Footer — guía de uso (imágenes) */
+    $wp_customize->add_section(
+        'tsothm_footer_help_section',
+        array(
+            'title'       => __( 'Column help', 'tso-blog' ),
+            'description' => __( 'There are 3 widget areas: Footer column 1, 2 and 3 (Customize → Widgets).', 'tso-blog' ) . ' ' . __( 'So photos in columns 2 and 3 match: use the same size for both. Recommended 600×450 px (4:3) or 600×600 px (square). Do not mix portrait with landscape. Each column is about 300 px wide on desktop; 600 px source is enough. If you only use column 1 (Contact / Legal menu) and leave 2 and 3 empty, links show horizontally. Note: the «your theme has 1 more widget area…» notice is from WordPress: «News Sidebar» is not shown on the blog front page, Contact or Portfolio; in the preview open a post or a default-template page to edit it. To edit a widget from the preview: Shift + click the widget.', 'tso-blog' ),
+            'panel'       => 'tsothm_footer_panel',
+            'priority'    => 10,
+        )
+    );
     /* Redes sociales */
     $wp_customize->add_section(
         'tsothm_social_section',
         array(
-            'title'       => __( 'Redes sociales', 'tso-blog' ),
-            'description' => __( 'Arrastra las redes con el icono ☰ para cambiar el orden (izquierda → derecha). Debajo, pega la URL completa de cada red. Las que no tengan URL no se muestran.', 'tso-blog' ),
+            'title'       => __( 'Social networks', 'tso-blog' ),
+            'description' => __( 'Drag the networks with the ☰ icon to change order (left → right). Below, paste the full URL for each network. Those without a URL are hidden.', 'tso-blog' ),
             'panel'       => 'tsothm_appearance_panel',
             'priority'    => 30,
         )
@@ -2158,8 +2769,8 @@ add_action( 'customize_register', function( $wp_customize ) {
             $wp_customize,
             'tsothm_social_order',
             array(
-                'label'       => __( 'Orden de los iconos', 'tso-blog' ),
-                'description' => __( 'Arrastra arriba o abajo. Se guarda al publicar.', 'tso-blog' ),
+                'label'       => __( 'Icon order', 'tso-blog' ),
+                'description' => __( 'Drag up or down. Saved when you publish.', 'tso-blog' ),
                 'section'     => 'tsothm_social_section',
                 'priority'    => 5,
             )
@@ -2180,7 +2791,7 @@ add_action( 'customize_register', function( $wp_customize ) {
             'tsothm_social_' . $key,
             array(
                 /* translators: %s: social network name */
-                'label'    => sprintf( __( '%s (URL completa)', 'tso-blog' ), $data['label'] ),
+                'label'    => sprintf( __( '%s (full URL)', 'tso-blog' ), $data['label'] ),
                 'section'  => 'tsothm_social_section',
                 'type'     => 'url',
                 'priority' => $tsothm_social_priority,
@@ -2193,8 +2804,8 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_panel(
         'tsothm_colors_panel',
         array(
-            'title'       => __( 'Colores', 'tso-blog' ),
-            'description' => __( 'Colores generales, menú de navegación y pie de página.', 'tso-blog' ),
+            'title'       => __( 'Colors', 'tso-blog' ),
+            'description' => __( 'Day colors (including content text and headings), menu, sidebar, footer, announcement and night mode.', 'tso-blog' ),
             'priority'    => 30,
         )
     );
@@ -2203,53 +2814,53 @@ add_action( 'customize_register', function( $wp_customize ) {
 
     $tsothm_color_groups = array(
         'tsothm_colors_general_section' => array(
-            'title'       => __( 'Generales', 'tso-blog' ),
-            'description' => __( 'Colores globales del tema (acentos, botones y fondo de la página).', 'tso-blog' ),
+            'title'       => __( 'General', 'tso-blog' ),
+            'description' => __( 'Global theme colors: accents, buttons, page background and day-mode content text. Night content text is under Night mode.', 'tso-blog' ),
             'priority'    => 10,
             'controls'    => array(
-                'tsothm_color_accent'  => __( 'Acento', 'tso-blog' ),
-                'tsothm_color_primary' => __( 'Principal', 'tso-blog' ),
-                'tsothm_color_body_bg' => __( 'Fondo exterior', 'tso-blog' ),
+                'tsothm_color_accent'  => __( 'Accent', 'tso-blog' ),
+                'tsothm_color_primary' => __( 'Primary', 'tso-blog' ),
+                'tsothm_color_body_bg' => __( 'Outer background', 'tso-blog' ),
             ),
         ),
         'tsothm_colors_header_section'  => array(
-            'title'       => __( 'Cabecera', 'tso-blog' ),
-            'description' => __( 'Fondo de la cabecera: la franja superior con el logo y el buscador, por encima del menú de navegación.', 'tso-blog' ),
+            'title'       => __( 'Header', 'tso-blog' ),
+            'description' => __( 'Header background: the top strip with the logo and search, above the navigation menu.', 'tso-blog' ),
             'priority'    => 15,
             'controls'    => array(
-                'tsothm_color_header_bg' => __( 'Fondo', 'tso-blog' ),
+                'tsothm_color_header_bg' => __( 'Background', 'tso-blog' ),
             ),
         ),
         'tsothm_colors_nav_section'     => array(
-            'title'       => __( 'Menú', 'tso-blog' ),
-            'description' => __( 'Barra de navegación principal, estilo de botones y submenús.', 'tso-blog' ),
+            'title'       => __( 'Menu', 'tso-blog' ),
+            'description' => __( 'Main navigation bar, button style, and submenus.', 'tso-blog' ),
             'priority'    => 20,
             'controls'    => array(
-                'tsothm_color_nav_bg'      => __( 'Fondo', 'tso-blog' ),
-                'tsothm_color_nav_text'    => __( 'Texto de los enlaces', 'tso-blog' ),
-                'tsothm_color_nav_hover'   => __( 'Texto al pasar el ratón / activo', 'tso-blog' ),
-                'tsothm_color_nav_submenu' => __( 'Fondo del submenú', 'tso-blog' ),
+                'tsothm_color_nav_bg'      => __( 'Background', 'tso-blog' ),
+                'tsothm_color_nav_text'    => __( 'Link text', 'tso-blog' ),
+                'tsothm_color_nav_hover'   => __( 'Hover / active text', 'tso-blog' ),
+                'tsothm_color_nav_submenu' => __( 'Submenu background', 'tso-blog' ),
             ),
         ),
         'tsothm_colors_footer_section'  => array(
             'title'       => __( 'Footer', 'tso-blog' ),
-            'description' => __( 'Pie de página: fondo, títulos de widgets, textos, copyright y líneas separadoras.', 'tso-blog' ),
+            'description' => __( 'Footer: background, widget titles, texts, copyright and separators.', 'tso-blog' ),
             'priority'    => 30,
             'controls'    => array(
-                'tsothm_color_footer_bg'      => __( 'Fondo', 'tso-blog' ),
-                'tsothm_color_footer_heading' => __( 'Títulos de widgets', 'tso-blog' ),
-                'tsothm_color_footer_text'    => __( 'Texto y enlaces', 'tso-blog' ),
-                'tsothm_color_footer_muted'   => __( 'Copyright / texto secundario', 'tso-blog' ),
-                'tsothm_color_footer_border'  => __( 'Líneas y bordes', 'tso-blog' ),
+                'tsothm_color_footer_bg'      => __( 'Background', 'tso-blog' ),
+                'tsothm_color_footer_heading' => __( 'Widget titles', 'tso-blog' ),
+                'tsothm_color_footer_text'    => __( 'Text and links', 'tso-blog' ),
+                'tsothm_color_footer_muted'   => __( 'Copyright / secondary text', 'tso-blog' ),
+                'tsothm_color_footer_border'  => __( 'Lines and borders', 'tso-blog' ),
             ),
         ),
         'tsothm_colors_announce_section' => array(
-            'title'       => __( 'Anuncio', 'tso-blog' ),
-            'description' => __( 'Barra de novedades entre la cabecera y el menú. El texto se configura en «Anuncio / novedades».', 'tso-blog' ),
-            'priority'    => 40,
+            'title'       => __( 'Announcement', 'tso-blog' ),
+            'description' => __( 'News bar between the header and the menu. Text is configured under «Announcement / news».', 'tso-blog' ),
+            'priority'    => 45,
             'controls'    => array(
-                'tsothm_color_announce_bg'   => __( 'Fondo', 'tso-blog' ),
-                'tsothm_color_announce_text' => __( 'Texto', 'tso-blog' ),
+                'tsothm_color_announce_bg'   => __( 'Background', 'tso-blog' ),
+                'tsothm_color_announce_text' => __( 'Text', 'tso-blog' ),
             ),
         ),
     );
@@ -2288,6 +2899,157 @@ add_action( 'customize_register', function( $wp_customize ) {
         }
     }
 
+    /* Day-mode content text (same theme_mods as before; live under Colors → General). */
+    $wp_customize->add_setting(
+        'tsothm_font_body_color',
+        array(
+            'default'           => '#333333',
+            'sanitize_callback' => 'sanitize_hex_color',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        new WP_Customize_Color_Control(
+            $wp_customize,
+            'tsothm_font_body_color',
+            array(
+                'label'       => __( 'Content text', 'tso-blog' ),
+                'description' => __( 'Day mode. Night mode uses Colors → Night mode → Content text.', 'tso-blog' ),
+                'section'     => 'tsothm_colors_general_section',
+                'priority'    => 20,
+            )
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_font_heading_color',
+        array(
+            'default'           => '#111111',
+            'sanitize_callback' => 'sanitize_hex_color',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        new WP_Customize_Color_Control(
+            $wp_customize,
+            'tsothm_font_heading_color',
+            array(
+                'label'       => __( 'Content headings', 'tso-blog' ),
+                'description' => __( 'Day mode. Night mode uses Colors → Night mode → Content headings.', 'tso-blog' ),
+                'section'     => 'tsothm_colors_general_section',
+                'priority'    => 21,
+            )
+        )
+    );
+
+    /* Colors → Sidebar */
+    $wp_customize->add_section(
+        'tsothm_colors_sidebar_section',
+        array(
+            'title'       => __( 'Sidebar', 'tso-blog' ),
+            'description' => __( 'Column background, widget cards and title bar. Layout options are under Appearance → Sidebar.', 'tso-blog' ),
+            'panel'       => 'tsothm_colors_panel',
+            'priority'    => 35,
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_sidebar_bg_enabled',
+        array(
+            'default'           => 1,
+            'sanitize_callback' => 'absint',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_sidebar_bg_enabled',
+        array(
+            'label'       => __( 'Use a sidebar background', 'tso-blog' ),
+            'description' => __( 'Turn off to remove the column fill (transparent).', 'tso-blog' ),
+            'section'     => 'tsothm_colors_sidebar_section',
+            'type'        => 'checkbox',
+            'priority'    => 10,
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_color_sidebar_bg',
+        array(
+            'default'           => '#f1f1f1',
+            'sanitize_callback' => 'sanitize_hex_color',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        new WP_Customize_Color_Control(
+            $wp_customize,
+            'tsothm_color_sidebar_bg',
+            array(
+                'label'           => __( 'Column background (day)', 'tso-blog' ),
+                'section'         => 'tsothm_colors_sidebar_section',
+                'priority'        => 20,
+                'active_callback' => 'tsothm_customize_sidebar_bg_color_active',
+            )
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_color_sidebar_bg_night',
+        array(
+            'default'           => '',
+            'sanitize_callback' => 'tsothm_sanitize_optional_hex_color',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        new WP_Customize_Color_Control(
+            $wp_customize,
+            'tsothm_color_sidebar_bg_night',
+            array(
+                'label'           => __( 'Column background (night)', 'tso-blog' ),
+                'description'     => __( 'Optional. If empty, night mode uses the dark surface color.', 'tso-blog' ),
+                'section'         => 'tsothm_colors_sidebar_section',
+                'priority'        => 30,
+                'active_callback' => 'tsothm_customize_sidebar_bg_color_active',
+            )
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_color_sidebar_widget_bg',
+        array(
+            'default'           => '#ffffff',
+            'sanitize_callback' => 'sanitize_hex_color',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        new WP_Customize_Color_Control(
+            $wp_customize,
+            'tsothm_color_sidebar_widget_bg',
+            array(
+                'label'    => __( 'Widget card background', 'tso-blog' ),
+                'section'  => 'tsothm_colors_sidebar_section',
+                'priority' => 40,
+            )
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_color_sidebar_title_bg',
+        array(
+            'default'           => '',
+            'sanitize_callback' => 'tsothm_sanitize_optional_hex_color',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        new WP_Customize_Color_Control(
+            $wp_customize,
+            'tsothm_color_sidebar_title_bg',
+            array(
+                'label'       => __( 'Widget title bar', 'tso-blog' ),
+                'description' => __( 'Blue bar behind widget titles. Empty = theme Primary color.', 'tso-blog' ),
+                'section'     => 'tsothm_colors_sidebar_section',
+                'priority'    => 50,
+            )
+        )
+    );
+
     $wp_customize->add_setting(
         'tsothm_nav_button_style',
         array(
@@ -2299,8 +3061,8 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_nav_button_style',
         array(
-            'label'       => __( 'Estilo de botones del menú', 'tso-blog' ),
-            'description' => __( 'Elige el relieve de los títulos del menú principal.', 'tso-blog' ),
+            'label'       => __( 'Menu button style', 'tso-blog' ),
+            'description' => __( 'Choose the relief style for the main menu titles.', 'tso-blog' ),
             'section'     => 'tsothm_colors_nav_section',
             'type'        => 'select',
             'priority'    => 5,
@@ -2313,31 +3075,31 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_section(
         'tsothm_colors_night_section',
         array(
-            'title'       => __( 'Modo noche', 'tso-blog' ),
-            'description' => __( 'Colores del modo noche, independientes del modo día: los colores de las otras secciones solo se aplican de día. Si no cambias nada se usa la paleta oscura por defecto.', 'tso-blog' ),
+            'title'       => __( 'Night mode', 'tso-blog' ),
+            'description' => __( 'Night mode colors, independent from day mode: colors in the other sections only apply in day mode. If you change nothing, the default dark palette is used.', 'tso-blog' ),
             'panel'       => 'tsothm_colors_panel',
             'priority'    => 50,
         )
     );
     $tsothm_night_controls = array(
-        'body_bg'   => array( __( 'Fondo exterior', 'tso-blog' ), '' ),
-        'surface'   => array( __( 'Fondo del contenido', 'tso-blog' ), '' ),
-        'header_bg' => array( __( 'Fondo de la cabecera', 'tso-blog' ), __( 'Vacío = automático: si la cabecera del modo día es clara, se usa el color del contenido.', 'tso-blog' ) ),
-        'nav_bg'    => array( __( 'Fondo del menú', 'tso-blog' ), '' ),
-        'footer_bg' => array( __( 'Fondo del pie de página', 'tso-blog' ), '' ),
-        'accent'    => array( __( 'Acento', 'tso-blog' ), __( 'Barras de título, botones y enlaces destacados.', 'tso-blog' ) ),
-        'link'      => array( __( 'Enlaces y barras azules', 'tso-blog' ), '' ),
-        'primary'   => array( __( 'Color principal', 'tso-blog' ), '' ),
-        'nav_text'  => array( __( 'Menú: texto de los enlaces', 'tso-blog' ), '' ),
-        'nav_submenu'    => array( __( 'Menú: fondo del submenú', 'tso-blog' ), '' ),
-        'footer_heading' => array( __( 'Pie: títulos de widgets', 'tso-blog' ), '' ),
-        'footer_text'    => array( __( 'Pie: texto y enlaces', 'tso-blog' ), '' ),
-        'footer_muted'   => array( __( 'Pie: copyright / texto secundario', 'tso-blog' ), '' ),
-        'footer_border'  => array( __( 'Pie: líneas y bordes', 'tso-blog' ), '' ),
-        'announce_bg'    => array( __( 'Anuncio: fondo', 'tso-blog' ), '' ),
-        'announce_text'  => array( __( 'Anuncio: texto', 'tso-blog' ), '' ),
-        'text'      => array( __( 'Texto del contenido', 'tso-blog' ), '' ),
-        'heading'   => array( __( 'Títulos del contenido', 'tso-blog' ), '' ),
+        'body_bg'   => array( __( 'Outer background', 'tso-blog' ), '' ),
+        'surface'   => array( __( 'Content background', 'tso-blog' ), '' ),
+        'header_bg' => array( __( 'Header background', 'tso-blog' ), __( 'Empty = automatic: if the day-mode header is light, the content color is used.', 'tso-blog' ) ),
+        'nav_bg'    => array( __( 'Menu background', 'tso-blog' ), '' ),
+        'footer_bg' => array( __( 'Footer background', 'tso-blog' ), '' ),
+        'accent'    => array( __( 'Accent', 'tso-blog' ), __( 'Title bars, buttons and highlighted links.', 'tso-blog' ) ),
+        'link'      => array( __( 'Links and blue bars', 'tso-blog' ), '' ),
+        'primary'   => array( __( 'Primary color', 'tso-blog' ), '' ),
+        'nav_text'  => array( __( 'Menu: link text', 'tso-blog' ), '' ),
+        'nav_submenu'    => array( __( 'Menu: submenu background', 'tso-blog' ), '' ),
+        'footer_heading' => array( __( 'Footer: widget titles', 'tso-blog' ), '' ),
+        'footer_text'    => array( __( 'Footer: text and links', 'tso-blog' ), '' ),
+        'footer_muted'   => array( __( 'Footer: copyright / secondary text', 'tso-blog' ), '' ),
+        'footer_border'  => array( __( 'Footer: lines and borders', 'tso-blog' ), '' ),
+        'announce_bg'    => array( __( 'Announcement: background', 'tso-blog' ), '' ),
+        'announce_text'  => array( __( 'Announcement: text', 'tso-blog' ), '' ),
+        'text'      => array( __( 'Content text', 'tso-blog' ), __( 'Night mode only. Day mode is under Colors → General.', 'tso-blog' ) ),
+        'heading'   => array( __( 'Content headings', 'tso-blog' ), __( 'Night mode only. Day mode is under Colors → General.', 'tso-blog' ) ),
     );
     foreach ( $tsothm_night_controls as $night_key => $night_control ) {
         $night_setting = 'tsothm_night_' . $night_key;
@@ -2366,8 +3128,8 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_panel(
         'tsothm_typography_panel',
         array(
-            'title'       => __( 'Tipografía', 'tso-blog' ),
-            'description' => __( 'Fuentes del cuerpo y de los títulos. Las fuentes Google solo se cargan si las eliges.', 'tso-blog' ),
+            'title'       => __( 'Typography', 'tso-blog' ),
+            'description' => __( 'Body and titles (including cards and widget titles), plus announcement bar and menu. Content text colors are under Colors → General (day) and Colors → Night mode. Footer text size is under Footer → Footer texts. Google Fonts load only if you select them.', 'tso-blog' ),
             'priority'    => 35,
         )
     );
@@ -2380,8 +3142,8 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_section(
         'tsothm_typography_body_section',
         array(
-            'title'       => __( 'Texto del cuerpo', 'tso-blog' ),
-            'description' => __( 'Tipografía general del sitio (párrafos y contenido).', 'tso-blog' ),
+            'title'       => __( 'Body text', 'tso-blog' ),
+            'description' => __( 'Font family, size and line height for paragraphs and content, plus widget list text (sidebar and footer columns). Text color is under Colors → General. Widget titles are under Titles.', 'tso-blog' ),
             'panel'       => 'tsothm_typography_panel',
             'priority'    => 10,
         )
@@ -2397,7 +3159,7 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_font_body',
         array(
-            'label'   => __( 'Familia tipográfica', 'tso-blog' ),
+            'label'   => __( 'Font family', 'tso-blog' ),
             'section' => 'tsothm_typography_body_section',
             'type'    => 'select',
             'choices' => $tsothm_font_choices,
@@ -2414,7 +3176,7 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_font_body_size',
         array(
-            'label'       => __( 'Tamaño (px)', 'tso-blog' ),
+            'label'       => __( 'Size (px)', 'tso-blog' ),
             'section'     => 'tsothm_typography_body_section',
             'type'        => 'number',
             'input_attrs' => array(
@@ -2435,7 +3197,7 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_font_body_line',
         array(
-            'label'       => __( 'Interlineado', 'tso-blog' ),
+            'label'       => __( 'Line height', 'tso-blog' ),
             'section'     => 'tsothm_typography_body_section',
             'type'        => 'number',
             'input_attrs' => array(
@@ -2446,29 +3208,33 @@ add_action( 'customize_register', function( $wp_customize ) {
         )
     );
     $wp_customize->add_setting(
-        'tsothm_font_body_color',
+        'tsothm_font_widget_text_size',
         array(
-            'default'           => '#333333',
-            'sanitize_callback' => 'sanitize_hex_color',
+            'default'           => '14',
+            'sanitize_callback' => 'tsothm_sanitize_widget_font_size',
             'transport'         => 'refresh',
         )
     );
     $wp_customize->add_control(
-        new WP_Customize_Color_Control(
-            $wp_customize,
-            'tsothm_font_body_color',
-            array(
-                'label'   => __( 'Color', 'tso-blog' ),
-                'section' => 'tsothm_typography_body_section',
-            )
+        'tsothm_font_widget_text_size',
+        array(
+            'label'       => __( 'Widget text size (px)', 'tso-blog' ),
+            'description' => __( 'Links and lists in sidebar and footer widget columns. Uses the body font family.', 'tso-blog' ),
+            'section'     => 'tsothm_typography_body_section',
+            'type'        => 'number',
+            'input_attrs' => array(
+                'min'  => 12,
+                'max'  => 22,
+                'step' => 1,
+            ),
         )
     );
 
     $wp_customize->add_section(
         'tsothm_typography_heading_section',
         array(
-            'title'       => __( 'Títulos', 'tso-blog' ),
-            'description' => __( 'Fuente de encabezados (H1–H6) y títulos de artículos.', 'tso-blog' ),
+            'title'       => __( 'Titles', 'tso-blog' ),
+            'description' => __( 'Shared font for headings, post titles, home cards, related-posts heading and widget titles (sidebar and footer). Sizes below are separate; family and weight apply to all of them. Heading color is under Colors → General.', 'tso-blog' ),
             'panel'       => 'tsothm_typography_panel',
             'priority'    => 20,
         )
@@ -2484,7 +3250,7 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_font_heading',
         array(
-            'label'   => __( 'Familia tipográfica', 'tso-blog' ),
+            'label'   => __( 'Font family', 'tso-blog' ),
             'section' => 'tsothm_typography_heading_section',
             'type'    => 'select',
             'choices' => $tsothm_font_choices,
@@ -2501,7 +3267,7 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_font_heading_weight',
         array(
-            'label'   => __( 'Grosor', 'tso-blog' ),
+            'label'   => __( 'Weight', 'tso-blog' ),
             'section' => 'tsothm_typography_heading_section',
             'type'    => 'select',
             'choices' => array(
@@ -2511,24 +3277,6 @@ add_action( 'customize_register', function( $wp_customize ) {
                 '700' => '700',
                 '800' => '800',
             ),
-        )
-    );
-    $wp_customize->add_setting(
-        'tsothm_font_heading_color',
-        array(
-            'default'           => '#111111',
-            'sanitize_callback' => 'sanitize_hex_color',
-            'transport'         => 'refresh',
-        )
-    );
-    $wp_customize->add_control(
-        new WP_Customize_Color_Control(
-            $wp_customize,
-            'tsothm_font_heading_color',
-            array(
-                'label'   => __( 'Color', 'tso-blog' ),
-                'section' => 'tsothm_typography_heading_section',
-            )
         )
     );
     $wp_customize->add_setting(
@@ -2542,13 +3290,57 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_font_h1_size',
         array(
-            'label'       => __( 'Tamaño H1 / título de artículo (px)', 'tso-blog' ),
-            'description' => __( 'Afecta al título dentro del artículo o página (no a las tarjetas de la portada).', 'tso-blog' ),
+            'label'       => __( 'H1 / single post title size (px)', 'tso-blog' ),
+            'description' => __( 'Title inside a post or page. Card titles on the home / archive use the size below.', 'tso-blog' ),
             'section'     => 'tsothm_typography_heading_section',
             'type'        => 'number',
             'input_attrs' => array(
                 'min'  => 18,
                 'max'  => 48,
+                'step' => 1,
+            ),
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_font_card_title_size',
+        array(
+            'default'           => '16',
+            'sanitize_callback' => 'tsothm_sanitize_card_title_size',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_font_card_title_size',
+        array(
+            'label'       => __( 'Home / archive card title size (px)', 'tso-blog' ),
+            'description' => __( 'List and magazine layouts scale from this base. Uses the same font family, weight and transform as titles.', 'tso-blog' ),
+            'section'     => 'tsothm_typography_heading_section',
+            'type'        => 'number',
+            'input_attrs' => array(
+                'min'  => 14,
+                'max'  => 28,
+                'step' => 1,
+            ),
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_font_widget_title_size',
+        array(
+            'default'           => '14',
+            'sanitize_callback' => 'tsothm_sanitize_widget_font_size',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_font_widget_title_size',
+        array(
+            'label'       => __( 'Widget title size (px)', 'tso-blog' ),
+            'description' => __( 'Sidebar blue bars and footer column titles. Same family and weight as titles; size only here.', 'tso-blog' ),
+            'section'     => 'tsothm_typography_heading_section',
+            'type'        => 'number',
+            'input_attrs' => array(
+                'min'  => 12,
+                'max'  => 22,
                 'step' => 1,
             ),
         )
@@ -2564,69 +3356,241 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_font_h1_transform',
         array(
-            'label'       => __( 'Transformación de títulos', 'tso-blog' ),
-            'description' => __( 'Mayúsculas, etc. en H1 y en los títulos de las tarjetas.', 'tso-blog' ),
+            'label'       => __( 'Title transform', 'tso-blog' ),
+            'description' => __( 'Uppercase, etc. on H1 and card titles (not sidebar widget bars).', 'tso-blog' ),
             'section'     => 'tsothm_typography_heading_section',
             'type'        => 'select',
             'choices'     => array(
-                'none'       => __( 'Ninguna', 'tso-blog' ),
-                'uppercase'  => __( 'Mayúsculas', 'tso-blog' ),
-                'lowercase'  => __( 'Minúsculas', 'tso-blog' ),
-                'capitalize' => __( 'Capitalizar', 'tso-blog' ),
+                'none'       => __( 'None', 'tso-blog' ),
+                'uppercase'  => __( 'Uppercase', 'tso-blog' ),
+                'lowercase'  => __( 'Lowercase', 'tso-blog' ),
+                'capitalize' => __( 'Capitalize', 'tso-blog' ),
+            ),
+        )
+    );
+
+    $tsothm_transform_choices = array(
+        'none'       => __( 'None', 'tso-blog' ),
+        'uppercase'  => __( 'Uppercase', 'tso-blog' ),
+        'lowercase'  => __( 'Lowercase', 'tso-blog' ),
+        'capitalize' => __( 'Capitalize', 'tso-blog' ),
+    );
+    $tsothm_weight_choices = array(
+        '400' => '400',
+        '500' => '500',
+        '600' => '600',
+        '700' => '700',
+        '800' => '800',
+    );
+
+    $wp_customize->add_section(
+        'tsothm_typography_announce_section',
+        array(
+            'title'       => __( 'Announcement bar', 'tso-blog' ),
+            'description' => __( 'Font family and text style for the news / announcement bar between the header and the menu. Colors are under Colors → Announcement.', 'tso-blog' ),
+            'panel'       => 'tsothm_typography_panel',
+            'priority'    => 35,
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_font_announce',
+        array(
+            'default'           => 'arial',
+            'sanitize_callback' => 'tsothm_sanitize_font_key',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_font_announce',
+        array(
+            'label'   => __( 'Font family', 'tso-blog' ),
+            'section' => 'tsothm_typography_announce_section',
+            'type'    => 'select',
+            'choices' => $tsothm_font_choices,
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_font_announce_size',
+        array(
+            'default'           => '16',
+            'sanitize_callback' => static function ( $value ) {
+                return tsothm_sanitize_ui_font_size( $value, 16 );
+            },
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_font_announce_size',
+        array(
+            'label'       => __( 'Size (px)', 'tso-blog' ),
+            'section'     => 'tsothm_typography_announce_section',
+            'type'        => 'number',
+            'input_attrs' => array(
+                'min'  => 12,
+                'max'  => 28,
+                'step' => 1,
+            ),
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_font_announce_weight',
+        array(
+            'default'           => '800',
+            'sanitize_callback' => 'tsothm_sanitize_font_weight',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_font_announce_weight',
+        array(
+            'label'   => __( 'Weight', 'tso-blog' ),
+            'section' => 'tsothm_typography_announce_section',
+            'type'    => 'select',
+            'choices' => $tsothm_weight_choices,
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_font_announce_transform',
+        array(
+            'default'           => 'uppercase',
+            'sanitize_callback' => 'tsothm_sanitize_text_transform',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_font_announce_transform',
+        array(
+            'label'   => __( 'Text transform', 'tso-blog' ),
+            'section' => 'tsothm_typography_announce_section',
+            'type'    => 'select',
+            'choices' => $tsothm_transform_choices,
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_font_announce_tracking',
+        array(
+            'default'           => '0.03',
+            'sanitize_callback' => 'tsothm_sanitize_letter_spacing_em_value',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_font_announce_tracking',
+        array(
+            'label'       => __( 'Letter spacing (em)', 'tso-blog' ),
+            'description' => __( 'Default 0.03. Range 0–0.2.', 'tso-blog' ),
+            'section'     => 'tsothm_typography_announce_section',
+            'type'        => 'number',
+            'input_attrs' => array(
+                'min'  => 0,
+                'max'  => 0.2,
+                'step' => 0.01,
             ),
         )
     );
 
     $wp_customize->add_section(
-        'tsothm_typography_widget_section',
+        'tsothm_typography_nav_section',
         array(
-            'title'       => __( 'Sidebar / widgets', 'tso-blog' ),
-            'description' => __( 'Tamaño de los títulos con barra azul y del texto de la columna lateral.', 'tso-blog' ),
+            'title'       => __( 'Navigation menu', 'tso-blog' ),
+            'description' => __( 'Font family and link text for the main menu (desktop bar). Colors are under Colors → Menu.', 'tso-blog' ),
             'panel'       => 'tsothm_typography_panel',
-            'priority'    => 30,
+            'priority'    => 40,
         )
     );
     $wp_customize->add_setting(
-        'tsothm_font_widget_title_size',
+        'tsothm_font_nav',
         array(
-            'default'           => '14',
-            'sanitize_callback' => 'tsothm_sanitize_widget_font_size',
+            'default'           => 'arial',
+            'sanitize_callback' => 'tsothm_sanitize_font_key',
             'transport'         => 'refresh',
         )
     );
     $wp_customize->add_control(
-        'tsothm_font_widget_title_size',
+        'tsothm_font_nav',
         array(
-            'label'       => __( 'Tamaño título de widget (px)', 'tso-blog' ),
-            'description' => __( 'Barra azul del sidebar (Recent Posts, Archives…).', 'tso-blog' ),
-            'section'     => 'tsothm_typography_widget_section',
+            'label'   => __( 'Font family', 'tso-blog' ),
+            'section' => 'tsothm_typography_nav_section',
+            'type'    => 'select',
+            'choices' => $tsothm_font_choices,
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_font_nav_size',
+        array(
+            'default'           => '15',
+            'sanitize_callback' => static function ( $value ) {
+                return tsothm_sanitize_ui_font_size( $value, 15 );
+            },
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_font_nav_size',
+        array(
+            'label'       => __( 'Size (px)', 'tso-blog' ),
+            'section'     => 'tsothm_typography_nav_section',
             'type'        => 'number',
             'input_attrs' => array(
                 'min'  => 12,
-                'max'  => 22,
+                'max'  => 28,
                 'step' => 1,
             ),
         )
     );
     $wp_customize->add_setting(
-        'tsothm_font_widget_text_size',
+        'tsothm_font_nav_weight',
         array(
-            'default'           => '14',
-            'sanitize_callback' => 'tsothm_sanitize_widget_font_size',
+            'default'           => '700',
+            'sanitize_callback' => 'tsothm_sanitize_font_weight',
             'transport'         => 'refresh',
         )
     );
     $wp_customize->add_control(
-        'tsothm_font_widget_text_size',
+        'tsothm_font_nav_weight',
         array(
-            'label'       => __( 'Tamaño texto del sidebar (px)', 'tso-blog' ),
-            'description' => __( 'Enlaces y listas dentro de los widgets.', 'tso-blog' ),
-            'section'     => 'tsothm_typography_widget_section',
+            'label'   => __( 'Weight', 'tso-blog' ),
+            'section' => 'tsothm_typography_nav_section',
+            'type'    => 'select',
+            'choices' => $tsothm_weight_choices,
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_font_nav_transform',
+        array(
+            'default'           => 'uppercase',
+            'sanitize_callback' => 'tsothm_sanitize_text_transform',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_font_nav_transform',
+        array(
+            'label'   => __( 'Text transform', 'tso-blog' ),
+            'section' => 'tsothm_typography_nav_section',
+            'type'    => 'select',
+            'choices' => $tsothm_transform_choices,
+        )
+    );
+    $wp_customize->add_setting(
+        'tsothm_font_nav_tracking',
+        array(
+            'default'           => '0.5',
+            'sanitize_callback' => 'tsothm_sanitize_letter_spacing_px_value',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_font_nav_tracking',
+        array(
+            'label'       => __( 'Letter spacing (px)', 'tso-blog' ),
+            'description' => __( 'Default 0.5. Range 0–3.', 'tso-blog' ),
+            'section'     => 'tsothm_typography_nav_section',
             'type'        => 'number',
             'input_attrs' => array(
-                'min'  => 12,
-                'max'  => 22,
-                'step' => 1,
+                'min'  => 0,
+                'max'  => 3,
+                'step' => 0.1,
             ),
         )
     );
@@ -2635,19 +3599,19 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_section(
         'tsothm_texts_section',
         array(
-            'title'       => __( 'Textos de la interfaz', 'tso-blog' ),
-            'description' => __( 'Textos generales del tema (botones). El copyright y el texto legal están en Footer.', 'tso-blog' ),
+            'title'       => __( 'Interface texts', 'tso-blog' ),
+            'description' => __( 'General theme texts (buttons). Copyright and legal text are under Footer.', 'tso-blog' ),
             'panel'       => 'tsothm_appearance_panel',
             'priority'    => 42,
         )
     );
     $wp_customize->add_setting( 'tsothm_text_load_more', array(
-        'default'           => 'Cargar más',
+        'default'           => 'Load more',
         'sanitize_callback' => 'sanitize_text_field',
         'transport'         => 'refresh',
     ) );
     $wp_customize->add_control( 'tsothm_text_load_more', array(
-        'label'   => __( 'Texto botón «Cargar más»', 'tso-blog' ),
+        'label'   => __( '«Load more» button text', 'tso-blog' ),
         'section' => 'tsothm_texts_section',
         'type'    => 'text',
     ) );
@@ -2656,8 +3620,8 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_section(
         'tsothm_footer_texts_section',
         array(
-            'title'       => __( 'Textos del pie', 'tso-blog' ),
-            'description' => __( 'Copyright y texto legal bajo las columnas de widgets.', 'tso-blog' ),
+            'title'       => __( 'Footer texts', 'tso-blog' ),
+            'description' => __( 'Copyright and legal text under the widget columns, plus their font size. Leave copyright empty to show an automatic «© {year} {site name}» from the site settings.', 'tso-blog' ),
             'panel'       => 'tsothm_footer_panel',
             'priority'    => 20,
         )
@@ -2668,9 +3632,10 @@ add_action( 'customize_register', function( $wp_customize ) {
         'transport'         => 'refresh',
     ) );
     $wp_customize->add_control( 'tsothm_footer_copyright', array(
-        'label'   => __( 'Texto copyright del footer', 'tso-blog' ),
-        'section' => 'tsothm_footer_texts_section',
-        'type'    => 'text',
+        'label'       => __( 'Footer copyright text', 'tso-blog' ),
+        'description' => __( 'Leave empty for automatic text (current year + site title). Or write your own and use {year}, {site_name}, {home_url}.', 'tso-blog' ),
+        'section'     => 'tsothm_footer_texts_section',
+        'type'        => 'text',
     ) );
 
     $wp_customize->add_setting( 'tsothm_footer_legal', array(
@@ -2679,17 +3644,40 @@ add_action( 'customize_register', function( $wp_customize ) {
         'transport'         => 'refresh',
     ) );
     $wp_customize->add_control( 'tsothm_footer_legal', array(
-        'label'   => __( 'Texto legal del footer (HTML permitido)', 'tso-blog' ),
-        'section' => 'tsothm_footer_texts_section',
-        'type'    => 'textarea',
+        'label'       => __( 'Footer legal text (HTML allowed)', 'tso-blog' ),
+        'description' => __( 'Optional. Leave empty to hide. Placeholders: {year}, {site_name}, {home_url}, {privacy_url} (URL of the page set in Settings → Privacy; blank if none). To add a link, paste HTML in this field, for example: a href="{privacy_url}" with the label Privacy policy.', 'tso-blog' ),
+        'section'     => 'tsothm_footer_texts_section',
+        'type'        => 'textarea',
     ) );
+    $wp_customize->add_setting(
+        'tsothm_font_footer_text_size',
+        array(
+            'default'           => '12',
+            'sanitize_callback' => 'tsothm_sanitize_widget_font_size',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_font_footer_text_size',
+        array(
+            'label'       => __( 'Copyright / legal size (px)', 'tso-blog' ),
+            'description' => __( 'Font size for the copyright and legal lines only (not footer widget columns).', 'tso-blog' ),
+            'section'     => 'tsothm_footer_texts_section',
+            'type'        => 'number',
+            'input_attrs' => array(
+                'min'  => 12,
+                'max'  => 22,
+                'step' => 1,
+            ),
+        )
+    );
 
     /* Contacto (plantilla de página) */
     $wp_customize->add_section(
         'tsothm_contact_section',
         array(
-            'title'       => __( 'Contacto', 'tso-blog' ),
-            'description' => __( 'Datos para la plantilla de página «Contacto». El mapa solo se muestra si pegas una URL de incrustación de Google Maps. El formulario se añade con el shortcode de un plugin (p. ej. Contact Form 7); el tema no envía correos por sí mismo.', 'tso-blog' ),
+            'title'       => __( 'Contact', 'tso-blog' ),
+            'description' => __( 'Data for the «Contact» page template. The map only shows if you paste a Google Maps embed URL. The form is added with a plugin shortcode (e.g. Contact Form 7); the theme does not send email by itself.', 'tso-blog' ),
             'panel'       => 'tsothm_content_panel',
             'priority'    => 20,
         )
@@ -2706,7 +3694,7 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_contact_subtitle',
         array(
-            'label'   => __( 'Subtítulo del hero', 'tso-blog' ),
+            'label'   => __( 'Hero subtitle', 'tso-blog' ),
             'section' => 'tsothm_contact_section',
             'type'    => 'text',
         )
@@ -2723,7 +3711,7 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_contact_intro',
         array(
-            'label'   => __( 'Texto introductorio (columna izquierda)', 'tso-blog' ),
+            'label'   => __( 'Introductory text (left column)', 'tso-blog' ),
             'section' => 'tsothm_contact_section',
             'type'    => 'textarea',
         )
@@ -2740,7 +3728,7 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_contact_address',
         array(
-            'label'   => __( 'Dirección / oficina', 'tso-blog' ),
+            'label'   => __( 'Address / office', 'tso-blog' ),
             'section' => 'tsothm_contact_section',
             'type'    => 'textarea',
         )
@@ -2774,7 +3762,7 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_contact_email_alt',
         array(
-            'label'   => __( 'Email alternativo (opcional)', 'tso-blog' ),
+            'label'   => __( 'Alternative email (optional)', 'tso-blog' ),
             'section' => 'tsothm_contact_section',
             'type'    => 'email',
         )
@@ -2791,7 +3779,7 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_contact_phone',
         array(
-            'label'   => __( 'Teléfono', 'tso-blog' ),
+            'label'   => __( 'Phone', 'tso-blog' ),
             'section' => 'tsothm_contact_section',
             'type'    => 'text',
         )
@@ -2808,7 +3796,7 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_contact_phone_alt',
         array(
-            'label'   => __( 'Teléfono / fax alternativo (opcional)', 'tso-blog' ),
+            'label'   => __( 'Alternative phone / fax (optional)', 'tso-blog' ),
             'section' => 'tsothm_contact_section',
             'type'    => 'text',
         )
@@ -2825,8 +3813,8 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_contact_maps_embed',
         array(
-            'label'       => __( 'Google Maps (URL de incrustación)', 'tso-blog' ),
-            'description' => __( 'En Google Maps: Compartir → Insertar un mapa → copia la URL del atributo src (o pega el código de inserción completo). Solo se aceptan URLs de Google Maps embed. Vacío = sin mapa.', 'tso-blog' ),
+            'label'       => __( 'Google Maps (embed URL)', 'tso-blog' ),
+            'description' => __( 'In Google Maps: Share → Embed a map → copy the src attribute URL (or paste the full embed code). Only Google Maps embed URLs are accepted. Empty = no map.', 'tso-blog' ),
             'section'     => 'tsothm_contact_section',
             'type'        => 'textarea',
         )
@@ -2843,8 +3831,8 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_contact_form_shortcode',
         array(
-            'label'       => __( 'Shortcode del formulario', 'tso-blog' ),
-            'description' => __( 'Ejemplo Contact Form 7: [contact-form-7 id="123"]. El tema no procesa ni envía el formulario.', 'tso-blog' ),
+            'label'       => __( 'Form shortcode', 'tso-blog' ),
+            'description' => __( 'Contact Form 7 example: [contact-form-7 id="123"]. The theme does not process or send the form.', 'tso-blog' ),
             'section'     => 'tsothm_contact_section',
             'type'        => 'text',
         )
@@ -2861,7 +3849,7 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_contact_show_social',
         array(
-            'label'   => __( 'Mostrar iconos de redes sociales en Contacto', 'tso-blog' ),
+            'label'   => __( 'Show social icons on Contact', 'tso-blog' ),
             'section' => 'tsothm_contact_section',
             'type'    => 'checkbox',
         )
@@ -2871,8 +3859,8 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_section(
         'tsothm_team_section',
         array(
-            'title'       => __( 'Equipo', 'tso-blog' ),
-            'description' => __( 'Fichas de equipo para la plantilla de página «Equipo». Si lo dejas vacío, la página mostrará el contenido de bloques (patrón «Equipo (3 personas)»).', 'tso-blog' ),
+            'title'       => __( 'Team', 'tso-blog' ),
+            'description' => __( 'Team cards for the "Team" page template. If left empty, the page will show the block content ("Team (3 people)" pattern).', 'tso-blog' ),
             'panel'       => 'tsothm_content_panel',
             'priority'    => 22,
         )
@@ -2890,10 +3878,10 @@ add_action( 'customize_register', function( $wp_customize ) {
             $wp_customize,
             'tsothm_team_members',
             array(
-                'label'      => __( 'Personas', 'tso-blog' ),
+                'label'      => __( 'People', 'tso-blog' ),
                 'section'    => 'tsothm_team_section',
                 'fields'     => tsothm_get_team_fields(),
-                'add_label'  => __( 'Añadir persona', 'tso-blog' ),
+                'add_label'  => __( 'Add person', 'tso-blog' ),
             )
         )
     );
@@ -2902,8 +3890,8 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_section(
         'tsothm_pricing_section',
         array(
-            'title'       => __( 'Precios', 'tso-blog' ),
-            'description' => __( 'Planes para la plantilla de página «Precios». Si lo dejas vacío, la página mostrará el contenido de bloques (patrón «Precios (3 planes)»).', 'tso-blog' ),
+            'title'       => __( 'Pricing', 'tso-blog' ),
+            'description' => __( 'Plans for the "Pricing" page template. If left empty, the page will show the block content ("Pricing (3 plans)" pattern).', 'tso-blog' ),
             'panel'       => 'tsothm_content_panel',
             'priority'    => 24,
         )
@@ -2921,10 +3909,10 @@ add_action( 'customize_register', function( $wp_customize ) {
             $wp_customize,
             'tsothm_pricing_plans',
             array(
-                'label'      => __( 'Planes', 'tso-blog' ),
+                'label'      => __( 'Plans', 'tso-blog' ),
                 'section'    => 'tsothm_pricing_section',
                 'fields'     => tsothm_get_pricing_fields(),
-                'add_label'  => __( 'Añadir plan', 'tso-blog' ),
+                'add_label'  => __( 'Add plan', 'tso-blog' ),
             )
         )
     );
@@ -2933,8 +3921,8 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_section(
         'tsothm_landing_section',
         array(
-            'title'       => __( 'Landing / Portada', 'tso-blog' ),
-            'description' => __( 'Cabecera y destacados para la plantilla de página «Landing / Portada». El título y la imagen de fondo del hero salen del título e imagen destacada de cada página; aquí solo se configuran el texto pequeño, los botones y los destacados.', 'tso-blog' ),
+            'title'       => __( 'Landing / Cover', 'tso-blog' ),
+            'description' => __( 'Header and highlights for the "Landing / Cover" page template. The hero title and background image come from each page\'s title and featured image; here you only set the small text, the buttons and the highlights.', 'tso-blog' ),
             'panel'       => 'tsothm_content_panel',
             'priority'    => 26,
         )
@@ -2950,8 +3938,8 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_landing_eyebrow',
         array(
-            'label'       => __( 'Texto pequeño sobre el título', 'tso-blog' ),
-            'description' => __( 'Opcional. Ejemplo: «Novedad» o el nombre de una campaña.', 'tso-blog' ),
+            'label'       => __( 'Small text above the title', 'tso-blog' ),
+            'description' => __( 'Optional. Example: "New" or a campaign name.', 'tso-blog' ),
             'section'     => 'tsothm_landing_section',
             'type'        => 'text',
         )
@@ -2967,7 +3955,7 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_landing_cta_text',
         array(
-            'label'   => __( 'Botón principal — texto', 'tso-blog' ),
+            'label'   => __( 'Primary button — text', 'tso-blog' ),
             'section' => 'tsothm_landing_section',
             'type'    => 'text',
         )
@@ -2983,7 +3971,7 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_landing_cta_url',
         array(
-            'label'   => __( 'Botón principal — URL', 'tso-blog' ),
+            'label'   => __( 'Primary button — URL', 'tso-blog' ),
             'section' => 'tsothm_landing_section',
             'type'    => 'url',
         )
@@ -2999,7 +3987,7 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_landing_cta2_text',
         array(
-            'label'   => __( 'Botón secundario — texto (opcional)', 'tso-blog' ),
+            'label'   => __( 'Secondary button — text (optional)', 'tso-blog' ),
             'section' => 'tsothm_landing_section',
             'type'    => 'text',
         )
@@ -3015,7 +4003,7 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_landing_cta2_url',
         array(
-            'label'   => __( 'Botón secundario — URL', 'tso-blog' ),
+            'label'   => __( 'Secondary button — URL', 'tso-blog' ),
             'section' => 'tsothm_landing_section',
             'type'    => 'url',
         )
@@ -3033,11 +4021,11 @@ add_action( 'customize_register', function( $wp_customize ) {
             $wp_customize,
             'tsothm_landing_highlights',
             array(
-                'label'       => __( 'Destacados bajo el hero', 'tso-blog' ),
-                'description' => __( 'Hasta 3 o 4 puntos breves (icono + título + texto) que aparecen debajo de la cabecera.', 'tso-blog' ),
+                'label'       => __( 'Highlights below the hero', 'tso-blog' ),
+                'description' => __( 'Up to 3 or 4 short points (icon + title + text) shown below the header.', 'tso-blog' ),
                 'section'     => 'tsothm_landing_section',
                 'fields'      => tsothm_get_landing_highlight_fields(),
-                'add_label'   => __( 'Añadir destacado', 'tso-blog' ),
+                'add_label'   => __( 'Add highlight', 'tso-blog' ),
             )
         )
     );
@@ -3046,8 +4034,8 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_section(
         'tsothm_announcement_section',
         array(
-            'title'       => __( 'Anuncio / novedades', 'tso-blog' ),
-            'description' => __( 'Hasta 5 avisos entre la cabecera y el menú. Puedes mostrar solo uno o rotarlos automáticamente. Colores: Colores → Anuncio.', 'tso-blog' ),
+            'title'       => __( 'Announcement / news', 'tso-blog' ),
+            'description' => __( 'Up to 5 notices between the header and the menu. You can show only one or rotate them automatically. Colors: Colors → Announcement.', 'tso-blog' ),
             'panel'       => 'tsothm_content_panel',
             'priority'    => 30,
         )
@@ -3057,13 +4045,13 @@ add_action( 'customize_register', function( $wp_customize ) {
         array(
             'default'           => 0,
             'sanitize_callback' => 'absint',
-            'transport'         => 'refresh',
+            'transport'         => 'postMessage',
         )
     );
     $wp_customize->add_control(
         'tsothm_announcement_enable',
         array(
-            'label'   => __( 'Mostrar barra de anuncio', 'tso-blog' ),
+            'label'   => __( 'Show announcement bar', 'tso-blog' ),
             'section' => 'tsothm_announcement_section',
             'type'    => 'checkbox',
         )
@@ -3073,19 +4061,19 @@ add_action( 'customize_register', function( $wp_customize ) {
         array(
             'default'           => 'rotate',
             'sanitize_callback' => 'tsothm_sanitize_announcement_mode',
-            'transport'         => 'refresh',
+            'transport'         => 'postMessage',
         )
     );
     $wp_customize->add_control(
         'tsothm_announcement_mode',
         array(
-            'label'       => __( 'Modo de visualización', 'tso-blog' ),
-            'description' => __( 'Rotación: cambia entre los anuncios con texto. Solo uno: muestra únicamente el número elegido.', 'tso-blog' ),
+            'label'       => __( 'Display mode', 'tso-blog' ),
+            'description' => __( 'Rotation: cycles through announcements with text. Single: shows only the chosen number.', 'tso-blog' ),
             'section'     => 'tsothm_announcement_section',
             'type'        => 'select',
             'choices'     => array(
-                'rotate' => __( 'Rotación automática', 'tso-blog' ),
-                'single' => __( 'Solo un anuncio', 'tso-blog' ),
+                'rotate' => __( 'Automatic rotation', 'tso-blog' ),
+                'single' => __( 'Single announcement', 'tso-blog' ),
             ),
         )
     );
@@ -3094,21 +4082,21 @@ add_action( 'customize_register', function( $wp_customize ) {
         array(
             'default'           => 1,
             'sanitize_callback' => 'tsothm_sanitize_announcement_slot',
-            'transport'         => 'refresh',
+            'transport'         => 'postMessage',
         )
     );
     $wp_customize->add_control(
         'tsothm_announcement_single',
         array(
-            'label'       => __( 'Anuncio a mostrar (modo «Solo uno»)', 'tso-blog' ),
+            'label'       => __( 'Announcement to show («Single» mode)', 'tso-blog' ),
             'section'     => 'tsothm_announcement_section',
             'type'        => 'select',
             'choices'     => array(
-                '1' => __( 'Anuncio 1', 'tso-blog' ),
-                '2' => __( 'Anuncio 2', 'tso-blog' ),
-                '3' => __( 'Anuncio 3', 'tso-blog' ),
-                '4' => __( 'Anuncio 4', 'tso-blog' ),
-                '5' => __( 'Anuncio 5', 'tso-blog' ),
+                '1' => __( 'Announcement 1', 'tso-blog' ),
+                '2' => __( 'Announcement 2', 'tso-blog' ),
+                '3' => __( 'Announcement 3', 'tso-blog' ),
+                '4' => __( 'Announcement 4', 'tso-blog' ),
+                '5' => __( 'Announcement 5', 'tso-blog' ),
             ),
         )
     );
@@ -3117,14 +4105,14 @@ add_action( 'customize_register', function( $wp_customize ) {
         array(
             'default'           => 60,
             'sanitize_callback' => 'tsothm_sanitize_announcement_interval',
-            'transport'         => 'refresh',
+            'transport'         => 'postMessage',
         )
     );
     $wp_customize->add_control(
         'tsothm_announcement_interval',
         array(
-            'label'       => __( 'Segundos entre anuncios (rotación)', 'tso-blog' ),
-            'description' => __( 'Por defecto 60 (1 minuto). Cada cambio entra con el mismo desplazamiento hacia el centro.', 'tso-blog' ),
+            'label'       => __( 'Seconds between announcements (rotation)', 'tso-blog' ),
+            'description' => __( 'Default 60 (1 minute). How long each announcement stays before the next movement.', 'tso-blog' ),
             'section'     => 'tsothm_announcement_section',
             'type'        => 'number',
             'input_attrs' => array(
@@ -3134,6 +4122,32 @@ add_action( 'customize_register', function( $wp_customize ) {
             ),
         )
     );
+    $wp_customize->add_setting(
+        'tsothm_announcement_effect',
+        array(
+            'default'           => 'slide',
+            'sanitize_callback' => 'tsothm_sanitize_announcement_effect',
+            'transport'         => 'postMessage',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_announcement_effect',
+        array(
+            'label'       => __( 'Movement effect', 'tso-blog' ),
+            'description' => __( 'How each announcement enters and leaves the bar.', 'tso-blog' ),
+            'section'     => 'tsothm_announcement_section',
+            'type'        => 'select',
+            'choices'     => tsothm_get_announcement_effect_choices(),
+        )
+    );
+
+    $announcement_partial_settings = array(
+        'tsothm_announcement_enable',
+        'tsothm_announcement_mode',
+        'tsothm_announcement_single',
+        'tsothm_announcement_interval',
+        'tsothm_announcement_effect',
+    );
 
     for ( $i = 1; $i <= 5; $i++ ) {
         $wp_customize->add_setting(
@@ -3141,14 +4155,14 @@ add_action( 'customize_register', function( $wp_customize ) {
             array(
                 'default'           => ( 1 === $i ) ? (string) get_theme_mod( 'tsothm_announcement_text', '' ) : '',
                 'sanitize_callback' => 'sanitize_text_field',
-                'transport'         => 'refresh',
+                'transport'         => 'postMessage',
             )
         );
         $wp_customize->add_control(
             'tsothm_announcement_' . $i . '_text',
             array(
                 /* translators: %d: announcement slot number 1–5 */
-                'label'   => sprintf( __( 'Anuncio %d — texto', 'tso-blog' ), $i ),
+                'label'   => sprintf( __( 'Announcement %d — text', 'tso-blog' ), $i ),
                 'section' => 'tsothm_announcement_section',
                 'type'    => 'text',
             )
@@ -3158,14 +4172,14 @@ add_action( 'customize_register', function( $wp_customize ) {
             array(
                 'default'           => ( 1 === $i ) ? (string) get_theme_mod( 'tsothm_announcement_url', '' ) : '',
                 'sanitize_callback' => 'esc_url_raw',
-                'transport'         => 'refresh',
+                'transport'         => 'postMessage',
             )
         );
         $wp_customize->add_control(
             'tsothm_announcement_' . $i . '_url',
             array(
                 /* translators: %d: announcement slot number 1–5 */
-                'label'   => sprintf( __( 'Anuncio %d — enlace (opcional)', 'tso-blog' ), $i ),
+                'label'   => sprintf( __( 'Announcement %d — link (optional)', 'tso-blog' ), $i ),
                 'section' => 'tsothm_announcement_section',
                 'type'    => 'url',
             )
@@ -3175,16 +4189,32 @@ add_action( 'customize_register', function( $wp_customize ) {
             array(
                 'default'           => ( 1 === $i ) ? (int) get_theme_mod( 'tsothm_announcement_new_tab', 1 ) : 1,
                 'sanitize_callback' => 'absint',
-                'transport'         => 'refresh',
+                'transport'         => 'postMessage',
             )
         );
         $wp_customize->add_control(
             'tsothm_announcement_' . $i . '_new_tab',
             array(
                 /* translators: %d: announcement slot number 1–5 */
-                'label'   => sprintf( __( 'Anuncio %d — abrir enlace en pestaña nueva', 'tso-blog' ), $i ),
+                'label'   => sprintf( __( 'Announcement %d — open link in a new tab', 'tso-blog' ), $i ),
                 'section' => 'tsothm_announcement_section',
                 'type'    => 'checkbox',
+            )
+        );
+        $announcement_partial_settings[] = 'tsothm_announcement_' . $i . '_text';
+        $announcement_partial_settings[] = 'tsothm_announcement_' . $i . '_url';
+        $announcement_partial_settings[] = 'tsothm_announcement_' . $i . '_new_tab';
+    }
+
+    if ( isset( $wp_customize->selective_refresh ) ) {
+        $wp_customize->selective_refresh->add_partial(
+            'tsothm_announcement',
+            array(
+                'selector'            => '#tsothm-announcement-root',
+                'settings'            => $announcement_partial_settings,
+                'container_inclusive' => true,
+                'render_callback'     => 'tsothm_customize_partial_announcement',
+                'fallback_refresh'    => true,
             )
         );
     }
@@ -3193,7 +4223,7 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_section(
         'tsothm_related_section',
         array(
-            'title'    => __( 'Artículos relacionados', 'tso-blog' ),
+            'title'    => __( 'Related posts', 'tso-blog' ),
             'panel'    => 'tsothm_appearance_panel',
             'priority' => 46,
         )
@@ -3204,18 +4234,18 @@ add_action( 'customize_register', function( $wp_customize ) {
         'transport'         => 'refresh',
     ) );
     $wp_customize->add_control( 'tsothm_related_count', array(
-        'label'       => 'Número de artículos relacionados (1–6)',
+        'label'       => __( 'Number of related posts (1–6)', 'tso-blog' ),
         'section'     => 'tsothm_related_section',
         'type'        => 'number',
         'input_attrs' => array( 'min' => 1, 'max' => 6, 'step' => 1 ),
     ) );
     $wp_customize->add_setting( 'tsothm_related_title', array(
-        'default'           => 'Artículos relacionados',
+        'default'           => 'Related posts',
         'sanitize_callback' => 'sanitize_text_field',
         'transport'         => 'refresh',
     ) );
     $wp_customize->add_control( 'tsothm_related_title', array(
-        'label'   => __( 'Título sección relacionados', 'tso-blog' ),
+        'label'   => __( 'Related section title', 'tso-blog' ),
         'section' => 'tsothm_related_section',
         'type'    => 'text',
     ) );
@@ -3224,8 +4254,8 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_section(
         'tsothm_integrations_section',
         array(
-            'title'       => __( 'Integraciones', 'tso-blog' ),
-            'description' => __( 'Funciones opcionales que requieren un plugin. Desactivadas por defecto.', 'tso-blog' ),
+            'title'       => __( 'Integrations', 'tso-blog' ),
+            'description' => __( 'Optional features that require a plugin. Disabled by default.', 'tso-blog' ),
             'priority'    => 50,
         )
     );
@@ -3240,8 +4270,8 @@ add_action( 'customize_register', function( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_enable_gtranslate',
         array(
-            'label'       => __( 'Mostrar GTranslate en la cabecera', 'tso-blog' ),
-            'description' => __( 'Requiere el plugin GTranslate activo. Si está desactivado o el plugin no está instalado, no se muestra nada.', 'tso-blog' ),
+            'label'       => __( 'Show GTranslate in the header', 'tso-blog' ),
+            'description' => __( 'Requires the GTranslate plugin to be active. If it is disabled or not installed, nothing is shown.', 'tso-blog' ),
             'section'     => 'tsothm_integrations_section',
             'type'        => 'checkbox',
         )
@@ -3264,7 +4294,7 @@ function tsothm_social_icons() {
     $a_style   = 'display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background-color:var(--tso-color-primary);overflow:hidden;flex-shrink:0;text-decoration:none;';
     $svg_style = 'width:15px;height:15px;fill:#ffffff;display:block;flex-shrink:0;pointer-events:none;';
 
-    echo '<div class="header-social-icons" aria-label="' . esc_attr__( 'Redes sociales', 'tso-blog' ) . '">';
+    echo '<div class="header-social-icons" aria-label="' . esc_attr__( 'Social networks', 'tso-blog' ) . '">';
     foreach ( $items as $key => $data ) {
         printf(
             '<a href="%s" class="social-icon social-icon--%s" style="%s" target="_blank" rel="noopener noreferrer" aria-label="%s">'
@@ -3272,10 +4302,10 @@ function tsothm_social_icons() {
             . '</a>',
             esc_url( $data['url'] ),
             esc_attr( $key ),
-            $a_style,
+            esc_attr( $a_style ),
             esc_attr( $data['label'] ),
-            $svg_style,
-            $data['path']
+            esc_attr( $svg_style ),
+            $data['path'] // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static SVG path markup defined by the theme.
         );
     }
     echo '</div>';
@@ -3302,43 +4332,15 @@ add_filter( 'wp_get_attachment_image_attributes', function( $attr, $attachment )
 }, 10, 2 );
 
 /* ============================================================
-   13. SEO — OPEN GRAPH + META DESCRIPTION
-   Solo actúa si no hay plugin SEO activo
-   ============================================================ */
-add_action( 'wp_head', function() {
-    if ( defined( 'WPSEO_VERSION' ) || defined( 'RANK_MATH_VERSION' ) || defined( 'AIOSEOP_VERSION' ) ) return;
-    if ( ! is_singular( 'post' ) ) return;
-    $title       = get_the_title();
-    $description = wp_strip_all_tags( get_the_excerpt() );
-    $url         = get_permalink();
-    $site_name   = get_bloginfo( 'name' );
-    $thumb       = has_post_thumbnail() ? wp_get_attachment_image_src( get_post_thumbnail_id(), 'large' ) : false;
-    echo '<meta property="og:type"        content="article" />' . "\n";
-    echo '<meta property="og:title"       content="' . esc_attr( $title ) . '" />' . "\n";
-    echo '<meta property="og:description" content="' . esc_attr( $description ) . '" />' . "\n";
-    echo '<meta property="og:url"         content="' . esc_url( $url ) . '" />' . "\n";
-    echo '<meta property="og:site_name"   content="' . esc_attr( $site_name ) . '" />' . "\n";
-    echo '<meta name="description"        content="' . esc_attr( $description ) . '" />' . "\n";
-    if ( $thumb ) {
-        echo '<meta property="og:image"        content="' . esc_url( $thumb[0] ) . '" />' . "\n";
-    }
-    echo '<meta name="twitter:card"        content="' . ( $thumb ? 'summary_large_image' : 'summary' ) . '" />' . "\n";
-    echo '<meta name="twitter:title"       content="' . esc_attr( $title ) . '" />' . "\n";
-    echo '<meta name="twitter:description" content="' . esc_attr( $description ) . '" />' . "\n";
-    if ( $thumb ) {
-        echo '<meta name="twitter:image"       content="' . esc_url( $thumb[0] ) . '" />' . "\n";
-    }
-}, 5 );
-
-/* ============================================================
-   14. AJAX — BUSCADOR EN VIVO
+   13. AJAX — LIVE SEARCH
    ============================================================ */
 add_action( 'wp_ajax_tsothm_live_search',        'tsothm_live_search_callback' );
 add_action( 'wp_ajax_nopriv_tsothm_live_search', 'tsothm_live_search_callback' );
 
 function tsothm_live_search_callback() {
-    check_ajax_referer( 'tsothm_live_search_nonce', 'nonce' );
-    $term = isset( $_GET['term'] ) ? sanitize_text_field( wp_unslash( $_GET['term'] ) ) : '';
+    // Public, read-only search of published post titles: no nonce, because a nonce printed in a page-cached
+    // document expires before the cache does and would make the search fail (403) for visitors.
+    $term = isset( $_GET['term'] ) ? sanitize_text_field( wp_unslash( $_GET['term'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- public read-only query.
     if ( strlen( $term ) < 2 ) {
         wp_send_json_success( array() );
     }
@@ -3397,20 +4399,55 @@ function tsothm_live_search_title_only( $search, $wp_query ) {
 /* ============================================================
    15. HELPERS
    ============================================================ */
+/**
+ * Replace footer text placeholders with live site values.
+ *
+ * Supported: {year}, {site_name}, {home_url}, {privacy_url}.
+ * Legacy home-page token (site + _url) is still replaced for older configs.
+ *
+ * @param string $text Raw theme mod text.
+ * @return string
+ */
+function tsothm_footer_replace_placeholders( $text ) {
+    $text = (string) $text;
+    if ( '' === $text ) {
+        return '';
+    }
+    $privacy = '';
+    if ( function_exists( 'get_privacy_policy_url' ) ) {
+        $privacy = (string) get_privacy_policy_url();
+    }
+    $home = home_url( '/' );
+    $map  = array(
+        '{year}'        => (string) current_time( 'Y' ),
+        '{site_name}'   => get_bloginfo( 'name' ),
+        '{home_url}'    => $home,
+        '{privacy_url}' => $privacy,
+    );
+    // Legacy Customizer token (same value as {home_url}).
+    $map[ '{' . 'site' . '_url}' ] = $home;
+    return str_replace( array_keys( $map ), array_values( $map ), $text );
+}
+
 function tsothm_footer_copyright_text() {
-    $custom = (string) get_theme_mod( 'tsothm_footer_copyright', '' );
-    echo $custom ? wp_kses_post( $custom ) : '&copy; ' . esc_html( current_time( 'Y' ) ) . ' ' . esc_html( get_bloginfo( 'name' ) );
+    $custom = trim( (string) get_theme_mod( 'tsothm_footer_copyright', '' ) );
+    if ( '' === $custom ) {
+        echo '&copy; ' . esc_html( current_time( 'Y' ) ) . ' ' . esc_html( get_bloginfo( 'name' ) );
+        return;
+    }
+    echo wp_kses_post( tsothm_footer_replace_placeholders( $custom ) );
 }
 
 function tsothm_footer_legal_text() {
-    $legal = (string) get_theme_mod( 'tsothm_footer_legal', '' );
-    if ( '' !== $legal ) {
-        echo '<div class="footer-legal">' . wp_kses_post( $legal ) . '</div>';
+    $legal = trim( (string) get_theme_mod( 'tsothm_footer_legal', '' ) );
+    if ( '' === $legal ) {
+        return;
     }
+    echo '<div class="footer-legal">' . wp_kses_post( tsothm_footer_replace_placeholders( $legal ) ) . '</div>';
 }
 
 function tsothm_load_more_text() {
-    return sanitize_text_field( (string) get_theme_mod( 'tsothm_text_load_more', 'Cargar más' ) );
+    return sanitize_text_field( (string) get_theme_mod( 'tsothm_text_load_more', 'Load more' ) );
 }
 
 function tsothm_related_count() {
@@ -3418,7 +4455,7 @@ function tsothm_related_count() {
 }
 
 function tsothm_related_title() {
-    return esc_html( (string) get_theme_mod( 'tsothm_related_title', 'Artículos relacionados' ) );
+    return sanitize_text_field( (string) get_theme_mod( 'tsothm_related_title', 'Related posts' ) );
 }
 
 /**
@@ -3475,6 +4512,39 @@ function tsothm_sanitize_announcement_slot( $value ) {
  */
 function tsothm_sanitize_announcement_interval( $value ) {
     return max( 15, min( 600, absint( $value ) ) );
+}
+
+/**
+ * Announcement movement effect choices.
+ *
+ * @return array<string, string>
+ */
+function tsothm_get_announcement_effect_choices() {
+    return array(
+        'slide' => __( 'Slide from the side', 'tso-blog' ),
+        'fade'  => __( 'Fade in / fade out', 'tso-blog' ),
+        'rise'  => __( 'Rise from below', 'tso-blog' ),
+    );
+}
+
+/**
+ * Sanitize announcement movement effect.
+ *
+ * @param mixed $value Raw value.
+ * @return string
+ */
+function tsothm_sanitize_announcement_effect( $value ) {
+    $value = sanitize_key( (string) $value );
+    return isset( tsothm_get_announcement_effect_choices()[ $value ] ) ? $value : 'slide';
+}
+
+/**
+ * Current announcement movement effect key.
+ *
+ * @return string
+ */
+function tsothm_get_announcement_effect() {
+    return tsothm_sanitize_announcement_effect( get_theme_mod( 'tsothm_announcement_effect', 'slide' ) );
 }
 
 /**
@@ -3564,7 +4634,7 @@ function tsothm_is_announcement_enabled() {
  * @param bool  $active Whether this slide is the first/active one.
  */
 function tsothm_render_announcement_slide( $item, $active = false ) {
-    $classes = 'tso-announcement-slide';
+    $classes = 'tsothm-announcement-slide';
     if ( $active ) {
         $classes .= ' is-active';
     }
@@ -3572,21 +4642,21 @@ function tsothm_render_announcement_slide( $item, $active = false ) {
     echo '<div class="' . esc_attr( $classes ) . '" role="group">';
     if ( ! empty( $item['url'] ) ) {
         printf(
-            '<a class="tso-announcement-link" href="%1$s"%2$s><span class="tso-announcement-text">%3$s</span></a>',
+            '<a class="tsothm-announcement-link" href="%1$s"%2$s><span class="tsothm-announcement-text">%3$s</span></a>',
             esc_url( $item['url'] ),
             ! empty( $item['new_tab'] ) ? ' target="_blank" rel="noopener noreferrer"' : '',
             esc_html( $item['text'] )
         );
     } else {
-        echo '<span class="tso-announcement-text">' . esc_html( $item['text'] ) . '</span>';
+        echo '<span class="tsothm-announcement-text">' . esc_html( $item['text'] ) . '</span>';
     }
     echo '</div>';
 }
 
 /**
- * Print the header announcement / news bar.
+ * Inner markup for the announcement bar (no Customizer root wrapper).
  */
-function tsothm_header_announcement() {
+function tsothm_render_announcement_bar() {
     if ( ! tsothm_is_announcement_enabled() ) {
         return;
     }
@@ -3594,21 +4664,43 @@ function tsothm_header_announcement() {
     $items    = tsothm_get_announcements_for_display();
     $mode     = tsothm_sanitize_announcement_mode( get_theme_mod( 'tsothm_announcement_mode', 'rotate' ) );
     $interval = tsothm_sanitize_announcement_interval( get_theme_mod( 'tsothm_announcement_interval', 60 ) );
+    $effect   = tsothm_get_announcement_effect();
     $rotate   = ( 'rotate' === $mode && count( $items ) > 1 );
 
     printf(
-        '<div class="tsothm-announcement" role="region" aria-label="%1$s" data-rotate="%2$s" data-interval="%3$d">',
-        esc_attr__( 'Anuncio', 'tso-blog' ),
+        '<div class="tsothm-announcement tsothm-announcement--%4$s" role="region" aria-label="%1$s" data-rotate="%2$s" data-interval="%3$d" data-effect="%4$s">',
+        esc_attr__( 'Announcement', 'tso-blog' ),
         $rotate ? '1' : '0',
-        (int) $interval
+        (int) $interval,
+        esc_attr( $effect )
     );
-    echo '<div class="tso-announcement-viewport">';
+    echo '<div class="tsothm-announcement-viewport">';
 
     foreach ( $items as $index => $item ) {
         tsothm_render_announcement_slide( $item, 0 === $index );
     }
 
     echo '</div></div>';
+}
+
+/**
+ * Print the header announcement / news bar (stable root for Customizer shortcuts).
+ */
+function tsothm_header_announcement() {
+    $empty = ! tsothm_is_announcement_enabled();
+    printf(
+        '<div id="tsothm-announcement-root"%s>',
+        $empty ? ' class="tsothm-announcement-root--empty"' : ''
+    );
+    tsothm_render_announcement_bar();
+    echo '</div>';
+}
+
+/**
+ * Customizer selective refresh: announcement bar root.
+ */
+function tsothm_customize_partial_announcement() {
+    tsothm_header_announcement();
 }
 
 /**
@@ -3619,7 +4711,7 @@ function tsothm_header_announcement() {
  */
 function tsothm_announcement_body_class( $classes ) {
     if ( tsothm_is_announcement_enabled() ) {
-        $classes[] = 'tso-has-announcement';
+        $classes[] = 'tsothm-has-announcement';
     }
     return $classes;
 }
@@ -3804,6 +4896,12 @@ add_action( 'enqueue_block_editor_assets', function() {
     if ( ! tsothm_is_jetpack_active() ) {
         return;
     }
+    // Depends on wp-edit-post (which pulls wp-editor): load only in the post editor,
+    // never on the widgets screen (wp-edit-widgets cannot coexist with wp-editor).
+    $screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+    if ( ! $screen || 'post' !== $screen->base ) {
+        return;
+    }
     $js = get_stylesheet_directory() . '/tso-tiled-gallery-fix.js';
     if ( ! file_exists( $js ) ) {
         return;
@@ -3828,25 +4926,25 @@ add_action( 'init', function() {
     // Botó — variant destacat amb color d'acent del tema
     register_block_style( 'core/button', array(
         'name'  => 'tso-accent',
-        'label' => __( 'Acento TSO', 'tso-blog' ),
+        'label' => __( 'TSO Accent', 'tso-blog' ),
     ) );
 
     // Cita — variant de barra lateral (blockquote amb línia esquerra)
     register_block_style( 'core/quote', array(
         'name'  => 'tso-sidebar-quote',
-        'label' => __( 'Barra lateral', 'tso-blog' ),
+        'label' => __( 'Sidebar', 'tso-blog' ),
     ) );
 
     // Separador — variant d'ombra curta
     register_block_style( 'core/separator', array(
         'name'  => 'tso-short',
-        'label' => __( 'Curt centrat', 'tso-blog' ),
+        'label' => __( 'Centered short', 'tso-blog' ),
     ) );
 
     // Imatge — variant amb ombra suau
     register_block_style( 'core/image', array(
         'name'  => 'tso-shadow',
-        'label' => __( 'Amb ombra', 'tso-blog' ),
+        'label' => __( 'With shadow', 'tso-blog' ),
     ) );
 
 } );
@@ -3866,21 +4964,21 @@ add_action( 'init', function() {
 
     // Patró: crida a l'acció (CTA) centrada
     register_block_pattern( 'tso-blog/cta-centered', array(
-        'title'       => __( 'CTA centrada', 'tso-blog' ),
-        'description' => __( 'Bloc de crida a l\'acció amb títol, text i botó centrats.', 'tso-blog' ),
+        'title'       => __( 'Centered CTA', 'tso-blog' ),
+        'description' => __( 'Call-to-action block with centered title, text and button.', 'tso-blog' ),
         'categories'  => array( 'tso-blog', 'call-to-action' ),
         'content'     => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"40px","bottom":"40px"}}},"backgroundColor":"primary","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull has-primary-background-color has-background" style="padding-top:40px;padding-bottom:40px">
 <!-- wp:heading {"textAlign":"center","level":2} -->
-<h2 class="wp-block-heading has-text-align-center">' . esc_html__( '¿Necesitas ayuda?', 'tso-blog' ) . '</h2>
+<h2 class="wp-block-heading has-text-align-center">' . esc_html__( 'Need help?', 'tso-blog' ) . '</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">' . esc_html__( 'Estamos aquí para ayudarte. Contacta con nosotros y te responderemos en menos de 24 horas.', 'tso-blog' ) . '</p>
+<p class="has-text-align-center">' . esc_html__( 'We are here to help. Contact us and we will reply within 24 hours.', 'tso-blog' ) . '</p>
 <!-- /wp:paragraph -->
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
 <div class="wp-block-buttons">
 <!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link wp-element-button">' . esc_html__( 'Contactar ahora', 'tso-blog' ) . '</a></div>
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button">' . esc_html__( 'Contact now', 'tso-blog' ) . '</a></div>
 <!-- /wp:button -->
 </div>
 <!-- /wp:buttons -->
@@ -3890,28 +4988,28 @@ add_action( 'init', function() {
 
     // Patró: dues columnes d'informació
     register_block_pattern( 'tso-blog/two-columns-info', array(
-        'title'       => __( 'Dues columnes informació', 'tso-blog' ),
-        'description' => __( 'Dues columnes amb títol i text per comparar serveis o característiques.', 'tso-blog' ),
+        'title'       => __( 'Two information columns', 'tso-blog' ),
+        'description' => __( 'Two columns with title and text to compare services or features.', 'tso-blog' ),
         'categories'  => array( 'tso-blog', 'columns' ),
         'content'     => '<!-- wp:columns {"align":"wide"} -->
 <div class="wp-block-columns alignwide">
 <!-- wp:column -->
 <div class="wp-block-column">
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">' . esc_html__( 'Característica 1', 'tso-blog' ) . '</h3>
+<h3 class="wp-block-heading">' . esc_html__( 'Feature 1', 'tso-blog' ) . '</h3>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>' . esc_html__( 'Descripción de la primera característica o servicio destacado.', 'tso-blog' ) . '</p>
+<p>' . esc_html__( 'Description of the first featured feature or service.', 'tso-blog' ) . '</p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:column -->
 <!-- wp:column -->
 <div class="wp-block-column">
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">' . esc_html__( 'Característica 2', 'tso-blog' ) . '</h3>
+<h3 class="wp-block-heading">' . esc_html__( 'Feature 2', 'tso-blog' ) . '</h3>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>' . esc_html__( 'Descripción de la segunda característica o servicio destacado.', 'tso-blog' ) . '</p>
+<p>' . esc_html__( 'Description of the second featured feature or service.', 'tso-blog' ) . '</p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:column -->
@@ -3994,7 +5092,7 @@ function tsothm_render_faq_accordion( $post_id ) {
 
 	if ( empty( $items ) ) {
 		if ( current_user_can( 'edit_post', $post_id ) ) {
-			echo '<p class="tso-faq-empty">' . esc_html__( 'Añade un bloque Encabezado (H3) por cada pregunta y el texto de la respuesta debajo. Publica la página para ver el acordeón.', 'tso-blog' ) . '</p>';
+			echo '<p class="tso-faq-empty">' . esc_html__( 'Add a Heading (H3) block for each question and the answer text below it. Publish the page to see the accordion.', 'tso-blog' ) . '</p>';
 		}
 		return;
 	}
@@ -4086,7 +5184,7 @@ function tsothm_get_resource_files( $post_id ) {
 function tsothm_get_resource_file_ext( $file ) {
 	$path = wp_parse_url( isset( $file['href'] ) ? $file['href'] : '', PHP_URL_PATH );
 	$ext  = $path ? strtoupper( pathinfo( $path, PATHINFO_EXTENSION ) ) : '';
-	return $ext ? $ext : __( 'Archivo', 'tso-blog' );
+	return $ext ? $ext : __( 'File', 'tso-blog' );
 }
 
 /**
@@ -4117,7 +5215,7 @@ function tsothm_render_resource_list( $post_id ) {
 
 	if ( empty( $files ) ) {
 		if ( current_user_can( 'edit_post', $post_id ) ) {
-			echo '<p class="tso-resources-empty">' . esc_html__( 'Añade uno o más bloques Archivo en el editor y publica la página para que aparezcan aquí.', 'tso-blog' ) . '</p>';
+			echo '<p class="tso-resources-empty">' . esc_html__( 'Add one or more File blocks in the editor and publish the page so they show up here.', 'tso-blog' ) . '</p>';
 		}
 		return;
 	}
@@ -4211,8 +5309,8 @@ function tsothm_render_legal_toc( $toc ) {
 	if ( empty( $toc ) ) {
 		return;
 	}
-	echo '<nav class="tso-legal-toc" aria-label="' . esc_attr__( 'Índice del documento', 'tso-blog' ) . '">';
-	echo '<strong class="tso-legal-toc-title">' . esc_html__( 'Índice', 'tso-blog' ) . '</strong>';
+	echo '<nav class="tso-legal-toc" aria-label="' . esc_attr__( 'Document contents', 'tso-blog' ) . '">';
+	echo '<strong class="tso-legal-toc-title">' . esc_html__( 'Contents', 'tso-blog' ) . '</strong>';
 	echo '<ul>';
 	foreach ( $toc as $item ) {
 		echo '<li class="tso-legal-toc-item tso-legal-toc-level-' . (int) $item['level'] . '">';
@@ -4241,13 +5339,13 @@ function tsothm_render_about_me_contact_card( $post_id ) {
 
 	if ( ! $contact['form_shortcode'] && ! $has_direct ) {
 		if ( current_user_can( 'edit_post', $post_id ) && current_user_can( 'edit_theme_options' ) ) {
-			echo '<p class="tso-about-contact-hint">' . esc_html__( 'Configura un email, teléfono o el shortcode de un formulario en Apariencia → Personalizar → Contacto para mostrar aquí una forma de contacto.', 'tso-blog' ) . '</p>';
+			echo '<p class="tso-about-contact-hint">' . esc_html__( 'Set an email, phone or a form shortcode under Customize → Templates → Contact to show a contact method here.', 'tso-blog' ) . '</p>';
 		}
 		return;
 	}
 
 	echo '<div class="tso-about-contact-card">';
-	echo '<h2 class="tso-about-contact-title">' . esc_html__( 'Ponte en contacto', 'tso-blog' ) . '</h2>';
+	echo '<h2 class="tso-about-contact-title">' . esc_html__( 'Get in touch', 'tso-blog' ) . '</h2>';
 
 	if ( $has_direct ) {
 		echo '<p class="tso-about-contact-direct">';
@@ -4283,8 +5381,8 @@ function tsothm_render_about_me_contact_card( $post_id ) {
 add_action( 'init', function() {
 
 	register_block_pattern( 'tso-blog/team-grid', array(
-		'title'       => __( 'Equipo (3 personas)', 'tso-blog' ),
-		'description' => __( 'Cuadrícula de 3 fichas de equipo con foto, nombre y cargo.', 'tso-blog' ),
+		'title'       => __( 'Team (3 people)', 'tso-blog' ),
+		'description' => __( 'Grid of 3 team cards with photo, name and role.', 'tso-blog' ),
 		'categories'  => array( 'tso-blog', 'team' ),
 		'content'     => '<!-- wp:columns {"className":"tso-team-grid"} -->
 <div class="wp-block-columns tso-team-grid">
@@ -4294,10 +5392,10 @@ add_action( 'init', function() {
 <figure class="wp-block-image aligncenter is-resized has-custom-border"><img style="border-radius:999px;object-fit:cover;width:140px;height:140px" alt=""/></figure>
 <!-- /wp:image -->
 <!-- wp:heading {"textAlign":"center","level":3} -->
-<h3 class="wp-block-heading has-text-align-center">' . esc_html__( 'Nombre Apellido', 'tso-blog' ) . '</h3>
+<h3 class="wp-block-heading has-text-align-center">' . esc_html__( 'First Last', 'tso-blog' ) . '</h3>
 <!-- /wp:heading -->
 <!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">' . esc_html__( 'Cargo o rol', 'tso-blog' ) . '</p>
+<p class="has-text-align-center">' . esc_html__( 'Position or role', 'tso-blog' ) . '</p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:column -->
@@ -4307,10 +5405,10 @@ add_action( 'init', function() {
 <figure class="wp-block-image aligncenter is-resized has-custom-border"><img style="border-radius:999px;object-fit:cover;width:140px;height:140px" alt=""/></figure>
 <!-- /wp:image -->
 <!-- wp:heading {"textAlign":"center","level":3} -->
-<h3 class="wp-block-heading has-text-align-center">' . esc_html__( 'Nombre Apellido', 'tso-blog' ) . '</h3>
+<h3 class="wp-block-heading has-text-align-center">' . esc_html__( 'First Last', 'tso-blog' ) . '</h3>
 <!-- /wp:heading -->
 <!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">' . esc_html__( 'Cargo o rol', 'tso-blog' ) . '</p>
+<p class="has-text-align-center">' . esc_html__( 'Position or role', 'tso-blog' ) . '</p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:column -->
@@ -4320,10 +5418,10 @@ add_action( 'init', function() {
 <figure class="wp-block-image aligncenter is-resized has-custom-border"><img style="border-radius:999px;object-fit:cover;width:140px;height:140px" alt=""/></figure>
 <!-- /wp:image -->
 <!-- wp:heading {"textAlign":"center","level":3} -->
-<h3 class="wp-block-heading has-text-align-center">' . esc_html__( 'Nombre Apellido', 'tso-blog' ) . '</h3>
+<h3 class="wp-block-heading has-text-align-center">' . esc_html__( 'First Last', 'tso-blog' ) . '</h3>
 <!-- /wp:heading -->
 <!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">' . esc_html__( 'Cargo o rol', 'tso-blog' ) . '</p>
+<p class="has-text-align-center">' . esc_html__( 'Position or role', 'tso-blog' ) . '</p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:column -->
@@ -4336,38 +5434,38 @@ add_action( 'init', function() {
 add_action( 'init', function() {
 
 	register_block_pattern( 'tso-blog/service-grid', array(
-		'title'       => __( 'Servicios (3 tarjetas)', 'tso-blog' ),
-		'description' => __( 'Cuadrícula de 3 tarjetas de servicio con título y texto.', 'tso-blog' ),
+		'title'       => __( 'Services (3 cards)', 'tso-blog' ),
+		'description' => __( 'Grid of 3 service cards with title and text.', 'tso-blog' ),
 		'categories'  => array( 'tso-blog', 'columns' ),
 		'content'     => '<!-- wp:columns {"className":"tso-service-grid"} -->
 <div class="wp-block-columns tso-service-grid">
 <!-- wp:column {"className":"tso-service-card"} -->
 <div class="wp-block-column tso-service-card">
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">' . esc_html__( 'Servicio 1', 'tso-blog' ) . '</h3>
+<h3 class="wp-block-heading">' . esc_html__( 'Service 1', 'tso-blog' ) . '</h3>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>' . esc_html__( 'Breve descripción de este servicio y de a quién va dirigido.', 'tso-blog' ) . '</p>
+<p>' . esc_html__( 'Short description of this service and who it is for.', 'tso-blog' ) . '</p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:column -->
 <!-- wp:column {"className":"tso-service-card"} -->
 <div class="wp-block-column tso-service-card">
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">' . esc_html__( 'Servicio 2', 'tso-blog' ) . '</h3>
+<h3 class="wp-block-heading">' . esc_html__( 'Service 2', 'tso-blog' ) . '</h3>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>' . esc_html__( 'Breve descripción de este servicio y de a quién va dirigido.', 'tso-blog' ) . '</p>
+<p>' . esc_html__( 'Short description of this service and who it is for.', 'tso-blog' ) . '</p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:column -->
 <!-- wp:column {"className":"tso-service-card"} -->
 <div class="wp-block-column tso-service-card">
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">' . esc_html__( 'Servicio 3', 'tso-blog' ) . '</h3>
+<h3 class="wp-block-heading">' . esc_html__( 'Service 3', 'tso-blog' ) . '</h3>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>' . esc_html__( 'Breve descripción de este servicio y de a quién va dirigido.', 'tso-blog' ) . '</p>
+<p>' . esc_html__( 'Short description of this service and who it is for.', 'tso-blog' ) . '</p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:column -->
@@ -4380,56 +5478,56 @@ add_action( 'init', function() {
 add_action( 'init', function() {
 
 	register_block_pattern( 'tso-blog/pricing-table', array(
-		'title'       => __( 'Precios (3 planes)', 'tso-blog' ),
-		'description' => __( 'Tabla comparativa de 3 planes o tarifas.', 'tso-blog' ),
+		'title'       => __( 'Pricing (3 plans)', 'tso-blog' ),
+		'description' => __( 'Comparison table of 3 plans or rates.', 'tso-blog' ),
 		'categories'  => array( 'tso-blog', 'columns' ),
 		'content'     => '<!-- wp:columns {"className":"tso-pricing-grid"} -->
 <div class="wp-block-columns tso-pricing-grid">
 <!-- wp:column {"className":"tso-pricing-card"} -->
 <div class="wp-block-column tso-pricing-card">
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">' . esc_html__( 'Plan básico', 'tso-blog' ) . '</h3>
+<h3 class="wp-block-heading">' . esc_html__( 'Basic plan', 'tso-blog' ) . '</h3>
 <!-- /wp:heading -->
 <!-- wp:paragraph {"className":"tso-pricing-price"} -->
-<p class="tso-pricing-price">9,99 €<span>' . esc_html__( '/mes', 'tso-blog' ) . '</span></p>
+<p class="tso-pricing-price">9,99 €<span>' . esc_html__( '/month', 'tso-blog' ) . '</span></p>
 <!-- /wp:paragraph -->
 <!-- wp:list -->
-<ul class="wp-block-list"><!-- wp:list-item --><li>' . esc_html__( 'Característica incluida', 'tso-blog' ) . '</li><!-- /wp:list-item --><!-- wp:list-item --><li>' . esc_html__( 'Característica incluida', 'tso-blog' ) . '</li><!-- /wp:list-item --></ul>
+<ul class="wp-block-list"><!-- wp:list-item --><li>' . esc_html__( 'Included feature', 'tso-blog' ) . '</li><!-- /wp:list-item --><!-- wp:list-item --><li>' . esc_html__( 'Included feature', 'tso-blog' ) . '</li><!-- /wp:list-item --></ul>
 <!-- /wp:list -->
 <!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:button {"className":"is-style-outline"} --><div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button">' . esc_html__( 'Elegir plan', 'tso-blog' ) . '</a></div><!-- /wp:button --></div>
+<div class="wp-block-buttons"><!-- wp:button {"className":"is-style-outline"} --><div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button">' . esc_html__( 'Choose plan', 'tso-blog' ) . '</a></div><!-- /wp:button --></div>
 <!-- /wp:buttons -->
 </div>
 <!-- /wp:column -->
 <!-- wp:column {"className":"tso-pricing-card tso-pricing-card--featured"} -->
 <div class="wp-block-column tso-pricing-card tso-pricing-card--featured">
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">' . esc_html__( 'Plan recomendado', 'tso-blog' ) . '</h3>
+<h3 class="wp-block-heading">' . esc_html__( 'Recommended plan', 'tso-blog' ) . '</h3>
 <!-- /wp:heading -->
 <!-- wp:paragraph {"className":"tso-pricing-price"} -->
-<p class="tso-pricing-price">19,99 €<span>' . esc_html__( '/mes', 'tso-blog' ) . '</span></p>
+<p class="tso-pricing-price">19,99 €<span>' . esc_html__( '/month', 'tso-blog' ) . '</span></p>
 <!-- /wp:paragraph -->
 <!-- wp:list -->
-<ul class="wp-block-list"><!-- wp:list-item --><li>' . esc_html__( 'Todo lo del plan básico', 'tso-blog' ) . '</li><!-- /wp:list-item --><!-- wp:list-item --><li>' . esc_html__( 'Característica adicional', 'tso-blog' ) . '</li><!-- /wp:list-item --></ul>
+<ul class="wp-block-list"><!-- wp:list-item --><li>' . esc_html__( 'Everything in the basic plan', 'tso-blog' ) . '</li><!-- /wp:list-item --><!-- wp:list-item --><li>' . esc_html__( 'Additional feature', 'tso-blog' ) . '</li><!-- /wp:list-item --></ul>
 <!-- /wp:list -->
 <!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:button --><div class="wp-block-button"><a class="wp-block-button__link wp-element-button">' . esc_html__( 'Elegir plan', 'tso-blog' ) . '</a></div><!-- /wp:button --></div>
+<div class="wp-block-buttons"><!-- wp:button --><div class="wp-block-button"><a class="wp-block-button__link wp-element-button">' . esc_html__( 'Choose plan', 'tso-blog' ) . '</a></div><!-- /wp:button --></div>
 <!-- /wp:buttons -->
 </div>
 <!-- /wp:column -->
 <!-- wp:column {"className":"tso-pricing-card"} -->
 <div class="wp-block-column tso-pricing-card">
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">' . esc_html__( 'Plan avanzado', 'tso-blog' ) . '</h3>
+<h3 class="wp-block-heading">' . esc_html__( 'Advanced plan', 'tso-blog' ) . '</h3>
 <!-- /wp:heading -->
 <!-- wp:paragraph {"className":"tso-pricing-price"} -->
-<p class="tso-pricing-price">39,99 €<span>' . esc_html__( '/mes', 'tso-blog' ) . '</span></p>
+<p class="tso-pricing-price">39,99 €<span>' . esc_html__( '/month', 'tso-blog' ) . '</span></p>
 <!-- /wp:paragraph -->
 <!-- wp:list -->
-<ul class="wp-block-list"><!-- wp:list-item --><li>' . esc_html__( 'Todo lo del plan recomendado', 'tso-blog' ) . '</li><!-- /wp:list-item --><!-- wp:list-item --><li>' . esc_html__( 'Soporte prioritario', 'tso-blog' ) . '</li><!-- /wp:list-item --></ul>
+<ul class="wp-block-list"><!-- wp:list-item --><li>' . esc_html__( 'Everything in the recommended plan', 'tso-blog' ) . '</li><!-- /wp:list-item --><!-- wp:list-item --><li>' . esc_html__( 'Priority support', 'tso-blog' ) . '</li><!-- /wp:list-item --></ul>
 <!-- /wp:list -->
 <!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:button {"className":"is-style-outline"} --><div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button">' . esc_html__( 'Elegir plan', 'tso-blog' ) . '</a></div><!-- /wp:button --></div>
+<div class="wp-block-buttons"><!-- wp:button {"className":"is-style-outline"} --><div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button">' . esc_html__( 'Choose plan', 'tso-blog' ) . '</a></div><!-- /wp:button --></div>
 <!-- /wp:buttons -->
 </div>
 <!-- /wp:column -->
@@ -4442,22 +5540,22 @@ add_action( 'init', function() {
 add_action( 'init', function() {
 
 	register_block_pattern( 'tso-blog/testimonial-grid', array(
-		'title'       => __( 'Testimonios (2 tarjetas)', 'tso-blog' ),
-		'description' => __( 'Dos tarjetas de testimonio con cita y autor.', 'tso-blog' ),
+		'title'       => __( 'Testimonials (2 cards)', 'tso-blog' ),
+		'description' => __( 'Two testimonial cards with quote and author.', 'tso-blog' ),
 		'categories'  => array( 'tso-blog', 'columns' ),
 		'content'     => '<!-- wp:columns {"className":"tso-testimonial-grid"} -->
 <div class="wp-block-columns tso-testimonial-grid">
 <!-- wp:column {"className":"tso-testimonial-card"} -->
 <div class="wp-block-column tso-testimonial-card">
 <!-- wp:quote -->
-<blockquote class="wp-block-quote"><!-- wp:paragraph --><p>' . esc_html__( '“Un testimonio breve sobre la experiencia con el servicio.”', 'tso-blog' ) . '</p><!-- /wp:paragraph --><cite>' . esc_html__( 'Nombre del cliente', 'tso-blog' ) . '</cite></blockquote>
+<blockquote class="wp-block-quote"><!-- wp:paragraph --><p>' . esc_html__( '"A short testimonial about the experience with the service."', 'tso-blog' ) . '</p><!-- /wp:paragraph --><cite>' . esc_html__( 'Client name', 'tso-blog' ) . '</cite></blockquote>
 <!-- /wp:quote -->
 </div>
 <!-- /wp:column -->
 <!-- wp:column {"className":"tso-testimonial-card"} -->
 <div class="wp-block-column tso-testimonial-card">
 <!-- wp:quote -->
-<blockquote class="wp-block-quote"><!-- wp:paragraph --><p>' . esc_html__( '“Un testimonio breve sobre la experiencia con el servicio.”', 'tso-blog' ) . '</p><!-- /wp:paragraph --><cite>' . esc_html__( 'Nombre del cliente', 'tso-blog' ) . '</cite></blockquote>
+<blockquote class="wp-block-quote"><!-- wp:paragraph --><p>' . esc_html__( '"A short testimonial about the experience with the service."', 'tso-blog' ) . '</p><!-- /wp:paragraph --><cite>' . esc_html__( 'Client name', 'tso-blog' ) . '</cite></blockquote>
 <!-- /wp:quote -->
 </div>
 <!-- /wp:column -->
@@ -4470,8 +5568,8 @@ add_action( 'init', function() {
 add_action( 'init', function() {
 
 	register_block_pattern( 'tso-blog/timeline', array(
-		'title'       => __( 'Cronología (3 hitos)', 'tso-blog' ),
-		'description' => __( 'Línea de tiempo vertical con 3 hitos (fecha, título y texto).', 'tso-blog' ),
+		'title'       => __( 'Timeline (3 milestones)', 'tso-blog' ),
+		'description' => __( 'Vertical timeline with 3 milestones (date, title and text).', 'tso-blog' ),
 		'categories'  => array( 'tso-blog' ),
 		'content'     => '<!-- wp:group {"className":"tso-timeline","layout":{"type":"constrained"}} -->
 <div class="wp-block-group tso-timeline">
@@ -4481,10 +5579,10 @@ add_action( 'init', function() {
 <p class="tso-timeline-date">2024</p>
 <!-- /wp:paragraph -->
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">' . esc_html__( 'Título del hito', 'tso-blog' ) . '</h3>
+<h3 class="wp-block-heading">' . esc_html__( 'Milestone title', 'tso-blog' ) . '</h3>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>' . esc_html__( 'Descripción breve de qué ocurrió en este momento.', 'tso-blog' ) . '</p>
+<p>' . esc_html__( 'Short description of what happened at this point.', 'tso-blog' ) . '</p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
@@ -4494,10 +5592,10 @@ add_action( 'init', function() {
 <p class="tso-timeline-date">2025</p>
 <!-- /wp:paragraph -->
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">' . esc_html__( 'Título del hito', 'tso-blog' ) . '</h3>
+<h3 class="wp-block-heading">' . esc_html__( 'Milestone title', 'tso-blog' ) . '</h3>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>' . esc_html__( 'Descripción breve de qué ocurrió en este momento.', 'tso-blog' ) . '</p>
+<p>' . esc_html__( 'Short description of what happened at this point.', 'tso-blog' ) . '</p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
@@ -4507,10 +5605,10 @@ add_action( 'init', function() {
 <p class="tso-timeline-date">2026</p>
 <!-- /wp:paragraph -->
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">' . esc_html__( 'Título del hito', 'tso-blog' ) . '</h3>
+<h3 class="wp-block-heading">' . esc_html__( 'Milestone title', 'tso-blog' ) . '</h3>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>' . esc_html__( 'Descripción breve de qué ocurrió en este momento.', 'tso-blog' ) . '</p>
+<p>' . esc_html__( 'Short description of what happened at this point.', 'tso-blog' ) . '</p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
@@ -4523,19 +5621,19 @@ add_action( 'init', function() {
 add_action( 'init', function() {
 
 	register_block_pattern( 'tso-blog/links-list', array(
-		'title'       => __( 'Lista de enlaces', 'tso-blog' ),
-		'description' => __( 'Botones apilados a ancho completo, estilo "linktree".', 'tso-blog' ),
+		'title'       => __( 'Link list', 'tso-blog' ),
+		'description' => __( 'Full-width stacked buttons, "linktree" style.', 'tso-blog' ),
 		'categories'  => array( 'tso-blog', 'buttons' ),
 		'content'     => '<!-- wp:buttons {"layout":{"type":"flex","orientation":"vertical"}} -->
 <div class="wp-block-buttons">
 <!-- wp:button {"width":100} -->
-<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link wp-element-button">' . esc_html__( 'Mi web', 'tso-blog' ) . '</a></div>
+<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link wp-element-button">' . esc_html__( 'My website', 'tso-blog' ) . '</a></div>
 <!-- /wp:button -->
 <!-- wp:button {"width":100} -->
 <div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link wp-element-button">' . esc_html__( 'Instagram', 'tso-blog' ) . '</a></div>
 <!-- /wp:button -->
 <!-- wp:button {"width":100} -->
-<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link wp-element-button">' . esc_html__( 'Contacto', 'tso-blog' ) . '</a></div>
+<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link wp-element-button">' . esc_html__( 'Contact', 'tso-blog' ) . '</a></div>
 <!-- /wp:button -->
 </div>
 <!-- /wp:buttons -->',
@@ -4560,22 +5658,22 @@ function tsothm_get_team_fields() {
 		array(
 			'key'   => 'photo',
 			'type'  => 'image',
-			'label' => __( 'Foto', 'tso-blog' ),
+			'label' => __( 'Photo', 'tso-blog' ),
 		),
 		array(
 			'key'   => 'name',
 			'type'  => 'text',
-			'label' => __( 'Nombre', 'tso-blog' ),
+			'label' => __( 'Name', 'tso-blog' ),
 		),
 		array(
 			'key'   => 'role',
 			'type'  => 'text',
-			'label' => __( 'Cargo / rol', 'tso-blog' ),
+			'label' => __( 'Position / role', 'tso-blog' ),
 		),
 		array(
 			'key'   => 'link',
 			'type'  => 'text',
-			'label' => __( 'Enlace (web, LinkedIn…) — opcional', 'tso-blog' ),
+			'label' => __( 'Link (website, LinkedIn…) — optional', 'tso-blog' ),
 		),
 	);
 }
@@ -4590,37 +5688,37 @@ function tsothm_get_pricing_fields() {
 		array(
 			'key'   => 'title',
 			'type'  => 'text',
-			'label' => __( 'Nombre del plan', 'tso-blog' ),
+			'label' => __( 'Plan name', 'tso-blog' ),
 		),
 		array(
 			'key'   => 'price',
 			'type'  => 'text',
-			'label' => __( 'Precio (p. ej. 19,99 €)', 'tso-blog' ),
+			'label' => __( 'Price (e.g. €19.99)', 'tso-blog' ),
 		),
 		array(
 			'key'   => 'period',
 			'type'  => 'text',
-			'label' => __( 'Periodo (p. ej. /mes) — opcional', 'tso-blog' ),
+			'label' => __( 'Period (e.g. /month) — optional', 'tso-blog' ),
 		),
 		array(
 			'key'   => 'features',
 			'type'  => 'textarea',
-			'label' => __( 'Características (una por línea)', 'tso-blog' ),
+			'label' => __( 'Features (one per line)', 'tso-blog' ),
 		),
 		array(
 			'key'   => 'button_text',
 			'type'  => 'text',
-			'label' => __( 'Texto del botón', 'tso-blog' ),
+			'label' => __( 'Button text', 'tso-blog' ),
 		),
 		array(
 			'key'   => 'button_url',
 			'type'  => 'text',
-			'label' => __( 'URL del botón', 'tso-blog' ),
+			'label' => __( 'Button URL', 'tso-blog' ),
 		),
 		array(
 			'key'   => 'featured',
 			'type'  => 'checkbox',
-			'label' => __( 'Destacar este plan', 'tso-blog' ),
+			'label' => __( 'Highlight this plan', 'tso-blog' ),
 		),
 	);
 }
@@ -4635,17 +5733,17 @@ function tsothm_get_landing_highlight_fields() {
 		array(
 			'key'   => 'icon',
 			'type'  => 'text',
-			'label' => __( 'Icono (un emoji, p. ej. 🚀)', 'tso-blog' ),
+			'label' => __( 'Icon (an emoji, e.g. 🚀)', 'tso-blog' ),
 		),
 		array(
 			'key'   => 'title',
 			'type'  => 'text',
-			'label' => __( 'Título breve', 'tso-blog' ),
+			'label' => __( 'Short title', 'tso-blog' ),
 		),
 		array(
 			'key'   => 'text',
 			'type'  => 'textarea',
-			'label' => __( 'Texto breve', 'tso-blog' ),
+			'label' => __( 'Short text', 'tso-blog' ),
 		),
 	);
 }
@@ -4869,7 +5967,7 @@ function tsothm_render_pricing_table( $post_id ) {
 		$featured = ! empty( $plan['featured'] );
 		echo '<div class="tso-pricing-card' . ( $featured ? ' tso-pricing-card--featured' : '' ) . '">';
 		if ( $featured ) {
-			echo '<span class="tso-pricing-badge">' . esc_html__( 'Recomendado', 'tso-blog' ) . '</span>';
+			echo '<span class="tso-pricing-badge">' . esc_html__( 'Recommended', 'tso-blog' ) . '</span>';
 		}
 		echo '<h3 class="tso-pricing-title">' . esc_html( $plan['title'] ) . '</h3>';
 		if ( ! empty( $plan['price'] ) ) {
@@ -4957,9 +6055,51 @@ function tsothm_get_landing_hero_settings() {
    ============================================================ */
 
 /**
+ * Whether the current request is a widgets-screen legacy preview iframe.
+ * Those iframes load the front theme; night-mode must not restyle admin previews.
+ *
+ * @return bool
+ */
+function tsothm_is_legacy_widget_preview() {
+    if ( filter_has_var( INPUT_GET, 'legacy-widget-preview' ) ) {
+        return true;
+    }
+    if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+        $rest_route = isset( $GLOBALS['wp']->query_vars['rest_route'] )
+            ? (string) $GLOBALS['wp']->query_vars['rest_route']
+            : '';
+        if ( '' === $rest_route && isset( $_SERVER['REQUEST_URI'] ) ) {
+            $rest_route = (string) wp_unslash( $_SERVER['REQUEST_URI'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- path check only.
+        }
+        if ( false !== strpos( $rest_route, '/widget-types/' ) || false !== strpos( $rest_route, '/wp/v2/widgets' ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * Mark legacy widget preview iframes so CSS can neutralize the orange frame
+ * without touching the real frontend (body.wp-embed-responsive).
+ *
+ * @param string[] $classes Body classes.
+ * @return string[]
+ */
+function tsothm_legacy_widget_preview_body_class( $classes ) {
+    if ( tsothm_is_legacy_widget_preview() ) {
+        $classes[] = 'tsothm-legacy-widget-preview';
+    }
+    return $classes;
+}
+add_filter( 'body_class', 'tsothm_legacy_widget_preview_body_class' );
+
+/**
  * Encola (com a script inline) el selector de mode de color.
  */
 function tsothm_enqueue_color_mode_script() {
+    if ( tsothm_is_legacy_widget_preview() ) {
+        return;
+    }
     wp_register_script( 'tsothm-color-mode', false, array(), wp_get_theme()->get( 'Version' ), true );
     wp_enqueue_script( 'tsothm-color-mode' );
     wp_add_inline_script( 'tsothm-color-mode', tsothm_get_color_mode_js() );
@@ -5209,6 +6349,7 @@ function tsothm_get_color_mode_js() {
     function wireSwitch() {
         var wrap = document.querySelector( '.tso-theme-switch' );
         if ( ! wrap ) {
+            buttons = [];
             return;
         }
         buttons = Array.prototype.slice.call( wrap.querySelectorAll( '.tso-theme-switch-btn' ) );
@@ -5225,6 +6366,14 @@ function tsothm_get_color_mode_js() {
     } else {
         wireSwitch();
     }
+
+    if ( window.wp && wp.customize && wp.customize.selectiveRefresh ) {
+        wp.customize.selectiveRefresh.bind( 'partial-content-rendered', function ( placement ) {
+            if ( placement.partial && placement.partial.id === 'tsothm_color_mode_switch' ) {
+                wireSwitch();
+            }
+        } );
+    }
 } )();
 JS;
 }
@@ -5235,8 +6384,10 @@ JS;
  * el "flash" del mode incorrecte.
  */
 function tsothm_print_color_mode_boot_script() {
-    ?>
-<script>
+    if ( tsothm_is_legacy_widget_preview() ) {
+        return;
+    }
+    $js = <<<'JS'
 (function () {
     try {
         var m = window.localStorage.getItem( 'tsothmColorMode' );
@@ -5278,8 +6429,8 @@ function tsothm_print_color_mode_boot_script() {
         document.documentElement.setAttribute( 'data-theme', effective );
     } catch ( e ) {}
 })();
-</script>
-    <?php
+JS;
+    wp_print_inline_script_tag( $js );
 }
 add_action( 'wp_head', 'tsothm_print_color_mode_boot_script', 1 );
 
@@ -5518,8 +6669,8 @@ function tsothm_customize_register_color_mode( $wp_customize ) {
     $wp_customize->add_section(
         'tsothm_color_mode_section',
         array(
-            'title'       => __( 'Modo día/noche', 'tso-blog' ),
-            'description' => __( 'Interruptor de dia / noche / automático que aparece en la cabecera, junto al buscador.', 'tso-blog' ),
+            'title'       => __( 'Day/night mode', 'tso-blog' ),
+            'description' => __( 'Day / night / auto switch shown in the header, next to the search.', 'tso-blog' ),
             'panel'       => 'tsothm_appearance_panel',
             'priority'    => 35,
         )
@@ -5536,14 +6687,199 @@ function tsothm_customize_register_color_mode( $wp_customize ) {
     $wp_customize->add_control(
         'tsothm_color_mode_switch_enabled',
         array(
-            'label'       => __( 'Mostrar el interruptor de día / noche', 'tso-blog' ),
-            'description' => __( 'Si lo desactivas, el sitio seguirá respetando el modo del sistema del visitante, pero no se mostrará el botón para cambiarlo a mano.', 'tso-blog' ),
+            'label'       => __( 'Show the day / night switch', 'tso-blog' ),
+            'description' => __( 'If you turn it off, the site will still follow the visitor\'s system mode, but the button to change it manually will not be shown.', 'tso-blog' ),
             'section'     => 'tsothm_color_mode_section',
             'type'        => 'checkbox',
         )
     );
 }
 add_action( 'customize_register', 'tsothm_customize_register_color_mode' );
+
+/**
+ * Selective refresh partials for front-end Customizer edit shortcuts (pencil).
+ *
+ * @param WP_Customize_Manager $wp_customize Customizer manager.
+ */
+function tsothm_customize_register_selective_refresh( $wp_customize ) {
+    if ( ! isset( $wp_customize->selective_refresh ) ) {
+        return;
+    }
+
+    $set_post_message = static function ( $id ) use ( $wp_customize ) {
+        $setting = $wp_customize->get_setting( $id );
+        if ( $setting ) {
+            $setting->transport = 'postMessage';
+        }
+    };
+
+    // Site title (fallback text logo when no custom logo / theme logo file).
+    $set_post_message( 'blogname' );
+    $wp_customize->selective_refresh->add_partial(
+        'blogname',
+        array(
+            'selector'            => '.site-title-text',
+            'settings'            => array( 'blogname' ),
+            'container_inclusive' => false,
+            'render_callback'     => static function () {
+                echo esc_html( get_bloginfo( 'name', 'display' ) );
+            },
+            'fallback_refresh'    => false,
+        )
+    );
+
+    // Header social icons.
+    $social_settings = array( 'tsothm_social_order' );
+    $set_post_message( 'tsothm_social_order' );
+    foreach ( array_keys( tsothm_get_social_networks() ) as $key ) {
+        $sid = 'tsothm_social_' . $key;
+        $social_settings[] = $sid;
+        $set_post_message( $sid );
+    }
+    $wp_customize->selective_refresh->add_partial(
+        'tsothm_social_icons',
+        array(
+            'selector'            => '#tsothm-social-root',
+            'settings'            => $social_settings,
+            'container_inclusive' => true,
+            'render_callback'     => 'tsothm_customize_partial_social_icons',
+            'fallback_refresh'    => true,
+        )
+    );
+
+    // Day / night switch.
+    $set_post_message( 'tsothm_color_mode_switch_enabled' );
+    $wp_customize->selective_refresh->add_partial(
+        'tsothm_color_mode_switch',
+        array(
+            'selector'            => '#tsothm-color-mode-root',
+            'settings'            => array( 'tsothm_color_mode_switch_enabled' ),
+            'container_inclusive' => true,
+            'render_callback'     => 'tsothm_customize_partial_color_mode_switch',
+            'fallback_refresh'    => true,
+        )
+    );
+
+    // Custom header image.
+    foreach ( array( 'header_image', 'header_image_data' ) as $header_setting ) {
+        $set_post_message( $header_setting );
+    }
+    $wp_customize->selective_refresh->add_partial(
+        'tsothm_header_image',
+        array(
+            'selector'            => '#tsothm-header-image-root',
+            'settings'            => array( 'header_image', 'header_image_data' ),
+            'container_inclusive' => true,
+            'render_callback'     => 'tsothm_customize_partial_header_image',
+            'fallback_refresh'    => true,
+        )
+    );
+
+    // Footer copyright + legal.
+    $set_post_message( 'tsothm_footer_copyright' );
+    $set_post_message( 'tsothm_footer_legal' );
+    $wp_customize->selective_refresh->add_partial(
+        'tsothm_footer_texts',
+        array(
+            'selector'            => '#tsothm-footer-texts-root',
+            'settings'            => array( 'tsothm_footer_copyright', 'tsothm_footer_legal', 'tsothm_font_footer_text_size' ),
+            'container_inclusive' => true,
+            'render_callback'     => 'tsothm_customize_partial_footer_texts',
+            'fallback_refresh'    => true,
+        )
+    );
+
+    // Related posts section title (singles only).
+    $set_post_message( 'tsothm_related_title' );
+    $wp_customize->selective_refresh->add_partial(
+        'tsothm_related_title',
+        array(
+            'selector'            => '.related-posts-title',
+            'settings'            => array( 'tsothm_related_title' ),
+            'container_inclusive' => false,
+            'render_callback'     => static function () {
+                echo esc_html( tsothm_related_title() );
+            },
+            'fallback_refresh'    => false,
+        )
+    );
+
+    // «Load more» button label (home).
+    $set_post_message( 'tsothm_text_load_more' );
+    $wp_customize->selective_refresh->add_partial(
+        'tsothm_text_load_more',
+        array(
+            'selector'            => '#load-more-btn',
+            'settings'            => array( 'tsothm_text_load_more' ),
+            'container_inclusive' => false,
+            'render_callback'     => static function () {
+                echo esc_html( tsothm_load_more_text() );
+            },
+            'fallback_refresh'    => false,
+        )
+    );
+}
+add_action( 'customize_register', 'tsothm_customize_register_selective_refresh', 20 );
+
+/**
+ * Partial: header social icons root.
+ */
+function tsothm_customize_partial_social_icons() {
+    $empty = empty( tsothm_get_configured_social_icons() );
+    printf(
+        '<div id="tsothm-social-root"%s>',
+        $empty ? ' class="tsothm-social-root--empty"' : ''
+    );
+    tsothm_social_icons();
+    echo '</div>';
+}
+
+/**
+ * Partial: day/night switch root.
+ */
+function tsothm_customize_partial_color_mode_switch() {
+    $enabled = (bool) get_theme_mod( 'tsothm_color_mode_switch_enabled', 1 );
+    printf(
+        '<div id="tsothm-color-mode-root"%s>',
+        $enabled ? '' : ' class="tsothm-color-mode-root--empty"'
+    );
+    tsothm_render_color_mode_switch();
+    echo '</div>';
+}
+
+/**
+ * Partial: custom header image root.
+ */
+function tsothm_customize_partial_header_image() {
+    $has = (bool) get_header_image();
+    printf(
+        '<div id="tsothm-header-image-root"%s>',
+        $has ? '' : ' class="tsothm-header-image-root--empty"'
+    );
+    if ( $has ) {
+        echo '<div class="header-image">';
+        echo '<a href="' . esc_url( home_url( '/' ) ) . '" rel="home">';
+        the_header_image_tag(
+            array(
+                'alt' => get_bloginfo( 'name', 'display' ),
+            )
+        );
+        echo '</a></div>';
+    }
+    echo '</div>';
+}
+
+/**
+ * Partial: footer copyright + legal block.
+ */
+function tsothm_customize_partial_footer_texts() {
+    echo '<div id="tsothm-footer-texts-root" class="footer-bottom">';
+    echo '<p>';
+    tsothm_footer_copyright_text();
+    echo '</p>';
+    tsothm_footer_legal_text();
+    echo '</div>';
+}
 
 /**
  * Marcado del interruptor día / noche / automático.
@@ -5557,22 +6893,22 @@ function tsothm_render_color_mode_switch() {
 
     $modes = array(
         'light' => array(
-            'label' => __( 'Modo día', 'tso-blog' ),
+            'label' => __( 'Day mode', 'tso-blog' ),
             'icon'  => '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2.5v2.5M12 19v2.5M4.2 4.2l1.8 1.8M18 18l1.8 1.8M1.5 12h2.5M20 12h2.5M4.2 19.8l1.8-1.8M18 6l1.8-1.8"/></svg>',
         ),
         'dark'  => array(
-            'label' => __( 'Modo noche', 'tso-blog' ),
+            'label' => __( 'Night mode', 'tso-blog' ),
             'icon'  => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.7A8.5 8.5 0 0 1 9.3 3.5a8.5 8.5 0 1 0 11.2 11.2z"/></svg>',
         ),
         'auto'  => array(
-            'label' => __( 'Modo automático', 'tso-blog' ),
+            'label' => __( 'Auto mode', 'tso-blog' ),
             'icon'  => '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" stroke="none"></path></svg>',
         ),
     );
 
-    echo '<div class="tso-theme-switch" role="group" aria-label="' . esc_attr__( 'Modo de color', 'tso-blog' ) . '">';
+    echo '<div class="tso-theme-switch" role="group" aria-label="' . esc_attr__( 'Color mode', 'tso-blog' ) . '">';
     foreach ( $modes as $mode => $data ) {
-        echo '<button type="button" class="tso-theme-switch-btn" data-mode="' . esc_attr( $mode ) . '" aria-label="' . esc_attr( $data['label'] ) . '" title="' . esc_attr( $data['label'] ) . '">' . $data['icon'] . '</button>';
+        echo '<button type="button" class="tso-theme-switch-btn" data-mode="' . esc_attr( $mode ) . '" aria-label="' . esc_attr( $data['label'] ) . '" title="' . esc_attr( $data['label'] ) . '">' . $data['icon'] . '</button>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static SVG icon markup defined by the theme.
     }
     echo '</div>';
 }
@@ -5602,7 +6938,9 @@ function tsothm_get_customize_eyedropper_js() {
         if ( ! swatch.length ) {
             return;
         }
-        var btn = $( '<button type="button" class="button tsothm-eyedropper-btn" aria-label="Elegir color de la pantalla"></button>' );
+        var label = ( window.tsothmEyedropper && tsothmEyedropper.pickColor ) ? tsothmEyedropper.pickColor : 'Pick a color from the screen';
+        var btn = $( '<button type="button" class="button tsothm-eyedropper-btn"></button>' );
+        btn.attr( 'aria-label', label );
         btn.html( '<svg width="16" height="16" viewBox="0 0 24 24" style="vertical-align:middle;" aria-hidden="true"><path fill="currentColor" d="M19.2 3.2a2.7 2.7 0 0 1 3.8 3.8l-2 2 1 1-1.4 1.4-1-1-8.9 8.9-3.6 1-1.4-1.4 1-3.6 8.9-8.9-1-1L16 3.2l1 1 2.2-2.2Zm-1.4 4.6-8.6 8.6-.4 1.4 1.4-.4 8.6-8.6-1-1Z"/></svg>' );
         btn.css( { marginLeft: '6px', verticalAlign: 'middle', padding: '0 6px', lineHeight: '28px', height: '30px' } );
         swatch.after( btn );
@@ -5643,6 +6981,13 @@ JS;
 function tsothm_enqueue_customize_eyedropper() {
     wp_register_script( 'tsothm-customize-eyedropper', false, array( 'jquery', 'wp-color-picker', 'customize-controls', 'underscore' ), TSOTHM_VERSION, true );
     wp_enqueue_script( 'tsothm-customize-eyedropper' );
+    wp_localize_script(
+        'tsothm-customize-eyedropper',
+        'tsothmEyedropper',
+        array(
+            'pickColor' => __( 'Pick a color from the screen', 'tso-blog' ),
+        )
+    );
     wp_add_inline_script( 'tsothm-customize-eyedropper', tsothm_get_customize_eyedropper_js() );
 }
 add_action( 'customize_controls_enqueue_scripts', 'tsothm_enqueue_customize_eyedropper' );

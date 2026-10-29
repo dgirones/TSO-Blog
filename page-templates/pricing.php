@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Precios
+ * Template Name: Pricing
  * Template Post Type: page
  * Description: Página sin barra lateral pensada para mostrar planes o tarifas. Usa el patrón de bloques "Precios (3 planes)" como punto de partida.
  *

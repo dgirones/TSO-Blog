@@ -17,7 +17,7 @@ get_header();
 
 		<?php if ( have_posts() ) : ?>
 
-			<div class="posts-grid-container" id="posts-container">
+			<div class="posts-grid-container posts-layout-<?php echo esc_attr( tsothm_get_blog_layout() ); ?>" id="posts-container">
 				<?php
 				while ( have_posts() ) :
 					the_post();
@@ -31,8 +31,8 @@ get_header();
 				the_posts_pagination(
 					array(
 						'mid_size'  => 2,
-						'prev_text' => esc_html__( '&laquo; Anterior', 'tso-blog' ),
-						'next_text' => esc_html__( 'Siguiente &raquo;', 'tso-blog' ),
+						'prev_text' => esc_html__( '&laquo; Previous', 'tso-blog' ),
+						'next_text' => esc_html__( 'Next &raquo;', 'tso-blog' ),
 					)
 				);
 				?>
@@ -40,7 +40,7 @@ get_header();
 
 		<?php else : ?>
 
-			<p><?php esc_html_e( 'No se han encontrado artículos.', 'tso-blog' ); ?></p>
+			<p><?php esc_html_e( 'No posts found.', 'tso-blog' ); ?></p>
 
 		<?php endif; ?>
 

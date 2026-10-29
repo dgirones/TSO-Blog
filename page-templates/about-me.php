@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Sobre mí
+ * Template Name: About Me
  * Template Post Type: page
  * Description: Página sin barra lateral con avatar y biografía, y al final una tarjeta de contacto opcional (email, teléfono, redes o un formulario) usando los mismos ajustes de Apariencia → Personalizar → Contacto.
  *

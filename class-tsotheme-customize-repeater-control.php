@@ -15,14 +15,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Uso:
  *   new Tsotheme_Customize_Repeater_Control( $wp_customize, 'mi_setting', array(
- *       'label'      => __( 'Mis filas', 'tso-blog' ),
+ *       'label'      => __( 'My rows', 'tso-blog' ),
  *       'section'    => 'mi_seccion',
- *       'row_label'  => __( 'Fila', 'tso-blog' ),
- *       'add_label'  => __( 'Añadir fila', 'tso-blog' ),
+ *       'row_label'  => __( 'Row', 'tso-blog' ),
+ *       'add_label'  => __( 'Add row', 'tso-blog' ),
  *       'fields'     => array(
- *           array( 'key' => 'name', 'type' => 'text', 'label' => __( 'Nombre', 'tso-blog' ) ),
- *           array( 'key' => 'photo', 'type' => 'image', 'label' => __( 'Foto', 'tso-blog' ) ),
- *           array( 'key' => 'active', 'type' => 'checkbox', 'label' => __( 'Destacado', 'tso-blog' ) ),
+ *           array( 'key' => 'name', 'type' => 'text', 'label' => __( 'Name', 'tso-blog' ) ),
+ *           array( 'key' => 'photo', 'type' => 'image', 'label' => __( 'Photo', 'tso-blog' ) ),
+ *           array( 'key' => 'active', 'type' => 'checkbox', 'label' => __( 'Featured', 'tso-blog' ) ),
  *       ),
  *   ) );
  */
@@ -80,9 +80,9 @@ class Tsotheme_Customize_Repeater_Control extends WP_Customize_Control {
 			'tsothm-customize-repeater',
 			'tsoRepeaterL10n',
 			array(
-				'selectImage' => __( 'Seleccionar imagen', 'tso-blog' ),
-				'removeImage' => __( 'Quitar', 'tso-blog' ),
-				'chooseImage' => __( 'Elegir imagen', 'tso-blog' ),
+				'selectImage' => __( 'Select image', 'tso-blog' ),
+				'removeImage' => __( 'Remove', 'tso-blog' ),
+				'chooseImage' => __( 'Choose image', 'tso-blog' ),
 			)
 		);
 	}
@@ -116,11 +116,11 @@ class Tsotheme_Customize_Repeater_Control extends WP_Customize_Control {
 			class="tso-repeater"
 			id="<?php echo esc_attr( $control_id ); ?>"
 			data-fields="<?php echo esc_attr( wp_json_encode( $this->fields ) ); ?>"
-			data-add-label="<?php echo esc_attr( $this->add_label ? $this->add_label : __( 'Añadir fila', 'tso-blog' ) ); ?>"
+			data-add-label="<?php echo esc_attr( $this->add_label ? $this->add_label : __( 'Add row', 'tso-blog' ) ); ?>"
 		>
 			<ul class="tso-repeater-list"></ul>
 			<button type="button" class="button tso-repeater-add">
-				<?php echo esc_html( $this->add_label ? $this->add_label : __( 'Añadir fila', 'tso-blog' ) ); ?>
+				<?php echo esc_html( $this->add_label ? $this->add_label : __( 'Add row', 'tso-blog' ) ); ?>
 			</button>
 			<input
 				type="hidden"

@@ -4,7 +4,7 @@ Tags: blog, two-columns, right-sidebar, custom-colors, custom-header, custom-bac
 Requires at least: 6.1
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.0.8
 License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,7 @@ Requires WordPress 6.1 or newer and PHP 7.4–8.x.
 
 Features:
 
-* Two-column home/blog grid with “Load more”
+* Home/blog layouts: 2-column grid, list, or magazine (featured + grid), with “Load more”
 * Single post: breadcrumb, Schema.org markup, related posts
 * Built-in lightbox (Jetpack carousel disabled when present)
 * Compatible with Jetpack Tiled Gallery and Gutenberg galleries
@@ -39,7 +39,7 @@ Features:
 1. In your WordPress admin, go to Appearance → Themes → Add New.
 2. Click Upload Theme and select the theme ZIP file.
 3. Activate the theme.
-4. Go to Appearance → Customize to configure colors, typography, logo, and social links.
+4. Go to Appearance → Customize to configure colors, typography, logo, blog layout, and social links.
 
 == Frequently Asked Questions ==
 
@@ -54,6 +54,10 @@ Appearance → Customize → Logo. Upload the image and set desktop and mobile m
 = How do I make the site wider? =
 
 Appearance → Customize → Layout / Width. Choose 960, 1060 (default), 1200, 1400, 1600 px, or “Nearly full screen”. On small screens the layout stays full-width of the device.
+
+= How do I change the blog / homepage layout? =
+
+Appearance → Customize → Layout / Width → Blog / home layout. Choose Grid (2 columns), List (image + text), or Magazine (one featured post + grid).
 
 = How do I reorder social icons? =
 
@@ -84,9 +88,9 @@ That message is from WordPress core, not an error. The theme registers **News Si
 
 1. Pages → Add New → set template **Contact**.
 2. Optional: set a Featured Image for the hero background.
-3. Appearance → Customize → Contact: fill address, phone, email, intro text.
+3. Customize → Templates → Contact: fill address, phone, email, intro text.
 4. Google Maps: open the place → Share → Embed a map → paste the embed `src` URL (or the full embed code) into “Google Maps (embed URL)”. Leave empty to hide the map (no remote request).
-5. Form: install a form plugin (e.g. Contact Form 7) and paste its shortcode in Customize → Contact. This theme does not send emails by itself (WordPress.org theme guidelines).
+5. Form: install a form plugin (e.g. Contact Form 7) and paste its shortcode under Customize → Templates → Contact. This theme does not send emails by itself (WordPress.org theme guidelines).
 
 = How do I enable the GTranslate language switcher? =
 
@@ -129,7 +133,7 @@ This theme can load selected webfonts from Google Fonts when you choose a font m
 
 === Google Maps (embed) ===
 
-The Contact page template can show an embedded Google Map when you paste a Maps embed URL under Appearance → Customize → Contact.
+The Contact page template can show an embedded Google Map when you paste a Maps embed URL under Customize → Templates → Contact.
 
 * What: embedded map loading tiles and scripts from Google Maps.
 * When: only if an embed URL is saved (default empty; no remote request).
@@ -139,7 +143,45 @@ The Contact page template can show an embedded Google Map when you paste a Maps 
 
 == Changelog ==
 
+= 1.0.8 =
+* Escape color-mode root class in header.php (Theme Check: no echo get_theme_mod).
+
+= 1.0.7 =
+* Customizer: Sidebar (layout + colors), Typography consolidation (Body/Titles include cards and widgets; announcement and menu font family/size; day content text colors under Colors → General)
+* Customizer: edit shortcuts (pencils) for announcement, social, footer texts, color mode, related title, Load more; do not clip widget shortcuts
+* Footer: copyright/legal size under Footer → Footer texts; stronger containment for Custom HTML / CurrencyRate floats
+* Fix: orange outer frame with body.wp-embed-responsive / LiteSpeed; related-posts title contrast; Contact path Templates → Contact
+* Widgets admin: do not style bare .widget; skip night-mode scripts in legacy widget preview iframes
+
+= 1.0.6 =
+* Content images: raise $content_width to 1024 and improve sizes attribute so desktop/HiDPI can pick sharper srcset files (mobile unchanged)
+
+= 1.0.5 =
+* Theme Check: footer placeholder docs use {home_url} (value still from home_url()); legacy token still works
+
+= 1.0.4 =
+* Customizer i18n: related posts count label and eyedropper aria-label are translatable; announcement “Text” color label translated in Spanish
+* Defaults for “Load more” and related title use English msgids (existing Customizer values unchanged)
+
+= 1.0.3 =
+* Announcement: slower movement; Customizer choice of 3 effects (slide, fade, rise)
+* Fix: announcement bar class mismatch broke CSS/JS (no rotation, no highlight); restored slide-in from the side and rotation
+* Layout: news sidebar width set to the standard 300 px (was 280); content width options keep a flexing main column
+* Customizer: logo/content width help texts state theme maximums; mobile logo max raised to 500 px
+* Fix: logo width Customizer control now sets display width (was max-width only, so values above the image size looked unchanged)
+* Fix: header image from Customize is now shown under the logo row (it was registered but never output)
+* Fix: menu highlight, skip link, mobile menu in widget previews, editor script scope; removed no-op footer help checkbox
+
+= 1.0.2 =
+* Theme review: removed Theme URI (Author URI only); removed redundant wp_lazy_loading_enabled filter
+* Theme review: all PHP user-facing strings are now English msgids with CA/ES/EN catalogs
+* Theme review: long titles wrap within the content area; skip-to-content no longer sits under the admin bar
+* Page template names translated to English in the template headers
+* Theme review (Required): removed Appearance → Import demo (demo imports are not allowed)
+* Theme review (Required): removed theme Open Graph / meta description output (SEO plugin territory)
+
 = 1.0.1 =
+* Corrección: la búsqueda en directo ya no falla para los visitantes cuando la página está en caché
 * Mejora: descripción y etiquetas del tema más completas, y la descripción se muestra traducida según el idioma de WordPress (catalán, español, inglés)
 * Mejora: el modo noche tiene ahora colores propios para el color principal, el menú, el pie, el anuncio y los textos, ya que los colores del modo día no se aplican de noche
 * Mejora: el tamaño de imagen de Artículos relacionados pasa a llamarse tsothm-related (hay que regenerar miniaturas para las imágenes ya subidas)
@@ -160,6 +202,7 @@ The Contact page template can show an embedded Google Map when you paste a Maps 
 * Mejora: el filtro de enlaces de Jetpack Tiled Gallery ahora tolera clases adicionales en el bloque y añade data-orig-file como alternativa antes de caer al src recortado
 * Mejora: metadatos Twitter Card (twitter:card, twitter:title, twitter:description, twitter:image) junto al Open Graph existente
 * Mejora de accesibilidad: el lightbox (tso-lightbox.js) devuelve el foco al elemento que lo abrió al cerrarse
+* Nuevo: menú móvil moderno con 4 versiones (botón flotante con panel inferior, pantalla completa, barra de pestañas inferior o panel lateral) elegible en Personalizar > Apariencia > Menú móvil
 
 = 1.0 =
 * Requires WordPress 6.1+

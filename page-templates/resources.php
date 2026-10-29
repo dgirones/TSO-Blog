@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Recursos / Descargas
+ * Template Name: Resources / Downloads
  * Template Post Type: page
  * Description: Página sin barra lateral que muestra como lista de descargas los bloques Archivo añadidos al contenido (nombre, tipo y peso).
  *

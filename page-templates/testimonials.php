@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Testimonios
+ * Template Name: Testimonials
  * Template Post Type: page
  * Description: Página sin barra lateral pensada para mostrar opiniones de clientes o usuarios. Usa el patrón de bloques "Testimonios (2 tarjetas)" como punto de partida.
  *

@@ -1,10 +1,9 @@
 /*
 Theme Name: TSO Blog
-Theme URI: https://www.tusoporteonline.es/
-Author: Tu Soporte Online
+Author: deadko
 Author URI: https://tusoporteonline.es
 Description: Classic blog theme with an orange frame and a white content area. Includes a two-column home grid with Load more, live search, a day/night color mode, Customizer options for colors, typography and logo, announcement bars, ready-made page templates (portfolio, pricing, team, FAQ, contact and more) and optional Google Fonts.
-Version: 1.0.1
+Version: 1.0.8
 Requires at least: 6.1
 Tested up to: 7.1
 Requires PHP: 7.4
@@ -42,6 +41,8 @@ Tags: blog, two-columns, right-sidebar, custom-colors, custom-header, custom-bac
     --tso-color-surface: #ffffff;
     --tso-font-body: Arial, Helvetica, sans-serif;
     --tso-font-heading: Arial, Helvetica, sans-serif;
+    --tso-font-announce: Arial, Helvetica, sans-serif;
+    --tso-font-nav: Arial, Helvetica, sans-serif;
     --tso-font-body-size: 15px;
     --tso-font-body-line: 1.6;
     --tso-font-heading-weight: 700;
@@ -52,6 +53,12 @@ Tags: blog, two-columns, right-sidebar, custom-colors, custom-header, custom-bac
     --tso-logo-width: 300px;
     --tso-logo-width-mobile: 180px;
     --tso-layout-max: 1060px;
+    --tso-sidebar-width: 300px;
+    --tso-sidebar-gap: 30px;
+    --tso-sidebar-radius: 6px;
+    --tso-sidebar-bg: #f1f1f1;
+    --tso-sidebar-widget-bg: #ffffff;
+    --tso-sidebar-title-bg: #1e73be;
 }
 
 /* ============================================================
@@ -99,24 +106,63 @@ a:hover {
 
 /* ============================================================
    ACCESIBILIDAD — SKIP TO CONTENT
+   Hidden with clip (not top:-100px) so it never peeks as a blue bar.
+   Visible only on keyboard focus (:focus-visible).
    ============================================================ */
 .skip-to-content {
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    -webkit-clip-path: inset(50%);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
     position: absolute;
-    top: -100px;
+    top: 0;
     left: 0;
-    z-index: 9999;
+    width: 1px;
+    word-wrap: normal !important;
+    z-index: 100000;
+    background: transparent;
+    color: transparent;
+    text-decoration: none;
+}
+
+.skip-to-content:focus,
+.skip-to-content:focus-visible {
+    clip: auto !important;
+    -webkit-clip-path: none;
+    clip-path: none;
+    height: auto;
+    width: auto;
+    margin: 0;
+    padding: 10px 20px;
+    overflow: visible;
     background: var(--tso-color-primary);
     color: #fff;
-    padding: 10px 20px;
     font-weight: bold;
     font-size: 14px;
-    text-decoration: none;
+    line-height: normal;
     border-radius: 0 0 4px 0;
-    transition: top 0.2s;
-}
-.skip-to-content:focus {
-    top: 0;
     outline: 3px solid var(--tso-color-accent);
+    outline-offset: 0;
+    top: 0;
+    left: 0;
+    z-index: 100000;
+}
+
+/* Keep skip link below the WordPress admin bar when focused */
+body.admin-bar .skip-to-content:focus,
+body.admin-bar .skip-to-content:focus-visible {
+    top: 32px;
+}
+
+@media screen and (max-width: 782px) {
+    body.admin-bar .skip-to-content:focus,
+    body.admin-bar .skip-to-content:focus-visible {
+        top: 46px;
+    }
 }
 
 /* WordPress core — screen reader text (Codex pattern) */
@@ -332,10 +378,29 @@ body.tso-layout-full #page-wrapper {
 
 .logo img,
 .custom-logo {
-    max-width: var(--tso-logo-width, 300px);
-    width: auto;
+    width: var(--tso-logo-width, 300px);
+    max-width: 100%;
     height: auto;
     display: block;
+}
+
+/* Custom header image (Customize → Header Image), recommended 1060×200 */
+.header-image {
+    margin: 0 0 12px;
+    line-height: 0;
+    text-align: center;
+}
+
+.header-image a {
+    display: block;
+}
+
+.header-image img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
 }
 
 /* Columna derecha del header */
@@ -599,99 +664,181 @@ body.tso-layout-full #page-wrapper {
 /* ============================================================
    ANUNCIO / NOVEDADES (entre cabecera y menú)
    ============================================================ */
-.tso-announcement {
-    margin: 16px -40px 0;
-    padding: 10px 40px;
-    background-color: var(--tso-color-announce-bg);
-    color: var(--tso-color-announce-text);
-    text-align: center;
+#tsothm-announcement-root,
+#tsothm-social-root,
+#tsothm-color-mode-root,
+#tsothm-header-image-root,
+#tsothm-footer-texts-root {
+    position: relative;
 }
 
-.tso-announcement-viewport {
+/* Hit area for Customizer pencil when the bar is off / empty. */
+body.customize-partial-edit-shortcuts-shown #tsothm-announcement-root.tsothm-announcement-root--empty {
+    min-height: 28px;
+    margin: 8px -40px 0;
+}
+
+body.customize-partial-edit-shortcuts-shown #tsothm-social-root.tsothm-social-root--empty,
+body.customize-partial-edit-shortcuts-shown #tsothm-color-mode-root.tsothm-color-mode-root--empty,
+body.customize-partial-edit-shortcuts-shown #tsothm-header-image-root.tsothm-header-image-root--empty {
+    min-height: 28px;
+    min-width: 28px;
+}
+
+.tsothm-announcement {
+    position: relative;
+    margin: 12px -40px 0;
+    padding: 14px 40px;
+    background-color: var(--tso-color-announce-bg, #d6993a);
+    color: var(--tso-color-announce-text, #fff);
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.tsothm-announcement-viewport {
     position: relative;
     overflow: hidden;
-    min-height: 1.5em;
+    min-height: 1.7em;
 }
 
-.tso-announcement-slide {
+.tsothm-announcement-slide {
     display: none;
     width: 100%;
     margin: 0;
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 1.4;
-    letter-spacing: 0.02em;
-    -webkit-transform: translateX(48px);
-    transform: translateX(48px);
+    font-family: var(--tso-font-announce, var(--tso-font-body, Arial, Helvetica, sans-serif));
+    font-size: var(--tso-font-announce-size, 16px);
+    font-weight: var(--tso-font-announce-weight, 800);
+    line-height: 1.35;
+    letter-spacing: var(--tso-font-announce-tracking, 0.03em);
+    text-transform: var(--tso-font-announce-transform, uppercase);
     opacity: 0;
+    will-change: transform, opacity;
 }
 
-.tso-announcement-slide.is-active,
-.tso-announcement-slide.is-entering,
-.tso-announcement-slide.is-leaving {
+.tsothm-announcement-slide.is-active,
+.tsothm-announcement-slide.is-entering,
+.tsothm-announcement-slide.is-leaving {
     display: block;
 }
 
-.tso-announcement-slide.is-active {
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
-    opacity: 1;
-    -webkit-transition: -webkit-transform 0.65s ease-out, opacity 0.65s ease-out;
-    transition: transform 0.65s ease-out, opacity 0.65s ease-out;
-}
-
-.tso-announcement-slide.is-entering {
-    -webkit-transform: translateX(48px);
-    transform: translateX(48px);
-    opacity: 0;
-}
-
-.tso-announcement-slide.is-leaving {
+.tsothm-announcement-slide.is-leaving {
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
-    -webkit-transform: translateX(-36px);
-    transform: translateX(-36px);
-    opacity: 0;
-    -webkit-transition: -webkit-transform 0.55s ease-in, opacity 0.55s ease-in;
-    transition: transform 0.55s ease-in, opacity 0.55s ease-in;
     pointer-events: none;
 }
 
-.tso-announcement-text {
-    color: inherit;
+/* Effect: slide (from the right → center → left) */
+.tsothm-announcement--slide .tsothm-announcement-slide,
+.tsothm-announcement--slide .tsothm-announcement-slide.is-entering {
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
 }
 
-.tso-announcement-link {
+.tsothm-announcement--slide .tsothm-announcement-slide.is-active {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    opacity: 1;
+    -webkit-transition: -webkit-transform 1.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 1s ease-out;
+    transition: transform 1.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 1s ease-out;
+}
+
+.tsothm-announcement--slide .tsothm-announcement-slide.is-leaving {
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+    opacity: 0;
+    -webkit-transition: -webkit-transform 1.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.95s ease-in;
+    transition: transform 1.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.95s ease-in;
+}
+
+/* Effect: fade */
+.tsothm-announcement--fade .tsothm-announcement-slide,
+.tsothm-announcement--fade .tsothm-announcement-slide.is-entering {
+    -webkit-transform: none;
+    transform: none;
+    opacity: 0;
+}
+
+.tsothm-announcement--fade .tsothm-announcement-slide.is-active {
+    -webkit-transform: none;
+    transform: none;
+    opacity: 1;
+    -webkit-transition: opacity 1.4s ease-in-out;
+    transition: opacity 1.4s ease-in-out;
+}
+
+.tsothm-announcement--fade .tsothm-announcement-slide.is-leaving {
+    -webkit-transform: none;
+    transform: none;
+    opacity: 0;
+    -webkit-transition: opacity 1.2s ease-in-out;
+    transition: opacity 1.2s ease-in-out;
+}
+
+/* Effect: rise (from below → center → up) */
+.tsothm-announcement--rise .tsothm-announcement-slide,
+.tsothm-announcement--rise .tsothm-announcement-slide.is-entering {
+    -webkit-transform: translateY(120%);
+    transform: translateY(120%);
+    opacity: 0;
+}
+
+.tsothm-announcement--rise .tsothm-announcement-slide.is-active {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+    -webkit-transition: -webkit-transform 1.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 1s ease-out;
+    transition: transform 1.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 1s ease-out;
+}
+
+.tsothm-announcement--rise .tsothm-announcement-slide.is-leaving {
+    -webkit-transform: translateY(-110%);
+    transform: translateY(-110%);
+    opacity: 0;
+    -webkit-transition: -webkit-transform 1.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.95s ease-in;
+    transition: transform 1.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.95s ease-in;
+}
+
+.tsothm-announcement-text {
+    color: inherit;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.tsothm-announcement-link {
     color: inherit;
     text-decoration: none;
     display: inline-block;
-    -webkit-transition: opacity 0.2s;
-    transition: opacity 0.2s;
+    -webkit-transition: opacity 0.2s, -webkit-transform 0.2s;
+    transition: opacity 0.2s, transform 0.2s;
 }
 
-.tso-announcement-link:hover,
-.tso-announcement-link:focus {
+.tsothm-announcement-link:hover,
+.tsothm-announcement-link:focus {
     color: inherit;
     text-decoration: underline;
-    opacity: 0.92;
+    opacity: 0.95;
 }
 
-.tso-announcement-link:focus-visible {
-    outline: 2px solid var(--tso-color-announce-text);
+.tsothm-announcement-link:focus-visible {
+    outline: 2px solid var(--tso-color-announce-text, #fff);
     outline-offset: 3px;
 }
 
-body.tso-has-announcement .main-navigation {
+body.tsothm-has-announcement .main-navigation {
     margin-top: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .tso-announcement-slide,
-    .tso-announcement-slide.is-active,
-    .tso-announcement-slide.is-entering,
-    .tso-announcement-slide.is-leaving {
+    .tsothm-announcement-slide,
+    .tsothm-announcement-slide.is-active,
+    .tsothm-announcement-slide.is-entering,
+    .tsothm-announcement-slide.is-leaving,
+    .tsothm-announcement--slide .tsothm-announcement-slide,
+    .tsothm-announcement--fade .tsothm-announcement-slide,
+    .tsothm-announcement--rise .tsothm-announcement-slide {
         -webkit-transition: none !important;
         transition: none !important;
         -webkit-transform: none !important;
@@ -699,7 +846,7 @@ body.tso-has-announcement .main-navigation {
         opacity: 1;
     }
 
-    .tso-announcement-slide.is-leaving {
+    .tsothm-announcement-slide.is-leaving {
         display: none;
         opacity: 0;
     }
@@ -844,19 +991,27 @@ body.tsothm-nav-style-carved #primary-menu {
     display: block;
     color: var(--tso-color-nav-text);
     padding: 8px 16px;
-    font-size: 15px;
-    font-weight: bold;
+    font-family: var(--tso-font-nav, var(--tso-font-body, Arial, Helvetica, sans-serif));
+    font-size: var(--tso-font-nav-size, 15px);
+    font-weight: var(--tso-font-nav-weight, 700);
     text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    text-transform: var(--tso-font-nav-transform, uppercase);
+    letter-spacing: var(--tso-font-nav-tracking, 0.5px);
     -webkit-transition: color 0.2s;
     transition: color 0.2s;
 }
 
 .main-navigation li a:hover,
+.main-navigation li.current-menu-item > a:hover,
+.main-navigation li.current-menu-ancestor > a:hover {
+    color: var(--tso-color-nav-hover);
+    text-decoration: none;
+}
+
+/* Current item keeps nav text color; each button style adds its own pressed look. */
 .main-navigation li.current-menu-item > a,
 .main-navigation li.current-menu-ancestor > a {
-    color: var(--tso-color-nav-hover);
+    color: var(--tso-color-nav-text);
     text-decoration: none;
 }
 
@@ -903,7 +1058,12 @@ body.tsothm-nav-style-raised #primary-menu > li > a {
 }
 
 body.tsothm-nav-style-raised .main-navigation > ul > li > a:hover,
-body.tsothm-nav-style-raised #primary-menu > li > a:hover {
+body.tsothm-nav-style-raised .main-navigation > ul > li.current-menu-item > a:hover,
+body.tsothm-nav-style-raised .main-navigation > ul > li.current-menu-ancestor > a:hover,
+body.tsothm-nav-style-raised #primary-menu > li > a:hover,
+body.tsothm-nav-style-raised #primary-menu > li.current-menu-item > a:hover,
+body.tsothm-nav-style-raised #primary-menu > li.current-menu-ancestor > a:hover {
+    color: var(--tso-color-nav-hover);
     border-color: rgba(255, 255, 255, 0.28);
     background-color: rgba(255, 255, 255, 0.12);
     -webkit-box-shadow:
@@ -918,33 +1078,7 @@ body.tsothm-nav-style-raised #primary-menu > li > a:hover {
     transform: translateY(-1px);
 }
 
-body.tsothm-nav-style-raised .main-navigation > ul > li.current-menu-item > a,
-body.tsothm-nav-style-raised .main-navigation > ul > li.current-menu-ancestor > a,
-body.tsothm-nav-style-raised #primary-menu > li.current-menu-item > a,
-body.tsothm-nav-style-raised #primary-menu > li.current-menu-ancestor > a {
-    border-color: rgba(0, 0, 0, 0.35);
-    background-color: rgba(0, 0, 0, 0.22);
-    background-image: -webkit-linear-gradient(
-        top,
-        rgba(0, 0, 0, 0.28) 0%,
-        rgba(255, 255, 255, 0.06) 100%
-    );
-    background-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.28) 0%,
-        rgba(255, 255, 255, 0.06) 100%
-    );
-    -webkit-box-shadow:
-        inset 0 2px 4px rgba(0, 0, 0, 0.45),
-        inset 0 1px 0 rgba(0, 0, 0, 0.25),
-        0 1px 0 rgba(255, 255, 255, 0.08);
-    box-shadow:
-        inset 0 2px 4px rgba(0, 0, 0, 0.45),
-        inset 0 1px 0 rgba(0, 0, 0, 0.25),
-        0 1px 0 rgba(255, 255, 255, 0.08);
-    -webkit-transform: translateY(1px);
-    transform: translateY(1px);
-}
+/* Raised: current looks the same as siblings (hover still accents). */
 
 /* —— Carved (inset / chiseled) —— */
 body.tsothm-nav-style-carved .main-navigation > ul > li > a,
@@ -986,7 +1120,12 @@ body.tsothm-nav-style-carved #primary-menu > li > a {
 }
 
 body.tsothm-nav-style-carved .main-navigation > ul > li > a:hover,
-body.tsothm-nav-style-carved #primary-menu > li > a:hover {
+body.tsothm-nav-style-carved .main-navigation > ul > li.current-menu-item > a:hover,
+body.tsothm-nav-style-carved .main-navigation > ul > li.current-menu-ancestor > a:hover,
+body.tsothm-nav-style-carved #primary-menu > li > a:hover,
+body.tsothm-nav-style-carved #primary-menu > li.current-menu-item > a:hover,
+body.tsothm-nav-style-carved #primary-menu > li.current-menu-ancestor > a:hover {
+    color: var(--tso-color-nav-hover);
     border-color: rgba(0, 0, 0, 0.4);
     background-color: rgba(255, 255, 255, 0.08);
     background-image: -webkit-linear-gradient(
@@ -1009,33 +1148,9 @@ body.tsothm-nav-style-carved #primary-menu > li > a:hover {
         0 0 0 1px rgba(255, 255, 255, 0.14);
 }
 
-body.tsothm-nav-style-carved .main-navigation > ul > li.current-menu-item > a,
-body.tsothm-nav-style-carved .main-navigation > ul > li.current-menu-ancestor > a,
-body.tsothm-nav-style-carved #primary-menu > li.current-menu-item > a,
-body.tsothm-nav-style-carved #primary-menu > li.current-menu-ancestor > a {
-    border-color: rgba(0, 0, 0, 0.65);
-    background-color: rgba(0, 0, 0, 0.35);
-    background-image: -webkit-linear-gradient(
-        top,
-        rgba(0, 0, 0, 0.45) 0%,
-        rgba(255, 255, 255, 0.04) 100%
-    );
-    background-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.45) 0%,
-        rgba(255, 255, 255, 0.04) 100%
-    );
-    -webkit-box-shadow:
-        inset 0 3px 6px rgba(0, 0, 0, 0.65),
-        inset 0 -1px 0 rgba(255, 255, 255, 0.08),
-        0 0 0 1px rgba(255, 255, 255, 0.06);
-    box-shadow:
-        inset 0 3px 6px rgba(0, 0, 0, 0.65),
-        inset 0 -1px 0 rgba(255, 255, 255, 0.08),
-        0 0 0 1px rgba(255, 255, 255, 0.06);
-}
+/* Carved: current looks the same as siblings (hover still accents). */
 
-/* —— Pill (botones redondeados, relleno de acento al pasar/activo) —— */
+/* —— Pill (rounded outline buttons; hover uses accent, current stays homogeneous) —— */
 body.tsothm-nav-style-pill .main-navigation > ul,
 body.tsothm-nav-style-pill #primary-menu {
     gap: 8px;
@@ -1054,21 +1169,22 @@ body.tsothm-nav-style-pill #primary-menu > li > a {
 
 body.tsothm-nav-style-pill .main-navigation > ul > li > a:hover,
 body.tsothm-nav-style-pill .main-navigation > ul > li > a:focus-visible,
+body.tsothm-nav-style-pill .main-navigation > ul > li.current-menu-item > a:hover,
+body.tsothm-nav-style-pill .main-navigation > ul > li.current-menu-item > a:focus-visible,
+body.tsothm-nav-style-pill .main-navigation > ul > li.current-menu-ancestor > a:hover,
+body.tsothm-nav-style-pill .main-navigation > ul > li.current-menu-ancestor > a:focus-visible,
 body.tsothm-nav-style-pill #primary-menu > li > a:hover,
-body.tsothm-nav-style-pill #primary-menu > li > a:focus-visible {
+body.tsothm-nav-style-pill #primary-menu > li > a:focus-visible,
+body.tsothm-nav-style-pill #primary-menu > li.current-menu-item > a:hover,
+body.tsothm-nav-style-pill #primary-menu > li.current-menu-item > a:focus-visible,
+body.tsothm-nav-style-pill #primary-menu > li.current-menu-ancestor > a:hover,
+body.tsothm-nav-style-pill #primary-menu > li.current-menu-ancestor > a:focus-visible {
     color: var(--tso-color-nav-hover);
     border-color: var(--tso-color-nav-hover);
     background-color: rgba(255, 255, 255, 0.08);
 }
 
-body.tsothm-nav-style-pill .main-navigation > ul > li.current-menu-item > a,
-body.tsothm-nav-style-pill .main-navigation > ul > li.current-menu-ancestor > a,
-body.tsothm-nav-style-pill #primary-menu > li.current-menu-item > a,
-body.tsothm-nav-style-pill #primary-menu > li.current-menu-ancestor > a {
-    color: var(--tso-color-nav-bg);
-    border-color: var(--tso-color-nav-hover);
-    background-color: var(--tso-color-nav-hover);
-}
+/* Pill: current looks the same as siblings (hover still accents). */
 
 /* —— Underline (sin cajas; barra que crece desde el centro) —— */
 body.tsothm-nav-style-underline .main-navigation > ul,
@@ -1092,26 +1208,33 @@ body.tsothm-nav-style-underline #primary-menu > li > a::after {
     bottom: 3px;
     height: 3px;
     border-radius: 2px;
-    background-color: var(--tso-color-nav-hover);
+    background-color: var(--tso-color-nav-text);
     -webkit-transform: scaleX(0);
     transform: scaleX(0);
     -webkit-transform-origin: center;
     transform-origin: center;
-    -webkit-transition: -webkit-transform 0.25s ease;
-    transition: transform 0.25s ease;
+    -webkit-transition: -webkit-transform 0.25s ease, background-color 0.2s ease;
+    transition: transform 0.25s ease, background-color 0.2s ease;
 }
 
 body.tsothm-nav-style-underline .main-navigation > ul > li > a:hover::after,
 body.tsothm-nav-style-underline .main-navigation > ul > li > a:focus-visible::after,
-body.tsothm-nav-style-underline .main-navigation > ul > li.current-menu-item > a::after,
-body.tsothm-nav-style-underline .main-navigation > ul > li.current-menu-ancestor > a::after,
+body.tsothm-nav-style-underline .main-navigation > ul > li.current-menu-item > a:hover::after,
+body.tsothm-nav-style-underline .main-navigation > ul > li.current-menu-item > a:focus-visible::after,
+body.tsothm-nav-style-underline .main-navigation > ul > li.current-menu-ancestor > a:hover::after,
+body.tsothm-nav-style-underline .main-navigation > ul > li.current-menu-ancestor > a:focus-visible::after,
 body.tsothm-nav-style-underline #primary-menu > li > a:hover::after,
 body.tsothm-nav-style-underline #primary-menu > li > a:focus-visible::after,
-body.tsothm-nav-style-underline #primary-menu > li.current-menu-item > a::after,
-body.tsothm-nav-style-underline #primary-menu > li.current-menu-ancestor > a::after {
+body.tsothm-nav-style-underline #primary-menu > li.current-menu-item > a:hover::after,
+body.tsothm-nav-style-underline #primary-menu > li.current-menu-item > a:focus-visible::after,
+body.tsothm-nav-style-underline #primary-menu > li.current-menu-ancestor > a:hover::after,
+body.tsothm-nav-style-underline #primary-menu > li.current-menu-ancestor > a:focus-visible::after {
+    background-color: var(--tso-color-nav-hover);
     -webkit-transform: scaleX(1);
     transform: scaleX(1);
 }
+
+/* Underline: no permanent mark on current; bar only on hover/focus. */
 
 @media (prefers-reduced-motion: reduce) {
     body.tsothm-nav-style-underline .main-navigation > ul > li > a::after,
@@ -1172,7 +1295,7 @@ body.tsothm-nav-style-underline #primary-menu > li.current-menu-ancestor > a::af
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    gap: 30px;
+    gap: var(--tso-sidebar-gap, 30px);
     padding: 25px 0;
     -webkit-box-align: stretch;
     -ms-flex-align: stretch;
@@ -1245,6 +1368,10 @@ body.tsothm-nav-style-underline #primary-menu > li.current-menu-ancestor > a::af
     line-height: 1.3;
     margin: 0 0 10px;
     color: var(--tso-color-heading, var(--tso-color-primary));
+    overflow-wrap: anywhere;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
 }
 
 /* Contenido artículo */
@@ -1388,7 +1515,7 @@ body.tsothm-nav-style-underline #primary-menu > li.current-menu-ancestor > a::af
 }
 
 .related-posts-title {
-    font-size: 17px;
+    font-size: calc(var(--tso-font-widget-title-size, 14px) + 3px);
     font-weight: bold;
     color: #fff;
     background: var(--tso-color-accent);
@@ -1717,7 +1844,7 @@ ol.comment-list .children {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    gap: 30px;
+    gap: var(--tso-sidebar-gap, 30px);
     padding: 25px 0;
     -webkit-box-align: stretch;
     -ms-flex-align: stretch;
@@ -1741,6 +1868,10 @@ ol.comment-list .children {
     font-size: var(--tso-font-h1-size, 22px);
     color: var(--tso-color-heading, #111);
     margin: 0 0 6px;
+    overflow-wrap: anywhere;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
 }
 
 .archive-description {
@@ -1788,27 +1919,82 @@ ol.comment-list .children {
    SIDEBAR
    ============================================================ */
 .widget-area {
-    width: 280px;
-    -ms-flex-negative: 0;
-    flex-shrink: 0;
-    background-color: #f1f1f1;
-    border-radius: 6px;
-    padding: 18px 16px;
+    /* --tso-sidebar-width = useful widget content width (not including this padding).
+       With border-box, outer column = content + horizontal padding (16px × 2). */
+    --tso-sidebar-pad-x: 16px;
+    width: calc(var(--tso-sidebar-width, 300px) + (2 * var(--tso-sidebar-pad-x)));
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 calc(var(--tso-sidebar-width, 300px) + (2 * var(--tso-sidebar-pad-x)));
+    flex: 0 0 calc(var(--tso-sidebar-width, 300px) + (2 * var(--tso-sidebar-pad-x)));
+    max-width: 100%;
+    box-sizing: border-box;
+    background-color: var(--tso-sidebar-bg, #f1f1f1);
+    border-radius: var(--tso-sidebar-radius, 6px);
+    padding: 18px var(--tso-sidebar-pad-x);
     -ms-flex-item-align: stretch;
     align-self: stretch;
     /* Base pròpia: no heretar la mida del cos (Customizer Tipografía) */
     font-size: var(--tso-font-widget-text-size, 14px);
     line-height: 1.45;
-    color: #444;
+    color: var(--tso-color-text, #444);
+}
+
+body.tso-sidebar-left .single-layout,
+body.tso-sidebar-left .archive-layout,
+body.tso-sidebar-left .main-container {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: reverse;
+    -ms-flex-direction: row-reverse;
+    flex-direction: row-reverse;
+}
+
+body.tso-sidebar-sticky .widget-area {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 16px;
+    -ms-flex-item-align: start;
+    align-self: flex-start;
+    max-height: calc(100vh - 32px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+body.admin-bar.tso-sidebar-sticky .widget-area {
+    top: 48px;
+    max-height: calc(100vh - 64px);
+}
+
+@media screen and (max-width: 782px) {
+    body.admin-bar.tso-sidebar-sticky .widget-area {
+        top: 62px;
+    }
+}
+
+body.tso-sidebar-border .widget-area {
+    border: 1px solid var(--tso-color-border, #e0e0e0);
+}
+
+body.tso-sidebar-shadow .widget-area {
+    -webkit-box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
 }
 
 .widget-area .widget {
-    background: #fff;
+    background: var(--tso-sidebar-widget-bg, #fff);
     margin-bottom: 20px;
     border-radius: 6px;
     overflow: hidden;
     font-size: var(--tso-font-widget-text-size, 14px);
     line-height: 1.45;
+}
+
+/* Customizer pencil shortcuts sit outside the card (left: -30px); do not clip them. */
+body.customize-partial-edit-shortcuts-shown .widget-area .widget {
+    overflow: visible;
+}
+body.customize-partial-edit-shortcuts-shown.tso-sidebar-sticky .widget-area {
+    overflow: visible;
 }
 
 .widget-area .widget:last-child {
@@ -1836,7 +2022,7 @@ ol.comment-list .children {
     font-size: var(--tso-font-widget-title-size, 14px) !important;
     font-weight: bold;
     color: #fff !important;
-    background: var(--tso-color-primary) !important;
+    background: var(--tso-sidebar-title-bg, var(--tso-color-primary)) !important;
     margin: 0 0 14px;
     padding: 8px 16px;
     border: none;
@@ -1845,16 +2031,9 @@ ol.comment-list .children {
     line-height: 1.3;
 }
 
-/* Protección global: cualquier .widget fuera de .widget-area
-   no debe heredar el fondo naranja del body */
-.widget {
-    background-color: #fff;
-    border-radius: 6px;
-    overflow: hidden;
-    margin-bottom: 20px;
-}
-
-/* Footer: no usar las “tarjetas blancas” del sidebar */
+/* Footer: no usar las “tarjetas blancas” del sidebar.
+   Important: do not style bare .widget — WordPress admin widgets.php and
+   legacy-widget preview iframes also use that class. */
 .site-footer .widget,
 .site-footer .footer-column .widget {
     background: transparent;
@@ -1870,23 +2049,6 @@ ol.comment-list .children {
 .site-footer .widget:last-child,
 .site-footer .footer-column .widget:last-child {
     margin-bottom: 0;
-}
-
-/* Títol dels widgets fora del .widget-area — blau TSO */
-.widget .widget-title,
-.widget h1.widget-title,
-.widget h2.widget-title,
-.widget h3.widget-title,
-.widget h4.widget-title,
-.widget h5.widget-title,
-.widget h6.widget-title {
-    font-size: var(--tso-font-widget-title-size, 14px);
-    font-weight: bold;
-    color: #fff;
-    background: var(--tso-color-primary);
-    margin: 0 0 14px;
-    padding: 8px 16px;
-    border-radius: 0;
 }
 
 /* Footer: títulos claros sobre fondo oscuro (anulan el azul del sidebar) */
@@ -2091,11 +2253,13 @@ ol.comment-list .children {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    gap: 30px;
+    gap: var(--tso-sidebar-gap, 30px);
     padding: 25px 0;
 }
 
-.main-container > main {
+.main-container > main,
+.main-container > .tso-contact-page,
+.main-container > .main-content-area {
     -webkit-box-flex: 1;
     -ms-flex: 1;
     flex: 1;
@@ -2108,6 +2272,10 @@ ol.comment-list .children {
     margin: 0 0 20px;
     border-bottom: 2px solid var(--tso-color-accent);
     padding-bottom: 12px;
+    overflow-wrap: anywhere;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
 }
 
 /* ============================================================
@@ -2167,11 +2335,51 @@ ol.comment-list .children {
     max-width: 100%;
     margin: 0;
     padding: 0;
+    min-width: 0;
 }
 
 .site-footer .footer-column .widget {
     margin-bottom: 0;
     padding: 0;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: clip;
+}
+
+/* Customizer pencil shortcuts sit outside the widget card. */
+body.customize-partial-edit-shortcuts-shown .site-footer .footer-column .widget {
+    overflow: visible;
+}
+
+/* CurrencyRate embeds use floats + fixed white cards.
+   Contain Custom HTML hosts; do not blanket every .widget_block > div. */
+.site-footer .textwidget,
+.site-footer .custom-html-widget,
+.site-footer .widget_custom_html {
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    box-sizing: border-box;
+}
+
+.site-footer .textwidget::after,
+.site-footer .custom-html-widget::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.site-footer .textwidget > div,
+.site-footer .custom-html-widget > div {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Attribution + card from CurrencyRate inside any footer widget. */
+.site-footer .widget .crcpw-attribution,
+.site-footer .widget [class*="crcpw"] {
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 /* Legacy table markup (por si queda en caché) */
@@ -2193,9 +2401,11 @@ table.footer-layout-table > tbody > tr {
 table.footer-layout-table td.footer-layout-cell {
     display: table-cell !important;
     width: 33.33% !important;
+    max-width: 0 !important; /* with table-layout:fixed, force cells to respect column width */
     vertical-align: top !important;
     padding: 0 12px !important;
     box-sizing: border-box !important;
+    overflow: hidden !important;
 }
 
 table.footer-layout-table.footer-layout--cols-1 td.footer-layout-cell {
@@ -2214,6 +2424,15 @@ table.footer-layout-table.footer-layout--cols-2 td.footer-layout-cell {
 .footer-layout--horizontal .footer-column .widget {
     margin-bottom: 12px;
     background: transparent;
+}
+
+/* Currency widgets are designed for ~300px columns; full-bleed looks broken. */
+.footer-layout--horizontal .widget_custom_html,
+.footer-layout--horizontal .widget_text {
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
 }
 
 .footer-layout--horizontal .footer-column .widget:last-child {
@@ -2274,7 +2493,7 @@ table.footer-layout-table.footer-layout--cols-2 td.footer-layout-cell {
 .footer-column h3,
 .footer-column .widget-title {
     color: var(--tso-color-footer-heading);
-    font-size: 14px;
+    font-size: var(--tso-font-widget-title-size, 14px);
     font-weight: bold;
     margin-top: 0;
     margin-bottom: 16px;
@@ -2297,7 +2516,7 @@ table.footer-layout-table.footer-layout--cols-2 td.footer-layout-cell {
 .footer-column li,
 .footer-column .recentcomments {
     color: var(--tso-color-footer-text);
-    font-size: 13px;
+    font-size: var(--tso-font-widget-text-size, 14px);
     line-height: 1.5;
 }
 
@@ -2364,13 +2583,13 @@ table.footer-layout-table.footer-layout--cols-2 td.footer-layout-cell {
     margin: 0;
     padding: 0;
     color: var(--tso-color-footer-muted);
-    font-size: 12px;
+    font-size: var(--tso-font-footer-text-size, 12px);
     line-height: 1.3;
 }
 
 .footer-legal {
     margin-top: 4px;
-    font-size: 11px;
+    font-size: var(--tso-font-footer-text-size, 12px);
     line-height: 1.3;
     color: var(--tso-color-footer-muted);
     text-align: center;
@@ -2398,6 +2617,14 @@ select:focus-visible {
     outline: 3px solid var(--tso-color-primary);
     outline-offset: 2px;
     border-radius: 2px;
+}
+
+/* Narrow desktop: keep 300px sidebar; tighten gap so the main column keeps room
+   when Content width is 960–1060 or the viewport is just above the mobile breakpoint. */
+@media screen and (max-width: 1100px) and (min-width: 769px) {
+    :root {
+        --tso-sidebar-gap: 20px;
+    }
 }
 
 /* ============================================================
@@ -2432,7 +2659,8 @@ select:focus-visible {
 
     .logo img,
     .custom-logo {
-        max-width: var(--tso-logo-width-mobile, 180px);
+        width: var(--tso-logo-width-mobile, 180px);
+        max-width: 100%;
     }
 
     .header-right {
@@ -2473,10 +2701,13 @@ select:focus-visible {
     }
 
     /* Anuncio */
-    .tso-announcement {
+    .tsothm-announcement {
         margin: 12px -15px 0;
-        padding: 10px 15px;
-        font-size: 13px;
+        padding: 12px 15px;
+    }
+
+    .tsothm-announcement-slide {
+        font-size: 14px;
     }
 
     /* Menú — horitzontal amb scroll al mòbil */
@@ -2487,6 +2718,10 @@ select:focus-visible {
         overflow-y: hidden;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
+    }
+
+    body.customize-partial-edit-shortcuts-shown .main-navigation {
+        overflow: visible;
     }
 
     .main-navigation::-webkit-scrollbar {
@@ -2769,16 +3004,23 @@ select:focus-visible {
 }
 
 .post-card-title {
-    font-size: 16px;
+    font-size: var(--tso-font-card-title-size, 16px);
     font-weight: bold;
     line-height: 1.35;
     margin: 0 0 10px;
     color: var(--tso-color-primary);
+    overflow-wrap: anywhere;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
 }
 
 .post-card-title a {
     color: var(--tso-color-primary);
     text-decoration: none;
+    overflow-wrap: anywhere;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .post-card-title a:hover {
@@ -2791,6 +3033,79 @@ select:focus-visible {
     color: #666;
     line-height: 1.55;
     margin-top: auto;
+}
+
+/* Lista: imagen a la izquierda */
+.posts-layout-list .home-post-card {
+    -ms-flex: 0 0 calc(100% - 20px);
+    flex: 0 0 calc(100% - 20px);
+    width: calc(100% - 20px);
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-align: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+}
+
+.posts-layout-list .post-card-image {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 280px;
+    flex: 0 0 280px;
+    width: 280px;
+    max-width: 40%;
+}
+
+.posts-layout-list .post-card-image img {
+    height: 100%;
+    min-height: 160px;
+}
+
+.posts-layout-list .post-card-body {
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.posts-layout-list .post-card-title {
+    font-size: calc(var(--tso-font-card-title-size, 16px) + 2px);
+}
+
+/* Magazine: primer post destacado a ancho completo */
+.posts-layout-magazine .home-post-card.is-featured {
+    -ms-flex: 0 0 calc(100% - 20px);
+    flex: 0 0 calc(100% - 20px);
+    width: calc(100% - 20px);
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+}
+
+.posts-layout-magazine .home-post-card.is-featured .post-card-image {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 54%;
+    flex: 0 0 54%;
+    width: 54%;
+}
+
+.posts-layout-magazine .home-post-card.is-featured .post-card-image img {
+    height: 300px;
+}
+
+.posts-layout-magazine .home-post-card.is-featured .post-card-title {
+    font-size: calc(var(--tso-font-card-title-size, 16px) + 6px);
+    line-height: 1.3;
+}
+
+.post-card-kicker {
+    margin: 0 0 8px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--tso-color-accent);
 }
 
 /* Móvil: una sola columna */
@@ -2806,7 +3121,24 @@ select:focus-visible {
         margin: 0 0 16px;
     }
 
-    .post-card-image img {
+    .posts-layout-list .home-post-card,
+    .posts-layout-magazine .home-post-card.is-featured {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+    }
+
+    .posts-layout-list .post-card-image,
+    .posts-layout-magazine .home-post-card.is-featured .post-card-image {
+        -ms-flex: 0 0 auto;
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: none;
+    }
+
+    .post-card-image img,
+    .posts-layout-magazine .home-post-card.is-featured .post-card-image img {
         height: 220px;
     }
 }
@@ -3495,11 +3827,11 @@ select:focus-visible {
 }
 
 /* ============================================================
-   WIDGET EDITOR PREVIEW (Customizer)
-   Preview documents use body.wp-embed-responsive.
-   Neutralize the orange body background without affecting the frontend.
+   LEGACY WIDGET PREVIEW IFRAMES (widgets.php / Customizer)
+   Core also adds body.wp-embed-responsive on the real frontend — never
+   force white there or the orange outer frame disappears.
    ============================================================ */
-body.wp-embed-responsive {
+body.tsothm-legacy-widget-preview {
     background-color: #ffffff !important;
 }
 
@@ -4398,7 +4730,7 @@ html[data-theme="dark"] .related-post-card,
 html[data-theme="dark"] .home-post-card,
 html[data-theme="dark"] ol.comment-list .comment,
 html[data-theme="dark"] .widget-area .widget,
-html[data-theme="dark"] .widget,
+html[data-theme="dark"] .site-footer .widget,
 html[data-theme="dark"] .tso-portfolio-original-pop,
 html[data-theme="dark"] .tso-contact-card {
     background: var(--tso-color-surface);
@@ -4416,11 +4748,27 @@ html[data-theme="dark"] .tso-portfolio-empty,
 html[data-theme="dark"] .tso-contact-info,
 html[data-theme="dark"] .tso-contact-form-hint,
 html[data-theme="dark"] .single-tags a,
-html[data-theme="dark"] .widget-area,
 html[data-theme="dark"] .screen-reader-text:focus {
     background: var(--tso-color-surface-alt);
     background-color: var(--tso-color-surface-alt);
     border-color: var(--tso-color-border);
+}
+
+/* Sidebar column bg comes from --tso-sidebar-bg (day + night override in inline CSS) */
+html[data-theme="dark"] body:not(.tso-sidebar-no-bg) .widget-area {
+    border-color: var(--tso-color-border);
+}
+html[data-theme="dark"] body.tso-sidebar-no-bg .widget-area,
+body.tso-sidebar-no-bg .widget-area {
+    background: transparent;
+    background-color: transparent;
+}
+html[data-theme="dark"] body.tso-sidebar-border .widget-area {
+    border-color: var(--tso-color-border);
+}
+html[data-theme="dark"] body.tso-sidebar-shadow .widget-area {
+    -webkit-box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
 }
 
 html[data-theme="dark"] .related-thumb-link,
@@ -4579,19 +4927,14 @@ html[data-theme="dark"] .social-icon--github:hover {
     }
 }
 
-/* Forçar el fons fosc també quan body porta la classe
-   wp-embed-responsive (regla amb !important que si no,
-   guanyaria sempre i deixaria blanc tot el que voreja la web). */
-html[data-theme="dark"] body.wp-embed-responsive {
-    background-color: var(--tso-color-body-bg) !important;
-}
 
 /* ==========================================================
    Modo noche: plantillas y botones de acento/primario.
    En noche accent/primary son tonos claros, por lo que el texto
    blanco pierde contraste: se usa el color de contraste.
    ========================================================== */
-html[data-theme="dark"] .skip-to-content,
+html[data-theme="dark"] .skip-to-content:focus,
+html[data-theme="dark"] .skip-to-content:focus-visible,
 html[data-theme="dark"] .btn-load-more,
 html[data-theme="dark"] .single-category-badge a,
 html[data-theme="dark"] .single-tags a:hover,
@@ -4657,13 +5000,20 @@ html[data-theme="dark"] .comment-awaiting-moderation {
 
 
 /* Accessibility: sufficient contrast in footer/sidebar widget tabs and small text (PageSpeed). */
-html:not([data-theme="dark"]) .widget [data-tab-id] { color: #595959; }
-.textwidget > div > div > span { color: #565c62; }
+html:not([data-theme="dark"]) .widget-area .widget [data-tab-id],
+html:not([data-theme="dark"]) .site-footer .widget [data-tab-id] { color: #595959; }
+.widget-area .textwidget > div > div > span,
+.site-footer .textwidget > div > div > span { color: #565c62; }
 /* The currency widget sets these colours inline (#777 / #6c757d), so !important is needed. */
-.textwidget a[data-tab-id][style*="119, 119, 119"],
-.textwidget a[data-tab-id][style*="#777"] { color: #595959 !important; }
-.textwidget span[style*="108, 117, 125"],
-.textwidget span[style*="6c757d"] { color: #565c62 !important; }
+.widget-area .textwidget a[data-tab-id][style*="119, 119, 119"],
+.widget-area .textwidget a[data-tab-id][style*="#777"],
+.site-footer .textwidget a[data-tab-id][style*="119, 119, 119"],
+.site-footer .textwidget a[data-tab-id][style*="#777"] { color: #595959 !important; }
+.widget-area .textwidget span[style*="108, 117, 125"],
+.widget-area .textwidget span[style*="6c757d"],
+.site-footer .textwidget span[style*="108, 117, 125"],
+.site-footer .textwidget span[style*="6c757d"] { color: #565c62 !important; }
 /* Light mode: footer widgets that sit on white cards must not inherit the light footer text colour. */
 html[data-theme="light"] .footer-layout .tso-clas-legend { color: #555; }
 html[data-theme="light"] .footer-layout .wpt_widget_content .wpt_comment_content p { color: #444; }
+                                                                                                                                                                                                                                                                                                                                                                            

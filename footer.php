@@ -26,7 +26,7 @@
             <?php endforeach; ?>
         </div>
         <?php endif; ?>
-        <div class="footer-bottom">
+        <div id="tsothm-footer-texts-root" class="footer-bottom">
             <p><?php tsothm_footer_copyright_text(); ?></p>
             <?php tsothm_footer_legal_text(); ?>
         </div>

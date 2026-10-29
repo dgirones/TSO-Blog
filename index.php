@@ -17,7 +17,7 @@ get_header();
 			endwhile;
 		else :
 			?>
-			<p class="posts-empty"><?php esc_html_e( 'No hay artículos publicados todavía.', 'tso-blog' ); ?></p>
+			<p class="posts-empty"><?php esc_html_e( 'No posts published yet.', 'tso-blog' ); ?></p>
 			<?php
 		endif;
 		?>
@@ -29,8 +29,8 @@ get_header();
 			the_posts_pagination(
 				array(
 					'mid_size'  => 2,
-					'prev_text' => esc_html__( '&laquo; Anterior', 'tso-blog' ),
-					'next_text' => esc_html__( 'Siguiente &raquo;', 'tso-blog' ),
+					'prev_text' => esc_html__( '&laquo; Previous', 'tso-blog' ),
+					'next_text' => esc_html__( 'Next &raquo;', 'tso-blog' ),
 				)
 			);
 			?>

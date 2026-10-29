@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Landing / Portada
+ * Template Name: Landing / Front Page
  * Template Post Type: page
  * Description: Portada sin barra lateral con cabecera destacada (imagen destacada + título + extracto) seguida del contenido a base de bloques.
  *

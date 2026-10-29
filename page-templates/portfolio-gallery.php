@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Portfolio / Galería wallpapers
+ * Template Name: Portfolio / Wallpaper Gallery
  * Template Post Type: page
  * Description: Galería de fotos con nombre y descargas en tamaños de fondo de pantalla.
  *
@@ -32,6 +32,7 @@ get_header();
 		endwhile;
 		?>
 	</main>
+	<?php get_sidebar(); ?>
 </div>
 
 <?php

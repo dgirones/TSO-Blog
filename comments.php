@@ -25,12 +25,12 @@ if ( post_password_required() ) {
             <?php
             $tsothm_comment_count = (int) get_comments_number();
             if ( 1 === $tsothm_comment_count ) {
-                esc_html_e( 'Un comentario', 'tso-blog' );
+                esc_html_e( 'One comment', 'tso-blog' );
             } else {
                 printf(
                     /* translators: %s: número de comentarios */
-                    esc_html__( '%s comentarios', 'tso-blog' ),
-                    number_format_i18n( $tsothm_comment_count )
+                    esc_html__( '%s comments', 'tso-blog' ),
+                    esc_html( number_format_i18n( $tsothm_comment_count ) )
                 );
             }
             ?>
@@ -48,8 +48,8 @@ if ( post_password_required() ) {
 
         <?php
         the_comments_pagination( array(
-            'prev_text' => '&laquo; ' . esc_html__( 'Anteriores', 'tso-blog' ),
-            'next_text' => esc_html__( 'Siguientes', 'tso-blog' ) . ' &raquo;',
+            'prev_text' => '&laquo; ' . esc_html__( 'Previous', 'tso-blog' ),
+            'next_text' => esc_html__( 'Next', 'tso-blog' ) . ' &raquo;',
         ) );
         ?>
 

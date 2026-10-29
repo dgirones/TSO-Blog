@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Ancho completo
+ * Template Name: Full Width
  * Template Post Type: page
  * Description: Página sin barra lateral y con ancho ampliado, pensada para landing pages o contenido construido a base de bloques.
  *
@@ -23,7 +23,7 @@ get_header();
 					the_content();
 					wp_link_pages(
 						array(
-							'before'      => '<div class="page-links">' . esc_html__( 'Páginas:', 'tso-blog' ),
+							'before'      => '<div class="page-links">' . esc_html__( 'Pages:', 'tso-blog' ),
 							'after'       => '</div>',
 							'link_before' => '<span class="page-number">',
 							'link_after'  => '</span>',

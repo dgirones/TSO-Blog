@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Preguntas frecuentes
+ * Template Name: FAQ
  * Template Post Type: page
  * Description: Página sin barra lateral que convierte el contenido en un acordeón accesible: cada bloque Encabezado (H3) es una pregunta y el contenido siguiente, la respuesta.
  *

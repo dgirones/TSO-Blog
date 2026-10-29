@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Servicios
+ * Template Name: Services
  * Template Post Type: page
  * Description: Página sin barra lateral pensada para mostrar servicios o características. Usa el patrón de bloques "Servicios (3 tarjetas)" como punto de partida.
  *

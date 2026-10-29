@@ -73,7 +73,7 @@ while ( have_posts() ) :
 				the_content();
 				wp_link_pages(
 					array(
-						'before'      => '<div class="page-links">' . esc_html__( 'Páginas:', 'tso-blog' ),
+						'before'      => '<div class="page-links">' . esc_html__( 'Pages:', 'tso-blog' ),
 						'after'       => '</div>',
 						'link_before' => '<span class="page-number">',
 						'link_after'  => '</span>',

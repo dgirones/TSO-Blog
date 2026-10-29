@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Legal / Documento largo
+ * Template Name: Legal / Long Document
  * Template Post Type: page
  * Description: Página sin barra lateral pensada para textos largos (aviso legal, privacidad, convenios). Genera automáticamente un índice lateral a partir de los encabezados H2/H3 del contenido.
  *

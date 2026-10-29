@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Cronología / Historia
+ * Template Name: Timeline / History
  * Template Post Type: page
  * Description: Página sin barra lateral pensada para una línea de tiempo (p. ej. "nuestra historia"). Usa el patrón de bloques "Cronología (3 hitos)" como punto de partida.
  *

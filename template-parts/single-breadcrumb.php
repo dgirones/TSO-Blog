@@ -9,10 +9,10 @@ $tsothm_categories  = get_the_category();
 $tsothm_cat_primary = ! empty( $tsothm_categories ) ? $tsothm_categories[0] : null;
 $tsothm_post_title  = get_the_title();
 ?>
-<nav class="single-breadcrumb" aria-label="<?php esc_attr_e( 'Ruta de navegación', 'tso-blog' ); ?>" itemscope itemtype="https://schema.org/BreadcrumbList">
+<nav class="single-breadcrumb" aria-label="<?php esc_attr_e( 'Breadcrumb', 'tso-blog' ); ?>" itemscope itemtype="https://schema.org/BreadcrumbList">
 	<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
 		<a itemprop="item" href="<?php echo esc_url( home_url( '/' ) ); ?>">
-			<span itemprop="name"><?php esc_html_e( 'Inicio', 'tso-blog' ); ?></span>
+			<span itemprop="name"><?php esc_html_e( 'Home', 'tso-blog' ); ?></span>
 		</a>
 		<meta itemprop="position" content="1" />
 	</span>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Enlaces
+ * Template Name: Links
  * Template Post Type: page
  * Description: Página minimalista sin barra lateral ni comentarios, con avatar centrado y botones a ancho completo — el clásico formato "link in bio". Usa el patrón de bloques "Lista de enlaces" como punto de partida.
  *

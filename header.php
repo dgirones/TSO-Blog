@@ -29,13 +29,37 @@
                 <?php endif; ?>
             </div>
             <div class="header-right">
-                <?php tsothm_social_icons(); ?>
+                <div id="tsothm-social-root"<?php echo empty( tsothm_get_configured_social_icons() ) ? ' class="tsothm-social-root--empty"' : ''; ?>>
+                    <?php tsothm_social_icons(); ?>
+                </div>
                 <?php tsothm_header_gtranslate(); ?>
                 <div class="header-search">
                     <?php get_search_form(); ?>
                 </div>
-                <?php tsothm_render_color_mode_switch(); ?>
+                <?php
+                $tsothm_color_mode_enabled = (bool) absint( get_theme_mod( 'tsothm_color_mode_switch_enabled', 1 ) );
+                $tsothm_color_mode_class  = $tsothm_color_mode_enabled ? '' : 'tsothm-color-mode-root--empty';
+                ?>
+                <div id="tsothm-color-mode-root"<?php echo $tsothm_color_mode_class ? ' class="' . esc_attr( $tsothm_color_mode_class ) . '"' : ''; ?>>
+                    <?php tsothm_render_color_mode_switch(); ?>
+                </div>
             </div>
+        </div>
+
+        <div id="tsothm-header-image-root"<?php echo get_header_image() ? '' : ' class="tsothm-header-image-root--empty"'; ?>>
+            <?php if ( get_header_image() ) : ?>
+                <div class="header-image">
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+                        <?php
+                        the_header_image_tag(
+                            array(
+                                'alt' => get_bloginfo( 'name', 'display' ),
+                            )
+                        );
+                        ?>
+                    </a>
+                </div>
+            <?php endif; ?>
         </div>
 
         <?php tsothm_header_announcement(); ?>

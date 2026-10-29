@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Equipo
+ * Template Name: Team
  * Template Post Type: page
  * Description: Página sin barra lateral pensada para mostrar al equipo. Usa el patrón de bloques "Equipo (3 personas)" como punto de partida.
  *
