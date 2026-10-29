@@ -746,6 +746,16 @@ body.customize-partial-edit-shortcuts-shown #tsothm-header-image-root.tsothm-hea
     transition: transform 1.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 1s ease-out;
 }
 
+.tsothm-announcement--slide .tsothm-announcement-slide.is-active.is-instant,
+.tsothm-announcement--fade .tsothm-announcement-slide.is-active.is-instant,
+.tsothm-announcement--rise .tsothm-announcement-slide.is-active.is-instant {
+    -webkit-transition: none;
+    transition: none;
+    -webkit-transform: none;
+    transform: none;
+    opacity: 1;
+}
+
 .tsothm-announcement--slide .tsothm-announcement-slide.is-leaving {
     -webkit-transform: translateX(-100%);
     transform: translateX(-100%);

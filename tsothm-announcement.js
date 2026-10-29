@@ -44,11 +44,49 @@
 		var index = 0;
 		var timer = null;
 		var animating = false;
+		var nextAt = 0;
 		// Keep in sync with the slowest CSS transition (~1.35s + buffer).
 		var animMs = reduceMotion ? 0 : 1500;
+		var storageKey = 'tsothmAnnounceSchedule';
+
+		function scheduleSignature() {
+			return [
+				root.getAttribute( 'data-effect' ) || '',
+				String( intervalSec ),
+				String( slides.length )
+			].join( '|' );
+		}
+
+		function readSchedule() {
+			try {
+				var data = JSON.parse( window.sessionStorage.getItem( storageKey ) || '' );
+				if ( ! data || data.sig !== scheduleSignature() ) {
+					return null;
+				}
+				if ( typeof data.index !== 'number' || typeof data.nextAt !== 'number' ) {
+					return null;
+				}
+				if ( data.index < 0 || data.index >= slides.length ) {
+					return null;
+				}
+				return data;
+			} catch ( e ) {
+				return null;
+			}
+		}
+
+		function writeSchedule( slideIndex, dueAt ) {
+			try {
+				window.sessionStorage.setItem( storageKey, JSON.stringify( {
+					sig: scheduleSignature(),
+					index: slideIndex,
+					nextAt: dueAt
+				} ) );
+			} catch ( e ) {}
+		}
 
 		function clearSlideState( slide ) {
-			slide.classList.remove( 'is-active', 'is-entering', 'is-leaving' );
+			slide.classList.remove( 'is-active', 'is-entering', 'is-leaving', 'is-instant' );
 		}
 
 		function playEnter( slide ) {
@@ -63,40 +101,54 @@
 			} );
 		}
 
+		function showSettled( slideIndex ) {
+			slides.forEach( clearSlideState );
+			slides[ slideIndex ].classList.add( 'is-active', 'is-instant' );
+			index = slideIndex;
+		}
+
 		function show( nextIndex ) {
 			if ( animating || nextIndex === index || ! slides[ nextIndex ] ) {
-				return;
+				return false;
 			}
 			animating = true;
 			var current = slides[ index ];
 			var next = slides[ nextIndex ];
 
-			current.classList.remove( 'is-active', 'is-entering' );
+			current.classList.remove( 'is-active', 'is-entering', 'is-instant' );
 			current.classList.add( 'is-leaving' );
 
 			playEnter( next );
 
 			window.setTimeout( function () {
-				current.classList.remove( 'is-leaving' );
+				current.classList.remove( 'is-leaving', 'is-instant' );
 				index = nextIndex;
 				animating = false;
 			}, animMs );
+			return true;
 		}
 
-		function next() {
-			show( ( index + 1 ) % slides.length );
-		}
-
-		function startTimer() {
+		function queueNext() {
 			if ( ! rotate || timer ) {
 				return;
 			}
-			timer = window.setInterval( next, intervalSec * 1000 );
+			var wait = Math.max( 0, nextAt - Date.now() );
+			timer = window.setTimeout( function () {
+				timer = null;
+				var dest = ( index + 1 ) % slides.length;
+				if ( ! show( dest ) ) {
+					window.setTimeout( queueNext, Math.max( animMs, 50 ) );
+					return;
+				}
+				nextAt = Date.now() + intervalSec * 1000;
+				writeSchedule( dest, nextAt );
+				queueNext();
+			}, wait );
 		}
 
 		function stopTimer() {
 			if ( timer ) {
-				window.clearInterval( timer );
+				window.clearTimeout( timer );
 				timer = null;
 			}
 		}
@@ -108,23 +160,33 @@
 			if ( document.hidden ) {
 				stopTimer();
 			} else {
-				startTimer();
+				queueNext();
 			}
 		}
 
-		slides.forEach( function ( slide, i ) {
-			clearSlideState( slide );
-			if ( 0 === i ) {
-				if ( reduceMotion ) {
-					slide.classList.add( 'is-active' );
-				} else {
-					playEnter( slide );
-				}
-			}
-		} );
+		slides.forEach( clearSlideState );
 
 		if ( rotate ) {
-			startTimer();
+			var now = Date.now();
+			var saved = readSchedule();
+			var period = intervalSec * 1000;
+			if ( saved && now < saved.nextAt ) {
+				index = saved.index;
+				nextAt = saved.nextAt;
+			} else if ( saved ) {
+				var steps = Math.floor( ( now - saved.nextAt ) / period ) + 1;
+				index = ( saved.index + steps ) % slides.length;
+				var overdue = ( now - saved.nextAt ) % period;
+				nextAt = now + ( overdue ? period - overdue : period );
+			} else {
+				index = 0;
+				nextAt = now + period;
+			}
+			showSettled( index );
+			writeSchedule( index, nextAt );
+			queueNext();
+		} else {
+			showSettled( 0 );
 		}
 
 		document.addEventListener( 'visibilitychange', onVisibility );
