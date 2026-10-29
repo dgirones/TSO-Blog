@@ -1919,8 +1919,8 @@ function tsothm_sanitize_contact_form_shortcode( $value ) {
 function tsothm_get_contact_settings() {
     return array(
         'subtitle'      => sanitize_text_field( get_theme_mod( 'tsothm_contact_subtitle', '' ) ),
-        'intro'         => sanitize_textarea_field( get_theme_mod( 'tsothm_contact_intro', '' ) ),
-        'address'       => sanitize_textarea_field( get_theme_mod( 'tsothm_contact_address', '' ) ),
+        'intro'         => sanitize_text_field( get_theme_mod( 'tsothm_contact_intro', '' ) ),
+        'address'       => sanitize_text_field( get_theme_mod( 'tsothm_contact_address', '' ) ),
         'email'         => sanitize_email( get_theme_mod( 'tsothm_contact_email', '' ) ),
         'email_alt'     => sanitize_email( get_theme_mod( 'tsothm_contact_email_alt', '' ) ),
         'phone'         => sanitize_text_field( get_theme_mod( 'tsothm_contact_phone', '' ) ),
@@ -2400,22 +2400,16 @@ add_action( 'customize_register', function( $wp_customize ) {
         $wp_customize->remove_section( 'colors' );
     }
 
-    /* Logo — imagen (core) + tamaños */
+    /* Logo display width (upload uses core Site Identity → Logo). */
     $wp_customize->add_section(
         'tsothm_logo_section',
         array(
-            'title'       => __( 'Logo', 'tso-blog' ),
-            'description' => __( 'Upload the logo and set its width on desktop and mobile. There is no sticky logo: the header does not stay fixed on scroll.', 'tso-blog' ),
+            'title'       => __( 'Logo size', 'tso-blog' ),
+            'description' => __( 'Set how wide the Site Logo appears on desktop and mobile. Upload or change the logo under Appearance → Customize → Site Identity → Logo.', 'tso-blog' ),
             'panel'       => 'tsothm_appearance_panel',
             'priority'    => 10,
         )
     );
-
-    if ( $wp_customize->get_control( 'custom_logo' ) ) {
-        $wp_customize->get_control( 'custom_logo' )->section  = 'tsothm_logo_section';
-        $wp_customize->get_control( 'custom_logo' )->priority = 5;
-        $wp_customize->get_control( 'custom_logo' )->label    = __( 'Logo', 'tso-blog' );
-    }
 
     $wp_customize->add_setting(
         'tsothm_logo_width',
@@ -3704,7 +3698,7 @@ add_action( 'customize_register', function( $wp_customize ) {
         'tsothm_contact_intro',
         array(
             'default'           => '',
-            'sanitize_callback' => 'sanitize_textarea_field',
+            'sanitize_callback' => 'sanitize_text_field',
             'transport'         => 'refresh',
         )
     );
@@ -3713,7 +3707,7 @@ add_action( 'customize_register', function( $wp_customize ) {
         array(
             'label'   => __( 'Introductory text (left column)', 'tso-blog' ),
             'section' => 'tsothm_contact_section',
-            'type'    => 'textarea',
+            'type'    => 'text',
         )
     );
 
@@ -3721,7 +3715,7 @@ add_action( 'customize_register', function( $wp_customize ) {
         'tsothm_contact_address',
         array(
             'default'           => '',
-            'sanitize_callback' => 'sanitize_textarea_field',
+            'sanitize_callback' => 'sanitize_text_field',
             'transport'         => 'refresh',
         )
     );
@@ -3730,7 +3724,7 @@ add_action( 'customize_register', function( $wp_customize ) {
         array(
             'label'   => __( 'Address / office', 'tso-blog' ),
             'section' => 'tsothm_contact_section',
-            'type'    => 'textarea',
+            'type'    => 'text',
         )
     );
 
@@ -3816,7 +3810,7 @@ add_action( 'customize_register', function( $wp_customize ) {
             'label'       => __( 'Google Maps (embed URL)', 'tso-blog' ),
             'description' => __( 'In Google Maps: Share → Embed a map → copy the src attribute URL (or paste the full embed code). Only Google Maps embed URLs are accepted. Empty = no map.', 'tso-blog' ),
             'section'     => 'tsothm_contact_section',
-            'type'        => 'textarea',
+            'type'        => 'text',
         )
     );
 
@@ -3913,6 +3907,7 @@ add_action( 'customize_register', function( $wp_customize ) {
                 'section'    => 'tsothm_pricing_section',
                 'fields'     => tsothm_get_pricing_fields(),
                 'add_label'  => __( 'Add plan', 'tso-blog' ),
+                'max_rows'   => 5,
             )
         )
     );
@@ -5702,8 +5697,8 @@ function tsothm_get_pricing_fields() {
 		),
 		array(
 			'key'   => 'features',
-			'type'  => 'textarea',
-			'label' => __( 'Features (one per line)', 'tso-blog' ),
+			'type'  => 'text',
+			'label' => __( 'Features (comma-separated)', 'tso-blog' ),
 		),
 		array(
 			'key'   => 'button_text',
@@ -5742,7 +5737,7 @@ function tsothm_get_landing_highlight_fields() {
 		),
 		array(
 			'key'   => 'text',
-			'type'  => 'textarea',
+			'type'  => 'text',
 			'label' => __( 'Short text', 'tso-blog' ),
 		),
 	);
@@ -5779,20 +5774,22 @@ function tsothm_sanitize_repeater_field_value( $value, $field ) {
 
 /**
  * Generic repeater sanitizer: decodes JSON, keeps only known fields,
- * sanitizes each value by type, re-encodes to JSON. Caps at 50 rows.
+ * sanitizes each value by type, re-encodes to JSON.
  *
- * @param string $value  Raw JSON value from the Customizer control.
- * @param array  $fields Field schema (tsothm_get_*_fields()).
+ * @param string $value    Raw JSON value from the Customizer control.
+ * @param array  $fields   Field schema (tsothm_get_*_fields()).
+ * @param int    $max_rows Maximum rows to keep (default 50).
  * @return string Sanitized JSON.
  */
-function tsothm_sanitize_repeater_json( $value, $fields ) {
+function tsothm_sanitize_repeater_json( $value, $fields, $max_rows = 50 ) {
 	$rows = json_decode( is_string( $value ) ? $value : '', true );
 	if ( ! is_array( $rows ) ) {
 		return wp_json_encode( array() );
 	}
 
-	$clean = array();
-	foreach ( array_slice( $rows, 0, 50 ) as $row ) {
+	$max_rows = max( 1, (int) $max_rows );
+	$clean    = array();
+	foreach ( array_slice( $rows, 0, $max_rows ) as $row ) {
 		if ( ! is_array( $row ) ) {
 			continue;
 		}
@@ -5827,7 +5824,7 @@ function tsothm_sanitize_team_members( $value ) {
  * @return string
  */
 function tsothm_sanitize_pricing_plans( $value ) {
-	return tsothm_sanitize_repeater_json( $value, tsothm_get_pricing_fields() );
+	return tsothm_sanitize_repeater_json( $value, tsothm_get_pricing_fields(), 5 );
 }
 
 /**
@@ -5979,7 +5976,11 @@ function tsothm_render_pricing_table( $post_id ) {
 		}
 		if ( ! empty( $plan['features'] ) ) {
 			echo '<ul class="tso-pricing-features">';
-			foreach ( preg_split( '/\r\n|\r|\n/', (string) $plan['features'] ) as $line ) {
+			$feature_lines = preg_split( '/\r\n|\r|\n/', (string) $plan['features'] );
+			if ( 1 === count( $feature_lines ) && false !== strpos( $feature_lines[0], ',' ) ) {
+				$feature_lines = preg_split( '/\s*,\s*/', $feature_lines[0] );
+			}
+			foreach ( $feature_lines as $line ) {
 				$line = trim( $line );
 				if ( '' === $line ) {
 					continue;
@@ -6713,7 +6714,7 @@ function tsothm_customize_register_selective_refresh( $wp_customize ) {
         }
     };
 
-    // Site title (fallback text logo when no custom logo / theme logo file).
+    // Site title (fallback when no Site Logo is set).
     $set_post_message( 'blogname' );
     $wp_customize->selective_refresh->add_partial(
         'blogname',

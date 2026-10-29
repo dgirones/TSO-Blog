@@ -16,15 +16,8 @@
                 <?php if ( has_custom_logo() ) : ?>
                     <?php the_custom_logo(); ?>
                 <?php else : ?>
-                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>">
-                        <?php
-                        $tsothm_logo = get_stylesheet_directory() . '/images/logo.png';
-                        if ( file_exists( $tsothm_logo ) ) {
-                            echo '<img src="' . esc_url( get_stylesheet_directory_uri() . '/images/logo.png' ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" width="300" height="124">';
-                        } else {
-                            echo '<span class="site-title-text">' . esc_html( get_bloginfo( 'name' ) ) . '</span>';
-                        }
-                        ?>
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" class="site-title-text">
+                        <?php echo esc_html( get_bloginfo( 'name' ) ); ?>
                     </a>
                 <?php endif; ?>
             </div>

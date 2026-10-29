@@ -534,8 +534,8 @@ msgid "Featured"
 msgstr "Destacado"
 
 #: functions.php:5316
-msgid "Features (one per line)"
-msgstr "Características (una por línea)"
+msgid "Features (comma-separated)"
+msgstr "Características (separadas por comas)"
 
 #: functions.php:4797
 msgid "File"
@@ -855,9 +855,9 @@ msgstr "Cargando..."
 msgid "Location map"
 msgstr "Mapa de ubicación"
 
-#: functions.php:2327 functions.php:2337
-msgid "Logo"
-msgstr "Logo"
+#: functions.php:2407
+msgid "Logo size"
+msgstr "Tamaño del logo"
 
 #: functions.php:2351
 msgid "Logo width (px)"
@@ -1596,13 +1596,13 @@ msgstr ""
 "Hasta 5 avisos entre la cabecera y el menú. Puedes mostrar solo uno o "
 "rotarlos automáticamente. Colores: Colores → Anuncio."
 
-#: functions.php:2328
+#: functions.php:2408
 msgid ""
-"Upload the logo and set its width on desktop and mobile. There is no sticky "
-"logo: the header does not stay fixed on scroll."
+"Set how wide the Site Logo appears on desktop and mobile. Upload or change "
+"the logo under Appearance → Customize → Site Identity → Logo."
 msgstr ""
-"Sube el logo y define su ancho en escritorio y móvil. No hay logo «sticky»: "
-"la cabecera no queda fija al hacer scroll."
+"Define el ancho del logo del sitio en escritorio y móvil. Sube o cambia el "
+"logo en Apariencia → Personalizar → Identidad del sitio → Logo."
 
 #: functions.php:3213
 msgid "Uppercase"

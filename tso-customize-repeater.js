@@ -75,8 +75,10 @@
 		$el.data( 'tso-repeater-init', true );
 
 		var fields = $el.data( 'fields' ) || [];
+		var maxRows = parseInt( $el.data( 'max-rows' ), 10 ) || 0;
 		var $input = $el.find( '.tso-repeater-input' );
 		var $list = $el.find( '.tso-repeater-list' );
+		var $addBtn = $el.find( '.tso-repeater-add' );
 		var rows = [];
 		try {
 			rows = JSON.parse( $input.val() || '[]' );
@@ -85,6 +87,13 @@
 		}
 		if ( ! Array.isArray( rows ) ) {
 			rows = [];
+		}
+
+		function updateAddButton() {
+			if ( maxRows > 0 ) {
+				var atMax = $list.children( '.tso-repeater-row' ).length >= maxRows;
+				$addBtn.prop( 'disabled', atMax );
+			}
 		}
 
 		function sync() {
@@ -108,9 +117,13 @@
 			if ( settingId && wp.customize && wp.customize( settingId ) ) {
 				wp.customize( settingId ).set( json );
 			}
+			updateAddButton();
 		}
 
 		function addRow( row ) {
+			if ( maxRows > 0 && $list.children( '.tso-repeater-row' ).length >= maxRows ) {
+				return;
+			}
 			row = row || {};
 			var $row = $( buildRowHtml( fields, row ) );
 			$list.append( $row );
@@ -122,6 +135,7 @@
 		}
 
 		rows.forEach( addRow );
+		updateAddButton();
 
 		$list.sortable( {
 			handle: '.tso-repeater-handle',

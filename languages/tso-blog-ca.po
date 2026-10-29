@@ -532,8 +532,8 @@ msgid "Featured"
 msgstr "Destacat"
 
 #: functions.php:5316
-msgid "Features (one per line)"
-msgstr "Característiques (una per línia)"
+msgid "Features (comma-separated)"
+msgstr "Característiques (separades per comes)"
 
 #: functions.php:4797
 msgid "File"
@@ -853,9 +853,9 @@ msgstr "Carregant..."
 msgid "Location map"
 msgstr "Mapa d'ubicació"
 
-#: functions.php:2327 functions.php:2337
-msgid "Logo"
-msgstr "Logo"
+#: functions.php:2407
+msgid "Logo size"
+msgstr "Mida del logo"
 
 #: functions.php:2351
 msgid "Logo width (px)"
@@ -1592,13 +1592,13 @@ msgstr ""
 "Fins a 5 avisos entre la capçalera i el menú. Pots mostrar-ne només un o "
 "rotar-los automàticament. Colors: Colors → Anunci."
 
-#: functions.php:2328
+#: functions.php:2408
 msgid ""
-"Upload the logo and set its width on desktop and mobile. There is no sticky "
-"logo: the header does not stay fixed on scroll."
+"Set how wide the Site Logo appears on desktop and mobile. Upload or change "
+"the logo under Appearance → Customize → Site Identity → Logo."
 msgstr ""
-"Puja el logo i defineix-ne l'amplada a l'escriptori i al mòbil. No hi ha "
-"logo «sticky»: la capçalera no queda fixa en fer scroll."
+"Defineix l'amplada del logo del lloc a l'escriptori i al mòbil. Puja o "
+"canvia el logo a Aparença → Personalitza → Identitat del lloc → Logo."
 
 #: functions.php:3213
 msgid "Uppercase"

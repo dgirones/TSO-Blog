@@ -57,6 +57,13 @@ class Tsotheme_Customize_Repeater_Control extends WP_Customize_Control {
 	public $add_label = '';
 
 	/**
+	 * Maximum number of rows (0 = unlimited in the UI; sanitizer may still cap).
+	 *
+	 * @var int
+	 */
+	public $max_rows = 0;
+
+	/**
 	 * Enqueue control scripts/styles.
 	 */
 	public function enqueue() {
@@ -117,6 +124,9 @@ class Tsotheme_Customize_Repeater_Control extends WP_Customize_Control {
 			id="<?php echo esc_attr( $control_id ); ?>"
 			data-fields="<?php echo esc_attr( wp_json_encode( $this->fields ) ); ?>"
 			data-add-label="<?php echo esc_attr( $this->add_label ? $this->add_label : __( 'Add row', 'tso-blog' ) ); ?>"
+			<?php if ( ! empty( $this->max_rows ) ) : ?>
+				data-max-rows="<?php echo esc_attr( (string) (int) $this->max_rows ); ?>"
+			<?php endif; ?>
 		>
 			<ul class="tso-repeater-list"></ul>
 			<button type="button" class="button tso-repeater-add">

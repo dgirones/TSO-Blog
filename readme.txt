@@ -4,7 +4,7 @@ Tags: blog, two-columns, right-sidebar, custom-colors, custom-header, custom-bac
 Requires at least: 6.1
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.8
+Stable tag: 1.0.9
 License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,7 +49,7 @@ Appearance → Customize → Typography. Choose body and heading fonts, sizes, l
 
 = How do I change the logo size? =
 
-Appearance → Customize → Logo. Upload the image and set desktop and mobile max widths. Height scales automatically.
+Appearance → Customize → Site Identity → Logo to upload or replace the image. Under Appearance → Customize → Appearance → Logo size, set desktop and mobile display widths. Height scales automatically.
 
 = How do I make the site wider? =
 
@@ -143,6 +143,12 @@ The Contact page template can show an embedded Google Map when you paste a Maps 
 
 == Changelog ==
 
+= 1.0.9 =
+* Theme review: Site Logo stays on core Site Identity; logo width only under Appearance → Logo size; no bundled theme logo fallback
+* Theme review: Customizer textarea count reduced (contact fields and maps URL use text inputs; pricing/landing repeater fields use text)
+* Theme review: Pricing repeater capped at 5 plans (Customizer + sanitizer)
+* Theme review: screenshot.png credits added under Resources
+
 = 1.0.8 =
 * Escape color-mode root class in header.php (Theme Check: no echo get_theme_mod).
 
@@ -231,3 +237,5 @@ Bundled scripts and styles are original to this theme unless noted below, Copyri
 * normalize.css, https://necolas.github.io/normalize.css/, (C) Nicolas Gallagher and Jonathan Neal, MIT
 * Dashicons (Customizer social order handle), Copyright WordPress contributors, GNU GPL v2 or later
 * Google Fonts (optional remote), Copyright respective font authors, SIL Open Font License / Apache 2.0 as declared by each family on fonts.google.com
+
+* screenshot.png — Front-end demo capture for the theme directory. Copyright Tu Soporte Online / deadko, GNU GPL v2 or later. Featured images shown in the preview are sample media from the author’s demo site (https://tusoporteonline.es), used with permission and distributed under the same license as the theme.
