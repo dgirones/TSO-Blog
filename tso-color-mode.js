@@ -63,13 +63,13 @@
         dark: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.7A8.5 8.5 0 0 1 9.3 3.5a8.5 8.5 0 1 0 11.2 11.2z"/></svg>',
         auto: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" stroke="none"></path></svg>'
     };
-    var LABELS = { light: 'Mode dia', dark: 'Mode nit', auto: 'Mode automàtic' };
+    var LABELS = { light: 'Day mode', dark: 'Night mode', auto: 'Auto mode' };
 
     function buildSwitch() {
         var wrap = document.createElement( 'div' );
         wrap.className = 'tso-theme-switch';
         wrap.setAttribute( 'role', 'group' );
-        wrap.setAttribute( 'aria-label', 'Mode de color' );
+        wrap.setAttribute( 'aria-label', 'Color mode' );
 
         [ 'light', 'dark', 'auto' ].forEach( function ( mode ) {
             var btn = document.createElement( 'button' );

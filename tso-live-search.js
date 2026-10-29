@@ -8,8 +8,8 @@
 
 	var cacheKey = ( window.tsothmSearch && window.tsothmSearch.loadMoreCacheKey ) || 'tsothm_loadmore_state';
 	var i18n = ( window.tsothmSearch && window.tsothmSearch.i18n ) || {};
-	var msgSearching = i18n.searching || 'Buscando…';
-	var msgNoResults = i18n.noResults || 'No se encontraron artículos.';
+	var msgSearching = i18n.searching || 'Searching…';
+	var msgNoResults = i18n.noResults || 'No posts found.';
 	var instances = [];
 
 	function escHtml( str ) {

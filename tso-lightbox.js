@@ -60,7 +60,8 @@
     overlay.id   = 'tso-lb-overlay';
     overlay.setAttribute('role', 'dialog');
     overlay.setAttribute('aria-modal', 'true');
-    overlay.setAttribute('aria-label', 'Visor de imágenes');
+    var lbI18n = window.tsothmLightbox || {};
+    overlay.setAttribute('aria-label', lbI18n.viewer || 'Image viewer');
 
     var imgEl    = document.createElement('img');
     imgEl.id     = 'tso-lb-img';
@@ -68,17 +69,17 @@
 
     var btnClose = document.createElement('button');
     btnClose.id  = 'tso-lb-close';
-    btnClose.setAttribute('aria-label', 'Cerrar');
+    btnClose.setAttribute('aria-label', lbI18n.close || 'Close');
     btnClose.innerHTML = '&#x2715;';
 
     var btnPrev  = document.createElement('button');
     btnPrev.id   = 'tso-lb-prev';
-    btnPrev.setAttribute('aria-label', 'Imagen anterior');
+    btnPrev.setAttribute('aria-label', lbI18n.prev || 'Previous image');
     btnPrev.innerHTML = '&#10094;';
 
     var btnNext  = document.createElement('button');
     btnNext.id   = 'tso-lb-next';
-    btnNext.setAttribute('aria-label', 'Imagen siguiente');
+    btnNext.setAttribute('aria-label', lbI18n.next || 'Next image');
     btnNext.innerHTML = '&#10095;';
 
     var counter  = document.createElement('div');

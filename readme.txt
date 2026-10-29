@@ -145,6 +145,7 @@ The Contact page template can show an embedded Google Map when you paste a Maps 
 
 = 1.0.9 =
 * Languages: keep bundled Catalan and Spanish only (tso-blog-ca, tso-blog-es_ES). English is the source text, so no en_US catalog.
+* i18n: main menu label and lightbox controls use gettext. Script fallbacks are English.
 * Description rewritten to match the current theme. The readme summary stays within 150 characters.
 * Tags checked against the WordPress.org list. All current tags are allowed. Only subject tags are limited to three; this theme uses one: blog.
 * Theme review: the core Site Logo control stays in Site Identity. Logo width settings sit next to it. Removed the separate Logo section and the bundled logo-file fallback.

@@ -1239,6 +1239,16 @@ add_action( 'wp_enqueue_scripts', function() {
                 tsothm_get_asset_version( 'tso-lightbox.js' ),
                 true
             );
+            wp_localize_script(
+                'tsothm-lightbox',
+                'tsothmLightbox',
+                array(
+                    'viewer' => __( 'Image viewer', 'tso-blog' ),
+                    'close'  => __( 'Close', 'tso-blog' ),
+                    'prev'   => __( 'Previous image', 'tso-blog' ),
+                    'next'   => __( 'Next image', 'tso-blog' ),
+                )
+            );
         }
     }
 

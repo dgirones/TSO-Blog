@@ -57,7 +57,7 @@
 
         <?php tsothm_header_announcement(); ?>
 
-        <nav id="site-navigation" class="main-navigation" aria-label="Menú principal">
+        <nav id="site-navigation" class="main-navigation" aria-label="<?php esc_attr_e( 'Primary Menu', 'tso-blog' ); ?>">
             <?php wp_nav_menu( array(
                 'theme_location' => 'main-menu',
                 'menu_id'        => 'primary-menu',

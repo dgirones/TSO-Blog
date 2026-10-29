@@ -8,8 +8,8 @@
 	var button    = document.getElementById( 'load-more-btn' );
 	var container = document.getElementById( 'posts-container' );
 	var CACHE_KEY = cfg.cacheKey || 'tsothm_loadmore_state';
-	var loadText  = cfg.loadText || 'Cargar más';
-	var loadingText = cfg.loadingText || 'Cargando...';
+	var loadText  = cfg.loadText || 'Load more';
+	var loadingText = cfg.loadingText || 'Loading...';
 
 	if ( ! container ) {
 		return;

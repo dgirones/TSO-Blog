@@ -25,8 +25,8 @@
 		} else if ( 'image' === field.type ) {
 			html += '<div class="tso-repeater-image">';
 			html += '<div class="tso-repeater-image-preview"></div>';
-			html += '<button type="button" class="button tso-repeater-image-select">' + ( window.tsoRepeaterL10n && window.tsoRepeaterL10n.selectImage ? window.tsoRepeaterL10n.selectImage : 'Seleccionar imagen' ) + '</button> ';
-			html += '<button type="button" class="button-link tso-repeater-image-remove">' + ( window.tsoRepeaterL10n && window.tsoRepeaterL10n.removeImage ? window.tsoRepeaterL10n.removeImage : 'Quitar' ) + '</button>';
+			html += '<button type="button" class="button tso-repeater-image-select">' + ( window.tsoRepeaterL10n && window.tsoRepeaterL10n.selectImage ? window.tsoRepeaterL10n.selectImage : 'Select image' ) + '</button> ';
+			html += '<button type="button" class="button-link tso-repeater-image-remove">' + ( window.tsoRepeaterL10n && window.tsoRepeaterL10n.removeImage ? window.tsoRepeaterL10n.removeImage : 'Remove' ) + '</button>';
 			html += '<input type="hidden" data-field="' + escAttr( key ) + '" value="' + escAttr( value || 0 ) + '" />';
 			html += '</div>';
 		} else {
@@ -180,7 +180,7 @@
 			var $hidden = $field.find( 'input[type="hidden"]' );
 
 			var frame = wp.media( {
-				title: window.tsoRepeaterL10n ? window.tsoRepeaterL10n.chooseImage : 'Elegir imagen',
+				title: window.tsoRepeaterL10n ? window.tsoRepeaterL10n.chooseImage : 'Choose image',
 				multiple: false,
 				library: { type: 'image' },
 			} );
