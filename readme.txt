@@ -4,7 +4,7 @@ Tags: blog, two-columns, right-sidebar, custom-colors, custom-header, custom-bac
 Requires at least: 6.1
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.9
+Stable tag: 1.0.10
 License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -142,6 +142,9 @@ The Contact page template can show an embedded Google Map when you paste a Maps 
 * Privacy Policy: https://policies.google.com/privacy
 
 == Changelog ==
+
+= 1.0.10 =
+* Release package (same as 1.0.9 theme review fixes).
 
 = 1.0.9 =
 * Theme review: Site Logo stays on core Site Identity; logo width only under Appearance → Logo size; no bundled theme logo fallback
