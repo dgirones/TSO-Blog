@@ -75,11 +75,21 @@
 		$el.data( 'tso-repeater-init', true );
 
 		var fields = $el.data( 'fields' ) || [];
+		var maxItems = parseInt( $el.attr( 'data-max' ), 10 );
+		if ( ! maxItems || maxItems < 1 ) {
+			maxItems = 50;
+		}
 		var $input = $el.find( '.tso-repeater-input' );
 		var $list = $el.find( '.tso-repeater-list' );
+		var $add = $el.find( '.tso-repeater-add' );
 		var rows = [];
+		var rawRows = $input.val() || '[]';
+		var settingId = $input.attr( 'data-customize-setting-link' );
+		if ( settingId && wp.customize && wp.customize( settingId ) ) {
+			rawRows = wp.customize( settingId ).get();
+		}
 		try {
-			rows = JSON.parse( $input.val() || '[]' );
+			rows = JSON.parse( rawRows || '[]' );
 		} catch ( e ) {
 			rows = [];
 		}
@@ -110,7 +120,14 @@
 			}
 		}
 
+		function updateAddButton() {
+			$add.prop( 'disabled', $list.children( '.tso-repeater-row' ).length >= maxItems );
+		}
+
 		function addRow( row ) {
+			if ( $list.children( '.tso-repeater-row' ).length >= maxItems ) {
+				return;
+			}
 			row = row || {};
 			var $row = $( buildRowHtml( fields, row ) );
 			$list.append( $row );
@@ -119,9 +136,14 @@
 					refreshImagePreview( $row, field, row[ field.key ] );
 				}
 			} );
+			updateAddButton();
 		}
 
-		rows.forEach( addRow );
+		rows.slice( 0, maxItems ).forEach( addRow );
+		if ( rows.length > maxItems ) {
+			sync();
+		}
+		updateAddButton();
 
 		$list.sortable( {
 			handle: '.tso-repeater-handle',
@@ -132,6 +154,9 @@
 
 		$el.on( 'click', '.tso-repeater-add', function ( e ) {
 			e.preventDefault();
+			if ( $list.children( '.tso-repeater-row' ).length >= maxItems ) {
+				return;
+			}
 			addRow( {} );
 			sync();
 		} );
@@ -140,6 +165,7 @@
 			e.preventDefault();
 			$( this ).closest( '.tso-repeater-row' ).remove();
 			sync();
+			updateAddButton();
 		} );
 
 		$el.on( 'input change', '.tso-repeater-field input[type="text"], .tso-repeater-field textarea, .tso-repeater-field input[type="checkbox"]', function () {

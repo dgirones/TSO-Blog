@@ -4,7 +4,7 @@ Tags: blog, two-columns, right-sidebar, custom-colors, custom-header, custom-bac
 Requires at least: 6.1
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.8
+Stable tag: 1.0.9
 License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,7 +49,7 @@ Appearance → Customize → Typography. Choose body and heading fonts, sizes, l
 
 = How do I change the logo size? =
 
-Appearance → Customize → Logo. Upload the image and set desktop and mobile max widths. Height scales automatically.
+Appearance → Customize → Site Identity. Upload the image with the WordPress Site Logo control, then set the desktop and mobile display widths in the same section. Height scales automatically. The theme does not add a second logo uploader.
 
 = How do I make the site wider? =
 
@@ -143,6 +143,12 @@ The Contact page template can show an embedded Google Map when you paste a Maps 
 
 == Changelog ==
 
+= 1.0.9 =
+* Theme review: the core Site Logo control stays in Site Identity. Logo width settings sit next to it. Removed the separate Logo section and the bundled logo-file fallback.
+* Theme review: at most three Customizer textareas (footer legal text, contact intro, contact address). The Maps embed and repeater notes are single-line fields.
+* Theme review: the pricing plans repeater accepts at most 5 plans.
+* Theme review: screenshot.png is original theme artwork. License and source are listed under Resources.
+
 = 1.0.8 =
 * Escape color-mode root class in header.php (Theme Check: no echo get_theme_mod).
 
@@ -231,3 +237,9 @@ Bundled scripts and styles are original to this theme unless noted below, Copyri
 * normalize.css, https://necolas.github.io/normalize.css/, (C) Nicolas Gallagher and Jonathan Neal, MIT
 * Dashicons (Customizer social order handle), Copyright WordPress contributors, GNU GPL v2 or later
 * Google Fonts (optional remote), Copyright respective font authors, SIL Open Font License / Apache 2.0 as declared by each family on fonts.google.com
+
+* Screenshot (screenshot.png)
+  Copyright: 2026 Tu Soporte Online
+  License: GNU General Public License v2 or later
+  License URI: https://www.gnu.org/licenses/gpl-2.0.html
+  Source: original artwork created for this theme (orange frame, header, menu and post cards with solid-color placeholders). It does not include third-party photographs, illustrations or logos, so there is no external image URL.

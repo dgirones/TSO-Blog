@@ -2358,12 +2358,71 @@ add_action( 'customize_register', function( $wp_customize ) {
     if ( $wp_customize->get_section( 'title_tagline' ) ) {
         $wp_customize->get_section( 'title_tagline' )->priority = 20;
     }
+    // Keep Site Title and Tagline after the Site Logo width controls (priorities 9 and 10).
+    if ( $wp_customize->get_control( 'blogname' ) ) {
+        $wp_customize->get_control( 'blogname' )->priority = 20;
+    }
+    if ( $wp_customize->get_control( 'blogdescription' ) ) {
+        $wp_customize->get_control( 'blogdescription' )->priority = 30;
+    }
+
+    /*
+     * Logo widths live next to the core Site Logo control (Site Identity).
+     * Do not move or replace custom_logo: that is the WordPress Site Logo feature.
+     */
+    $wp_customize->add_setting(
+        'tsothm_logo_width',
+        array(
+            'default'           => '300',
+            'sanitize_callback' => 'tsothm_sanitize_logo_width_desktop',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_logo_width',
+        array(
+            'label'       => __( 'Logo width (px)', 'tso-blog' ),
+            'description' => __( 'Desktop display width of the Site Logo. Theme maximum: 500 px (minimum 40). Height adjusts automatically. For a sharp result, use a logo file at least this wide.', 'tso-blog' ),
+            'section'     => 'title_tagline',
+            'type'        => 'number',
+            'priority'    => 9,
+            'input_attrs' => array(
+                'min'  => 40,
+                'max'  => 500,
+                'step' => 1,
+            ),
+        )
+    );
+
+    $wp_customize->add_setting(
+        'tsothm_logo_width_mobile',
+        array(
+            'default'           => '180',
+            'sanitize_callback' => 'tsothm_sanitize_logo_width_mobile',
+            'transport'         => 'refresh',
+        )
+    );
+    $wp_customize->add_control(
+        'tsothm_logo_width_mobile',
+        array(
+            'label'       => __( 'Logo width on mobile (px)', 'tso-blog' ),
+            'description' => __( 'Mobile display width of the Site Logo (screens ≤ 768 px). Theme maximum: 500 px (minimum 40). Use the Customizer mobile preview to see it. For a sharp result, use a logo file at least this wide.', 'tso-blog' ),
+            'section'     => 'title_tagline',
+            'type'        => 'number',
+            'priority'    => 10,
+            'input_attrs' => array(
+                'min'  => 40,
+                'max'  => 500,
+                'step' => 1,
+            ),
+        )
+    );
 
     $wp_customize->add_panel(
         'tsothm_appearance_panel',
         array(
             'title'       => __( 'Appearance', 'tso-blog' ),
-            'description' => __( 'Logo, site width, sidebar, header social links and header image.', 'tso-blog' ),
+            'description' => __( 'Site width, sidebar, header social links and header image. The site logo is set under Site Identity.', 'tso-blog' ),
             'priority'    => 25,
         )
     );
@@ -2399,71 +2458,6 @@ add_action( 'customize_register', function( $wp_customize ) {
         // Core “Colores” vacío: ocultar para no duplicar el panel TSO.
         $wp_customize->remove_section( 'colors' );
     }
-
-    /* Logo — imagen (core) + tamaños */
-    $wp_customize->add_section(
-        'tsothm_logo_section',
-        array(
-            'title'       => __( 'Logo', 'tso-blog' ),
-            'description' => __( 'Upload the logo and set its width on desktop and mobile. There is no sticky logo: the header does not stay fixed on scroll.', 'tso-blog' ),
-            'panel'       => 'tsothm_appearance_panel',
-            'priority'    => 10,
-        )
-    );
-
-    if ( $wp_customize->get_control( 'custom_logo' ) ) {
-        $wp_customize->get_control( 'custom_logo' )->section  = 'tsothm_logo_section';
-        $wp_customize->get_control( 'custom_logo' )->priority = 5;
-        $wp_customize->get_control( 'custom_logo' )->label    = __( 'Logo', 'tso-blog' );
-    }
-
-    $wp_customize->add_setting(
-        'tsothm_logo_width',
-        array(
-            'default'           => '300',
-            'sanitize_callback' => 'tsothm_sanitize_logo_width_desktop',
-            'transport'         => 'refresh',
-        )
-    );
-    $wp_customize->add_control(
-        'tsothm_logo_width',
-        array(
-            'label'       => __( 'Logo width (px)', 'tso-blog' ),
-            'description' => __( 'Desktop display width. Theme maximum: 500 px (minimum 40). Height adjusts automatically. For a sharp result, use a logo file at least this wide.', 'tso-blog' ),
-            'section'     => 'tsothm_logo_section',
-            'type'        => 'number',
-            'priority'    => 10,
-            'input_attrs' => array(
-                'min'  => 40,
-                'max'  => 500,
-                'step' => 1,
-            ),
-        )
-    );
-
-    $wp_customize->add_setting(
-        'tsothm_logo_width_mobile',
-        array(
-            'default'           => '180',
-            'sanitize_callback' => 'tsothm_sanitize_logo_width_mobile',
-            'transport'         => 'refresh',
-        )
-    );
-    $wp_customize->add_control(
-        'tsothm_logo_width_mobile',
-        array(
-            'label'       => __( 'Logo width on mobile (px)', 'tso-blog' ),
-            'description' => __( 'Mobile display width (screens ≤ 768 px). Theme maximum: 500 px (minimum 40). Use the Customizer mobile preview to see it. For a sharp result, use a logo file at least this wide.', 'tso-blog' ),
-            'section'     => 'tsothm_logo_section',
-            'type'        => 'number',
-            'priority'    => 20,
-            'input_attrs' => array(
-                'min'  => 40,
-                'max'  => 500,
-                'step' => 1,
-            ),
-        )
-    );
 
     /* Diseño — ancho del sitio */
     $wp_customize->add_section(
@@ -3816,7 +3810,7 @@ add_action( 'customize_register', function( $wp_customize ) {
             'label'       => __( 'Google Maps (embed URL)', 'tso-blog' ),
             'description' => __( 'In Google Maps: Share → Embed a map → copy the src attribute URL (or paste the full embed code). Only Google Maps embed URLs are accepted. Empty = no map.', 'tso-blog' ),
             'section'     => 'tsothm_contact_section',
-            'type'        => 'textarea',
+            'type'        => 'text',
         )
     );
 
@@ -3891,7 +3885,7 @@ add_action( 'customize_register', function( $wp_customize ) {
         'tsothm_pricing_section',
         array(
             'title'       => __( 'Pricing', 'tso-blog' ),
-            'description' => __( 'Plans for the "Pricing" page template. If left empty, the page will show the block content ("Pricing (3 plans)" pattern).', 'tso-blog' ),
+            'description' => __( 'Up to 5 plans for the "Pricing" page template. If left empty, the page shows the block content ("Pricing (3 plans)" pattern).', 'tso-blog' ),
             'panel'       => 'tsothm_content_panel',
             'priority'    => 24,
         )
@@ -3909,10 +3903,12 @@ add_action( 'customize_register', function( $wp_customize ) {
             $wp_customize,
             'tsothm_pricing_plans',
             array(
-                'label'      => __( 'Plans', 'tso-blog' ),
-                'section'    => 'tsothm_pricing_section',
-                'fields'     => tsothm_get_pricing_fields(),
-                'add_label'  => __( 'Add plan', 'tso-blog' ),
+                'label'       => __( 'Plans', 'tso-blog' ),
+                'description' => __( 'Maximum 5 plans. Separate features with a vertical bar, for example: Support | Updates | Backups.', 'tso-blog' ),
+                'section'     => 'tsothm_pricing_section',
+                'fields'      => tsothm_get_pricing_fields(),
+                'add_label'   => __( 'Add plan', 'tso-blog' ),
+                'max_items'   => 5,
             )
         )
     );
@@ -5702,8 +5698,8 @@ function tsothm_get_pricing_fields() {
 		),
 		array(
 			'key'   => 'features',
-			'type'  => 'textarea',
-			'label' => __( 'Features (one per line)', 'tso-blog' ),
+			'type'  => 'text',
+			'label' => __( 'Features, separated by |', 'tso-blog' ),
 		),
 		array(
 			'key'   => 'button_text',
@@ -5742,7 +5738,7 @@ function tsothm_get_landing_highlight_fields() {
 		),
 		array(
 			'key'   => 'text',
-			'type'  => 'textarea',
+			'type'  => 'text',
 			'label' => __( 'Short text', 'tso-blog' ),
 		),
 	);
@@ -5766,6 +5762,10 @@ function tsothm_sanitize_repeater_field_value( $value, $field ) {
 		case 'text':
 		default:
 			$text = is_string( $value ) ? $value : '';
+			// Older pricing rows stored one feature per line. Keep them as separate items.
+			if ( isset( $field['key'] ) && 'features' === $field['key'] ) {
+				$text = str_replace( array( "\r\n", "\r", "\n" ), ' | ', $text );
+			}
 			// Los campos de texto que parecen URL (link, button_url) se sanean como URL.
 			if ( isset( $field['key'] ) && false !== strpos( $field['key'], 'url' ) ) {
 				return esc_url_raw( $text );
@@ -5779,20 +5779,26 @@ function tsothm_sanitize_repeater_field_value( $value, $field ) {
 
 /**
  * Generic repeater sanitizer: decodes JSON, keeps only known fields,
- * sanitizes each value by type, re-encodes to JSON. Caps at 50 rows.
+ * sanitizes each value by type, re-encodes to JSON.
  *
  * @param string $value  Raw JSON value from the Customizer control.
  * @param array  $fields Field schema (tsothm_get_*_fields()).
+ * @param int    $max    Maximum rows. Pricing uses 5; other repeaters default to 50.
  * @return string Sanitized JSON.
  */
-function tsothm_sanitize_repeater_json( $value, $fields ) {
+function tsothm_sanitize_repeater_json( $value, $fields, $max = 50 ) {
 	$rows = json_decode( is_string( $value ) ? $value : '', true );
 	if ( ! is_array( $rows ) ) {
 		return wp_json_encode( array() );
 	}
 
+	$max = absint( $max );
+	if ( $max < 1 ) {
+		$max = 50;
+	}
+
 	$clean = array();
-	foreach ( array_slice( $rows, 0, 50 ) as $row ) {
+	foreach ( array_slice( $rows, 0, $max ) as $row ) {
 		if ( ! is_array( $row ) ) {
 			continue;
 		}
@@ -5827,7 +5833,7 @@ function tsothm_sanitize_team_members( $value ) {
  * @return string
  */
 function tsothm_sanitize_pricing_plans( $value ) {
-	return tsothm_sanitize_repeater_json( $value, tsothm_get_pricing_fields() );
+	return tsothm_sanitize_repeater_json( $value, tsothm_get_pricing_fields(), 5 );
 }
 
 /**
@@ -5979,7 +5985,7 @@ function tsothm_render_pricing_table( $post_id ) {
 		}
 		if ( ! empty( $plan['features'] ) ) {
 			echo '<ul class="tso-pricing-features">';
-			foreach ( preg_split( '/\r\n|\r|\n/', (string) $plan['features'] ) as $line ) {
+			foreach ( preg_split( '/\s*\|\s*|\r\n|\r|\n/', (string) $plan['features'] ) as $line ) {
 				$line = trim( $line );
 				if ( '' === $line ) {
 					continue;
@@ -6713,7 +6719,7 @@ function tsothm_customize_register_selective_refresh( $wp_customize ) {
         }
     };
 
-    // Site title (fallback text logo when no custom logo / theme logo file).
+    // Site title (shown when Site Identity has no Site Logo).
     $set_post_message( 'blogname' );
     $wp_customize->selective_refresh->add_partial(
         'blogname',

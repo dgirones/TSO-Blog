@@ -447,11 +447,13 @@ msgstr "Description of the second featured feature or service."
 
 #: functions.php:2352
 msgid ""
-"Desktop display width. Theme maximum: 500 px (minimum 40). Height adjusts "
-"automatically. For a sharp result, use a logo file at least this wide."
+"Desktop display width of the Site Logo. Theme maximum: 500 px (minimum 40). "
+"Height adjusts automatically. For a sharp result, use a logo file at least "
+"this wide."
 msgstr ""
-"Desktop display width. Theme maximum: 500 px (minimum 40). Height adjusts "
-"automatically. For a sharp result, use a logo file at least this wide."
+"Desktop display width of the Site Logo. Theme maximum: 500 px (minimum 40). "
+"Height adjusts automatically. For a sharp result, use a logo file at least "
+"this wide."
 
 #: functions.php:1638
 msgid "Dimensions:"
@@ -527,8 +529,8 @@ msgid "Featured"
 msgstr "Featured"
 
 #: functions.php:5316
-msgid "Features (one per line)"
-msgstr "Features (one per line)"
+msgid "Features, separated by |"
+msgstr "Features, separated by |"
 
 #: functions.php:4797
 msgid "File"
@@ -854,8 +856,12 @@ msgid "Logo width on mobile (px)"
 msgstr "Logo width on mobile (px)"
 
 #: functions.php:2286
-msgid "Logo, site width, sidebar, header social links and header image."
-msgstr "Logo, site width, sidebar, header social links and header image."
+msgid ""
+"Site width, sidebar, header social links and header image. The site logo is "
+"set under Site Identity."
+msgstr ""
+"Site width, sidebar, header social links and header image. The site logo is "
+"set under Site Identity."
 
 #: functions.php:3214
 msgid "Lowercase"
@@ -915,13 +921,13 @@ msgstr "Milestone title"
 
 #: functions.php:2376
 msgid ""
-"Mobile display width (screens ≤ 768 px). Theme maximum: 500 px (minimum 40)."
-" Use the Customizer mobile preview to see it. For a sharp result, use a logo"
-" file at least this wide."
+"Mobile display width of the Site Logo (screens ≤ 768 px). Theme maximum: "
+"500 px (minimum 40). Use the Customizer mobile preview to see it. For a "
+"sharp result, use a logo file at least this wide."
 msgstr ""
-"Mobile display width (screens ≤ 768 px). Theme maximum: 500 px (minimum 40)."
-" Use the Customizer mobile preview to see it. For a sharp result, use a logo"
-" file at least this wide."
+"Mobile display width of the Site Logo (screens ≤ 768 px). Theme maximum: "
+"500 px (minimum 40). Use the Customizer mobile preview to see it. For a "
+"sharp result, use a logo file at least this wide."
 
 #: tsothm-mobile-menu.php:76 tsothm-mobile-menu.php:187
 msgid "Mobile menu"
@@ -1118,11 +1124,19 @@ msgstr "Plans"
 
 #: functions.php:3548
 msgid ""
-"Plans for the \"Pricing\" page template. If left empty, the page will show "
-"the block content (\"Pricing (3 plans)\" pattern)."
+"Up to 5 plans for the \"Pricing\" page template. If left empty, the page "
+"shows the block content (\"Pricing (3 plans)\" pattern)."
 msgstr ""
-"Plans for the \"Pricing\" page template. If left empty, the page will show "
-"the block content (\"Pricing (3 plans)\" pattern)."
+"Up to 5 plans for the \"Pricing\" page template. If left empty, the page "
+"shows the block content (\"Pricing (3 plans)\" pattern)."
+
+#: functions.php
+msgid ""
+"Maximum 5 plans. Separate features with a vertical bar, for example: "
+"Support | Updates | Backups."
+msgstr ""
+"Maximum 5 plans. Separate features with a vertical bar, for example: "
+"Support | Updates | Backups."
 
 #: functions.php:1714
 msgid ""

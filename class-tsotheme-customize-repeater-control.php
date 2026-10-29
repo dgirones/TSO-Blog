@@ -57,6 +57,13 @@ class Tsotheme_Customize_Repeater_Control extends WP_Customize_Control {
 	public $add_label = '';
 
 	/**
+	 * Maximum number of rows. The pricing repeater uses 5.
+	 *
+	 * @var int
+	 */
+	public $max_items = 50;
+
+	/**
 	 * Enqueue control scripts/styles.
 	 */
 	public function enqueue() {
@@ -93,9 +100,14 @@ class Tsotheme_Customize_Repeater_Control extends WP_Customize_Control {
 	 * @return array
 	 */
 	protected function get_rows() {
-		$raw = $this->value();
+		$raw  = $this->value();
 		$rows = json_decode( is_string( $raw ) ? $raw : '', true );
-		return is_array( $rows ) ? array_values( $rows ) : array();
+		$rows = is_array( $rows ) ? array_values( $rows ) : array();
+		$max  = absint( $this->max_items );
+		if ( $max > 0 && count( $rows ) > $max ) {
+			$rows = array_slice( $rows, 0, $max );
+		}
+		return $rows;
 	}
 
 	/**
@@ -117,6 +129,7 @@ class Tsotheme_Customize_Repeater_Control extends WP_Customize_Control {
 			id="<?php echo esc_attr( $control_id ); ?>"
 			data-fields="<?php echo esc_attr( wp_json_encode( $this->fields ) ); ?>"
 			data-add-label="<?php echo esc_attr( $this->add_label ? $this->add_label : __( 'Add row', 'tso-blog' ) ); ?>"
+			data-max="<?php echo esc_attr( (string) max( 1, absint( $this->max_items ) ) ); ?>"
 		>
 			<ul class="tso-repeater-list"></ul>
 			<button type="button" class="button tso-repeater-add">
