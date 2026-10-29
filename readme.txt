@@ -4,7 +4,7 @@ Tags: blog, two-columns, right-sidebar, custom-colors, custom-header, custom-bac
 Requires at least: 6.1
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.10
+Stable tag: 1.0.9
 License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -143,11 +143,9 @@ The Contact page template can show an embedded Google Map when you paste a Maps 
 
 == Changelog ==
 
-= 1.0.10 =
+= 1.0.9 =
 * Description rewritten to match the current theme. The readme summary stays within 150 characters.
 * Tags checked against the WordPress.org list. All current tags are allowed. Only subject tags are limited to three; this theme uses one: blog.
-
-= 1.0.9 =
 * Theme review: the core Site Logo control stays in Site Identity. Logo width settings sit next to it. Removed the separate Logo section and the bundled logo-file fallback.
 * Theme review: at most three Customizer textareas (footer legal text, contact intro, contact address). The Maps embed and repeater notes are single-line fields.
 * Theme review: the pricing plans repeater accepts at most 5 plans.

@@ -6,7 +6,7 @@
  */
 
 if ( ! defined( 'TSOTHM_VERSION' ) ) {
-    define( 'TSOTHM_VERSION', '1.0.10' );
+    define( 'TSOTHM_VERSION', '1.0.9' );
 }
 
 require_once get_template_directory() . '/tsothm-mobile-menu.php';
