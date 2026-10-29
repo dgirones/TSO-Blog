@@ -1836,3 +1836,7 @@ msgid ""
 msgstr ""
 "Font family and text style for the news / announcement bar between the "
 "header and the menu. Colors are under Colors → Announcement."
+
+#: style.css
+msgid "A classic blog theme with an orange frame and a white content area. The home page is a two-column post grid with live search and a Load more button. Posts use a right sidebar. The Customizer controls colors, typography, and the Site Logo, and includes a day and night mode. Page templates are included for contact, portfolio, pricing, team, and FAQ."
+msgstr "A classic blog theme with an orange frame and a white content area. The home page is a two-column post grid with live search and a Load more button. Posts use a right sidebar. The Customizer controls colors, typography, and the Site Logo, and includes a day and night mode. Page templates are included for contact, portfolio, pricing, team, and FAQ."

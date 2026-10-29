@@ -1874,3 +1874,7 @@ msgid ""
 msgstr ""
 "Familia tipográfica y estilo del texto de la barra de novedades / anuncios "
 "entre la cabecera y el menú. Los colores están en Colores → Anuncio."
+
+#: style.css
+msgid "A classic blog theme with an orange frame and a white content area. The home page is a two-column post grid with live search and a Load more button. Posts use a right sidebar. The Customizer controls colors, typography, and the Site Logo, and includes a day and night mode. Page templates are included for contact, portfolio, pricing, team, and FAQ."
+msgstr "Tema de blog clásico, con marco naranja y área de contenido blanca. La portada es una cuadrícula de dos columnas, con búsqueda en directo y un botón para cargar más. Los artículos llevan barra lateral derecha. El Personalizador controla los colores, la tipografía y el logotipo del sitio, e incluye un modo día y noche. Hay plantillas de página para contacto, portafolio, precios, equipo y preguntas frecuentes."

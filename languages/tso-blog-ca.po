@@ -1866,3 +1866,7 @@ msgid ""
 msgstr ""
 "Família tipogràfica i estil del text de la barra de novetats / anuncis entre"
 " la capçalera i el menú. Els colors són a Colors → Anunci."
+
+#: style.css
+msgid "A classic blog theme with an orange frame and a white content area. The home page is a two-column post grid with live search and a Load more button. Posts use a right sidebar. The Customizer controls colors, typography, and the Site Logo, and includes a day and night mode. Page templates are included for contact, portfolio, pricing, team, and FAQ."
+msgstr "Tema de blog clàssic, amb marc taronja i àrea de contingut blanca. La portada és una graella de dues columnes, amb cerca en directe i un botó per carregar-ne més. Els articles tenen barra lateral dreta. El Personalitzador controla els colors, la tipografia i el logotip del lloc, i inclou un mode dia i nit. Hi ha plantilles de pàgina per a contacte, portafoli, preus, equip i preguntes freqüents."

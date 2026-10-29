@@ -4,11 +4,11 @@ Tags: blog, two-columns, right-sidebar, custom-colors, custom-header, custom-bac
 Requires at least: 6.1
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.9
+Stable tag: 1.0.10
 License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Classic blog theme with an orange frame and a white content area. Includes a two-column home grid with Load more, live search, a day/night color mode, Customizer options for colors, typography and logo, announcement bars, ready-made page templates (portfolio, pricing, team, FAQ, contact and more) and optional Google Fonts.
+Classic blog theme with a two-column grid, live search, day and night mode, and page templates.
 
 == Description ==
 
@@ -142,6 +142,10 @@ The Contact page template can show an embedded Google Map when you paste a Maps 
 * Privacy Policy: https://policies.google.com/privacy
 
 == Changelog ==
+
+= 1.0.10 =
+* Description rewritten to match the current theme. The readme summary stays within 150 characters.
+* Tags checked against the WordPress.org list. All current tags are allowed. Only subject tags are limited to three; this theme uses one: blog.
 
 = 1.0.9 =
 * Theme review: the core Site Logo control stays in Site Identity. Logo width settings sit next to it. Removed the separate Logo section and the bundled logo-file fallback.
