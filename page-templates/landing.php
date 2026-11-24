@@ -17,12 +17,12 @@ $tsothm_landing_hero = tsothm_get_landing_hero_settings();
 <div class="tso-landing-page">
 	<?php while ( have_posts() ) : the_post(); ?>
 
-		<section class="tso-landing-hero"<?php echo $tsothm_landing_bg ? ' style="--tso-landing-hero-image:url(' . esc_url( $tsothm_landing_bg ) . ')"' : ''; ?>>
+		<section class="tso-landing-hero" aria-labelledby="tso-landing-hero-title"<?php echo $tsothm_landing_bg ? ' style="--tso-landing-hero-image:url(' . esc_url( $tsothm_landing_bg ) . ')"' : ''; ?>>
 			<div class="tso-landing-hero-inner">
 				<?php if ( $tsothm_landing_hero['eyebrow'] ) : ?>
 					<p class="tso-landing-hero-eyebrow"><?php echo esc_html( $tsothm_landing_hero['eyebrow'] ); ?></p>
 				<?php endif; ?>
-				<h1 class="tso-landing-hero-title"><?php the_title(); ?></h1>
+				<h1 id="tso-landing-hero-title" class="tso-landing-hero-title"><?php the_title(); ?></h1>
 				<?php if ( $tsothm_landing_ex ) : ?>
 					<p class="tso-landing-hero-subtitle"><?php echo esc_html( $tsothm_landing_ex ); ?></p>
 				<?php endif; ?>

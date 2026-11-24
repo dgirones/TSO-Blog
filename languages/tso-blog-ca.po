@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: TSO Blog\n"
 "Report-Msgid-Bugs-To: https://tusoporteonline.es\n"
 "POT-Creation-Date: 2026-10-12 14:34+0200\n"
-"PO-Revision-Date: 2026-10-12 14:34+0200\n"
+"PO-Revision-Date: 2026-11-11 11:48+0100\n"
 "Last-Translator: Tu Soporte Online <info@tusoporteonline.es>\n"
 "Language-Team: Catalan\n"
 "Language: ca\n"
@@ -263,6 +263,7 @@ msgid "C · Bottom tab bar"
 msgstr "C · Barra de pestanyes inferior"
 
 #: functions.php:4578
+msgctxt "Pattern description"
 msgid "Call-to-action block with centered title, text and button."
 msgstr "Bloc de crida a l'acció amb títol, text i botó centrats."
 
@@ -279,6 +280,7 @@ msgid "Carved relief"
 msgstr "Relleu tallat"
 
 #: functions.php:4577
+msgctxt "Pattern title"
 msgid "Centered CTA"
 msgstr "CTA centrada"
 
@@ -347,6 +349,7 @@ msgid "Comment"
 msgstr "Comentari"
 
 #: functions.php:5092
+msgctxt "Pattern description"
 msgid "Comparison table of 3 plans or rates."
 msgstr "Taula comparativa de 3 plans o tarifes."
 
@@ -455,8 +458,8 @@ msgid ""
 "this wide."
 msgstr ""
 "Amplada de visualització del logotip del lloc a l'escriptori. Màxim del "
-"tema: 500 px (mínim 40). L'alçada s'ajusta sola. Per un resultat nítid, "
-"useu un fitxer de logo d'almenys aquesta amplada."
+"tema: 500 px (mínim 40). L'alçada s'ajusta sola. Per un resultat nítid, useu"
+" un fitxer de logo d'almenys aquesta amplada."
 
 #: functions.php:1638
 msgid "Dimensions:"
@@ -624,6 +627,7 @@ msgid "Form shortcode"
 msgstr "Shortcode del formulari"
 
 #: functions.php:5235
+msgctxt "Pattern description"
 msgid "Full-width stacked buttons, \"linktree\" style."
 msgstr "Botons apilats a amplada completa, estil «linktree»."
 
@@ -655,10 +659,12 @@ msgid "Grid (2 columns)"
 msgstr "Quadrícula (2 columnes)"
 
 #: functions.php:5048
+msgctxt "Pattern description"
 msgid "Grid of 3 service cards with title and text."
 msgstr "Quadrícula de 3 targetes de servei amb títol i text."
 
 #: functions.php:4995
+msgctxt "Pattern description"
 msgid "Grid of 3 team cards with photo, name and role."
 msgstr "Quadrícula de 3 fitxes d'equip amb foto, nom i càrrec."
 
@@ -831,6 +837,7 @@ msgid "Link (website, LinkedIn…) — optional"
 msgstr "Enllaç (web, LinkedIn…) — opcional"
 
 #: functions.php:5234
+msgctxt "Pattern title"
 msgid "Link list"
 msgstr "Llista d'enllaços"
 
@@ -933,12 +940,12 @@ msgstr "Títol de la fita"
 
 #: functions.php:2376
 msgid ""
-"Mobile display width of the Site Logo (screens ≤ 768 px). Theme maximum: "
-"500 px (minimum 40). Use the Customizer mobile preview to see it. For a "
-"sharp result, use a logo file at least this wide."
+"Mobile display width of the Site Logo (screens ≤ 768 px). Theme maximum: 500"
+" px (minimum 40). Use the Customizer mobile preview to see it. For a sharp "
+"result, use a logo file at least this wide."
 msgstr ""
-"Amplada de visualització del logotip del lloc al mòbil (pantalles ≤ 768 "
-"px). Màxim del tema: 500 px (mínim 40). Useu la vista prèvia mòbil del "
+"Amplada de visualització del logotip del lloc al mòbil (pantalles ≤ 768 px)."
+" Màxim del tema: 500 px (mínim 40). Useu la vista prèvia mòbil del "
 "Personalitzador per veure-ho. Per un resultat nítid, useu un fitxer de logo "
 "d'almenys aquesta amplada."
 
@@ -1141,13 +1148,13 @@ msgid ""
 "Up to 5 plans for the \"Pricing\" page template. If left empty, the page "
 "shows the block content (\"Pricing (3 plans)\" pattern)."
 msgstr ""
-"Fins a 5 plans per a la plantilla de pàgina «Precios». Si ho deixes buit, la "
-"pàgina mostra el contingut de blocs (patró «Precios (3 planes)»)."
+"Fins a 5 plans per a la plantilla de pàgina «Precios». Si ho deixes buit, la"
+" pàgina mostra el contingut de blocs (patró «Precios (3 planes)»)."
 
 #: functions.php
 msgid ""
-"Maximum 5 plans. Separate features with a vertical bar, for example: "
-"Support | Updates | Backups."
+"Maximum 5 plans. Separate features with a vertical bar, for example: Support"
+" | Updates | Backups."
 msgstr ""
 "Màxim 5 plans. Separa les característiques amb una barra vertical, per "
 "exemple: Suport | Actualitzacions | Còpies."
@@ -1196,6 +1203,7 @@ msgid "Pricing"
 msgstr "Preus"
 
 #: functions.php:5091
+msgctxt "Pattern title"
 msgid "Pricing (3 plans)"
 msgstr "Preus (3 plans)"
 
@@ -1341,6 +1349,7 @@ msgid "Service 3"
 msgstr "Servei 3"
 
 #: functions.php:5047
+msgctxt "Pattern title"
 msgid "Services (3 cards)"
 msgstr "Serveis (3 targetes)"
 
@@ -1484,6 +1493,7 @@ msgid "Team"
 msgstr "Equip"
 
 #: functions.php:4994
+msgctxt "Pattern title"
 msgid "Team (3 people)"
 msgstr "Equip (3 persones)"
 
@@ -1500,6 +1510,7 @@ msgid "Templates"
 msgstr "Plantilles"
 
 #: functions.php:5153
+msgctxt "Pattern title"
 msgid "Testimonials (2 cards)"
 msgstr "Testimonis (2 targetes)"
 
@@ -1543,6 +1554,7 @@ msgstr ""
 "quedaran alineades."
 
 #: functions.php:5181
+msgctxt "Pattern title"
 msgid "Timeline (3 milestones)"
 msgstr "Cronologia (3 fites)"
 
@@ -1567,15 +1579,18 @@ msgid "Turn off to remove the column fill (transparent)."
 msgstr "Desactiva-ho per treure el farciment de la columna (transparent)."
 
 #: functions.php:4602
+msgctxt "Pattern description"
 msgid "Two columns with title and text to compare services or features."
 msgstr ""
 "Dues columnes amb títol i text per comparar serveis o característiques."
 
 #: functions.php:4601
+msgctxt "Pattern title"
 msgid "Two information columns"
 msgstr "Dues columnes informació"
 
 #: functions.php:5154
+msgctxt "Pattern description"
 msgid "Two testimonial cards with quote and author."
 msgstr "Dues targetes de testimoni amb cita i autor."
 
@@ -1634,6 +1649,7 @@ msgstr ""
 "Usa els colors del menú definits a Colors → Menú (i els del mode nit)."
 
 #: functions.php:5182
+msgctxt "Pattern description"
 msgid "Vertical timeline with 3 milestones (date, title and text)."
 msgstr "Línia de temps vertical amb 3 fites (data, títol i text)."
 
@@ -1802,13 +1818,13 @@ msgstr ""
 msgid ""
 "Body and titles (including cards and widget titles), plus announcement bar "
 "and menu. Content text colors are under Colors → General (day) and Colors → "
-"Night mode. Footer text size is under Footer → Footer texts. Google Fonts "
-"load only if you select them."
+"Night mode. Footer text size is under Footer → Footer texts. Bundled web "
+"fonts load only if you select them."
 msgstr ""
 "Cos i títols (incloses targetes i títols de widgets), més barra d’anuncis i "
 "menú. Els colors del text del contingut són a Colors → General (dia) i "
 "Colors → Mode nit. La mida del text del peu és a Peu → Textos del peu. Les "
-"fonts Google només es carreguen si les tries."
+"fonts web incloses només es carreguen si les tries."
 
 msgid ""
 "Day colors (including content text and headings), menu, sidebar, footer, "
@@ -1868,8 +1884,27 @@ msgstr ""
 " la capçalera i el menú. Els colors són a Colors → Anunci."
 
 #: style.css
-msgid "A classic blog theme with an orange frame and a white content area. The home page is a two-column post grid with live search and a Load more button. Posts use a right sidebar. The Customizer controls colors, typography, and the Site Logo, and includes a day and night mode. Page templates are included for contact, portfolio, pricing, team, and FAQ."
-msgstr "Tema de blog clàssic, amb marc taronja i àrea de contingut blanca. La portada és una graella de dues columnes, amb cerca en directe i un botó per carregar-ne més. Els articles tenen barra lateral dreta. El Personalitzador controla els colors, la tipografia i el logotip del lloc, i inclou un mode dia i nit. Hi ha plantilles de pàgina per a contacte, portafoli, preus, equip i preguntes freqüents."
+msgid ""
+"A blog and small-business theme for freelancers and local businesses. "
+"Besides the blog (grid, list or magazine layout, live search and Load more),"
+" it includes 14 ready-made page templates: landing, services, pricing, team,"
+" testimonials, FAQ, contact, portfolio gallery, legal document and more, "
+"plus 8 block patterns, so a complete site can be built without a page "
+"builder. It has day, night and automatic color modes, a rotating "
+"announcement bar, four mobile menu styles and bundled web fonts with no "
+"external requests. The Customizer controls colors, typography, sidebar, "
+"footer and the Site Logo."
+msgstr ""
+"Un tema de blog i de petita empresa per a autònoms i negocis locals. A més "
+"del blog (disposició en quadrícula, llista o magazine, cerca en directe i "
+"Carregar més), inclou 14 plantilles de pàgina llestes per fer servir: "
+"landing, serveis, preus, equip, testimonis, preguntes freqüents, contacte, "
+"galeria portfolio, document legal i més, i també 8 patrons de blocs, de "
+"manera que es pot muntar un lloc complet sense cap maquetador. Té modes de "
+"color dia, nit i automàtic, una barra d'anuncis rotatòria, quatre estils de "
+"menú mòbil i fonts web incloses, sense peticions externes. El "
+"Personalitzador controla els colors, la tipografia, la barra lateral, el peu"
+" i el logotip del lloc."
 
 #: functions.php
 msgid "Image viewer"
@@ -1886,3 +1921,7 @@ msgstr "Imatge anterior"
 #: functions.php
 msgid "Next image"
 msgstr "Imatge següent"
+
+#: template-parts/content-card.php:33
+msgid "(no title)"
+msgstr "(sense títol)"

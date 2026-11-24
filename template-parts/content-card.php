@@ -30,7 +30,7 @@ $tsothm_excerpt_n   = $tsothm_is_featured ? 36 : 20;
 			<p class="post-card-kicker"><?php esc_html_e( 'Featured', 'tso-blog' ); ?></p>
 		<?php endif; ?>
 		<h2 class="post-card-title" itemprop="headline">
-			<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+			<a href="<?php the_permalink(); ?>"><?php if ( '' === trim( get_the_title() ) ) { esc_html_e( '(no title)', 'tso-blog' ); } else { the_title(); } ?></a>
 		</h2>
 		<div class="post-card-excerpt">
 			<?php echo esc_html( wp_trim_words( get_the_excerpt(), $tsothm_excerpt_n ) ); ?>

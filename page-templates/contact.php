@@ -21,7 +21,7 @@ $tsothm_show_sb = tsothm_is_sidebar_visible();
 <div class="main-container tso-contact-layout">
 <?php endif; ?>
 
-<div class="tso-contact-page">
+<main id="primary" class="tso-contact-page" role="main">
 	<section class="tso-contact-hero"<?php echo $tsothm_hero_bg ? ' style="--tso-contact-hero-image:url(' . esc_url( $tsothm_hero_bg ) . ')"' : ''; ?>>
 		<div class="tso-contact-hero-inner">
 			<?php while ( have_posts() ) : the_post(); ?>
@@ -125,7 +125,7 @@ $tsothm_show_sb = tsothm_is_sidebar_visible();
 			<?php tsothm_render_contact_map( $tsothm_contact['maps_embed'] ); ?>
 		<?php endif; ?>
 	</div>
-</div>
+</main>
 
 <?php if ( $tsothm_show_sb ) : ?>
 	<?php get_sidebar(); ?>

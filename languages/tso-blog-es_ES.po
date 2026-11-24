@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: TSO Blog\n"
 "Report-Msgid-Bugs-To: https://tusoporteonline.es\n"
 "POT-Creation-Date: 2026-10-12 14:34+0200\n"
-"PO-Revision-Date: 2026-10-12 14:34+0200\n"
+"PO-Revision-Date: 2026-11-11 11:48+0100\n"
 "Last-Translator: Tu Soporte Online <info@tusoporteonline.es>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -264,6 +264,7 @@ msgid "C · Bottom tab bar"
 msgstr "C · Barra de pestañas inferior"
 
 #: functions.php:4578
+msgctxt "Pattern description"
 msgid "Call-to-action block with centered title, text and button."
 msgstr "Bloque de llamada a la acción con título, texto y botón centrados."
 
@@ -280,6 +281,7 @@ msgid "Carved relief"
 msgstr "Relieve tallado"
 
 #: functions.php:4577
+msgctxt "Pattern title"
 msgid "Centered CTA"
 msgstr "CTA centrada"
 
@@ -348,6 +350,7 @@ msgid "Comment"
 msgstr "Comentario"
 
 #: functions.php:5092
+msgctxt "Pattern description"
 msgid "Comparison table of 3 plans or rates."
 msgstr "Tabla comparativa de 3 planes o tarifas."
 
@@ -626,6 +629,7 @@ msgid "Form shortcode"
 msgstr "Shortcode del formulario"
 
 #: functions.php:5235
+msgctxt "Pattern description"
 msgid "Full-width stacked buttons, \"linktree\" style."
 msgstr "Botones apilados a ancho completo, estilo \"linktree\"."
 
@@ -657,10 +661,12 @@ msgid "Grid (2 columns)"
 msgstr "Cuadrícula (2 columnas)"
 
 #: functions.php:5048
+msgctxt "Pattern description"
 msgid "Grid of 3 service cards with title and text."
 msgstr "Cuadrícula de 3 tarjetas de servicio con título y texto."
 
 #: functions.php:4995
+msgctxt "Pattern description"
 msgid "Grid of 3 team cards with photo, name and role."
 msgstr "Cuadrícula de 3 fichas de equipo con foto, nombre y cargo."
 
@@ -833,6 +839,7 @@ msgid "Link (website, LinkedIn…) — optional"
 msgstr "Enlace (web, LinkedIn…) — opcional"
 
 #: functions.php:5234
+msgctxt "Pattern title"
 msgid "Link list"
 msgstr "Lista de enlaces"
 
@@ -935,12 +942,12 @@ msgstr "Título del hito"
 
 #: functions.php:2376
 msgid ""
-"Mobile display width of the Site Logo (screens ≤ 768 px). Theme maximum: "
-"500 px (minimum 40). Use the Customizer mobile preview to see it. For a "
-"sharp result, use a logo file at least this wide."
+"Mobile display width of the Site Logo (screens ≤ 768 px). Theme maximum: 500"
+" px (minimum 40). Use the Customizer mobile preview to see it. For a sharp "
+"result, use a logo file at least this wide."
 msgstr ""
-"Ancho de visualización del logotipo del sitio en móvil (pantallas ≤ 768 "
-"px). Máximo del tema: 500 px (mínimo 40). Use la vista previa móvil del "
+"Ancho de visualización del logotipo del sitio en móvil (pantallas ≤ 768 px)."
+" Máximo del tema: 500 px (mínimo 40). Use la vista previa móvil del "
 "Personalizador para verlo. Para un resultado nítido, use un archivo de logo "
 "de al menos este ancho."
 
@@ -1150,8 +1157,8 @@ msgstr ""
 
 #: functions.php
 msgid ""
-"Maximum 5 plans. Separate features with a vertical bar, for example: "
-"Support | Updates | Backups."
+"Maximum 5 plans. Separate features with a vertical bar, for example: Support"
+" | Updates | Backups."
 msgstr ""
 "Máximo 5 planes. Separa las características con una barra vertical, por "
 "ejemplo: Soporte | Actualizaciones | Copias."
@@ -1200,6 +1207,7 @@ msgid "Pricing"
 msgstr "Precios"
 
 #: functions.php:5091
+msgctxt "Pattern title"
 msgid "Pricing (3 plans)"
 msgstr "Precios (3 planes)"
 
@@ -1345,6 +1353,7 @@ msgid "Service 3"
 msgstr "Servicio 3"
 
 #: functions.php:5047
+msgctxt "Pattern title"
 msgid "Services (3 cards)"
 msgstr "Servicios (3 tarjetas)"
 
@@ -1488,6 +1497,7 @@ msgid "Team"
 msgstr "Equipo"
 
 #: functions.php:4994
+msgctxt "Pattern title"
 msgid "Team (3 people)"
 msgstr "Equipo (3 personas)"
 
@@ -1504,6 +1514,7 @@ msgid "Templates"
 msgstr "Plantillas"
 
 #: functions.php:5153
+msgctxt "Pattern title"
 msgid "Testimonials (2 cards)"
 msgstr "Testimonios (2 tarjetas)"
 
@@ -1546,6 +1557,7 @@ msgstr ""
 "quedarán alineadas."
 
 #: functions.php:5181
+msgctxt "Pattern title"
 msgid "Timeline (3 milestones)"
 msgstr "Cronología (3 hitos)"
 
@@ -1570,15 +1582,18 @@ msgid "Turn off to remove the column fill (transparent)."
 msgstr "Desactívalo para quitar el relleno de la columna (transparente)."
 
 #: functions.php:4602
+msgctxt "Pattern description"
 msgid "Two columns with title and text to compare services or features."
 msgstr ""
-"Dues columnes amb títol i text per comparar serveis o característiques."
+"Dos columnas con título y texto para comparar servicios o características."
 
 #: functions.php:4601
+msgctxt "Pattern title"
 msgid "Two information columns"
-msgstr "Dues columnes informació"
+msgstr "Dos columnas de información"
 
 #: functions.php:5154
+msgctxt "Pattern description"
 msgid "Two testimonial cards with quote and author."
 msgstr "Dos tarjetas de testimonio con cita y autor."
 
@@ -1638,6 +1653,7 @@ msgstr ""
 "Usa los colores del menú definidos en Colores → Menú (y los del modo noche)."
 
 #: functions.php:5182
+msgctxt "Pattern description"
 msgid "Vertical timeline with 3 milestones (date, title and text)."
 msgstr "Línea de tiempo vertical con 3 hitos (fecha, título y texto)."
 
@@ -1677,7 +1693,7 @@ msgstr "Títulos de widgets"
 
 #: functions.php:4557
 msgid "With shadow"
-msgstr "Amb ombra"
+msgstr "Con sombra"
 
 #: functions.php:1967
 msgid ""
@@ -1807,13 +1823,14 @@ msgstr ""
 msgid ""
 "Body and titles (including cards and widget titles), plus announcement bar "
 "and menu. Content text colors are under Colors → General (day) and Colors → "
-"Night mode. Footer text size is under Footer → Footer texts. Google Fonts "
-"load only if you select them."
+"Night mode. Footer text size is under Footer → Footer texts. Bundled web "
+"fonts load only if you select them."
 msgstr ""
 "Cuerpo y títulos (incluidas tarjetas y títulos de widgets), más barra de "
 "anuncios y menú. Los colores del texto del contenido están en Colores → "
 "General (día) y Colores → Modo noche. El tamaño del texto del pie está en "
-"Pie → Textos del pie. Las fuentes Google solo se cargan si las eliges."
+"Pie → Textos del pie. Las fuentes web incluidas solo se cargan si las "
+"eliges."
 
 msgid ""
 "Day colors (including content text and headings), menu, sidebar, footer, "
@@ -1876,8 +1893,27 @@ msgstr ""
 "entre la cabecera y el menú. Los colores están en Colores → Anuncio."
 
 #: style.css
-msgid "A classic blog theme with an orange frame and a white content area. The home page is a two-column post grid with live search and a Load more button. Posts use a right sidebar. The Customizer controls colors, typography, and the Site Logo, and includes a day and night mode. Page templates are included for contact, portfolio, pricing, team, and FAQ."
-msgstr "Tema de blog clásico, con marco naranja y área de contenido blanca. La portada es una cuadrícula de dos columnas, con búsqueda en directo y un botón para cargar más. Los artículos llevan barra lateral derecha. El Personalizador controla los colores, la tipografía y el logotipo del sitio, e incluye un modo día y noche. Hay plantillas de página para contacto, portafolio, precios, equipo y preguntas frecuentes."
+msgid ""
+"A blog and small-business theme for freelancers and local businesses. "
+"Besides the blog (grid, list or magazine layout, live search and Load more),"
+" it includes 14 ready-made page templates: landing, services, pricing, team,"
+" testimonials, FAQ, contact, portfolio gallery, legal document and more, "
+"plus 8 block patterns, so a complete site can be built without a page "
+"builder. It has day, night and automatic color modes, a rotating "
+"announcement bar, four mobile menu styles and bundled web fonts with no "
+"external requests. The Customizer controls colors, typography, sidebar, "
+"footer and the Site Logo."
+msgstr ""
+"Un tema de blog y de pequeña empresa para autónomos y negocios locales. "
+"Además del blog (disposición en cuadrícula, lista o magazine, búsqueda en "
+"directo y Cargar más), incluye 14 plantillas de página listas para usar: "
+"landing, servicios, precios, equipo, testimonios, preguntas frecuentes, "
+"contacto, galería portfolio, documento legal y más, y también 8 patrones de "
+"bloques, de modo que se puede montar un sitio completo sin ningún "
+"maquetador. Tiene modos de color día, noche y automático, una barra de "
+"anuncios rotatoria, cuatro estilos de menú móvil y fuentes web incluidas, "
+"sin peticiones externas. El Personalizador controla los colores, la "
+"tipografía, la barra lateral, el pie y el logotipo del sitio."
 
 #: functions.php
 msgid "Image viewer"
@@ -1894,3 +1930,7 @@ msgstr "Imagen anterior"
 #: functions.php
 msgid "Next image"
 msgstr "Imagen siguiente"
+
+#: template-parts/content-card.php:33
+msgid "(no title)"
+msgstr "(sin título)"

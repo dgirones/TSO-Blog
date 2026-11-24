@@ -18,7 +18,7 @@ $tsothm_post_author = get_the_author();
 		</span>
 	<?php endif; ?>
 
-	<h1 class="single-title" itemprop="headline"><?php the_title(); ?></h1>
+	<h1 class="single-title" itemprop="headline"><?php if ( '' === trim( get_the_title() ) ) { esc_html_e( '(no title)', 'tso-blog' ); } else { the_title(); } ?></h1>
 
 	<meta itemprop="datePublished" content="<?php echo esc_attr( get_the_date( 'c' ) ); ?>" />
 	<meta itemprop="dateModified" content="<?php echo esc_attr( get_the_modified_date( 'c' ) ); ?>" />

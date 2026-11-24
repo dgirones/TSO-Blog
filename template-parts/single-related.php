@@ -44,7 +44,7 @@ if ( ! $tsothm_related_query->have_posts() ) {
 				<?php endif; ?>
 				<div class="related-post-info">
 					<h3 class="related-post-title">
-						<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+						<a href="<?php the_permalink(); ?>"><?php if ( '' === trim( get_the_title() ) ) { esc_html_e( '(no title)', 'tso-blog' ); } else { the_title(); } ?></a>
 					</h3>
 					<time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>" class="related-post-date">
 						<?php echo esc_html( get_the_date() ); ?>
