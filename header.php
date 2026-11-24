@@ -12,7 +12,8 @@
 <div id="page-wrapper">
     <header class="site-header">
         <div class="header-main">
-            <div class="logo">
+            <?php $tsothm_logo_tag = is_home() ? 'h1' : 'div'; // Blog index: the site title is the page heading. ?>
+            <<?php echo esc_attr( $tsothm_logo_tag ); ?> class="logo">
                 <?php if ( has_custom_logo() ) : ?>
                     <?php the_custom_logo(); ?>
                 <?php else : ?>
@@ -20,7 +21,7 @@
                         <span class="site-title-text"><?php echo esc_html( get_bloginfo( 'name', 'display' ) ); ?></span>
                     </a>
                 <?php endif; ?>
-            </div>
+            </<?php echo esc_attr( $tsothm_logo_tag ); ?>>
             <div class="header-right">
                 <div id="tsothm-social-root"<?php echo empty( tsothm_get_configured_social_icons() ) ? ' class="tsothm-social-root--empty"' : ''; ?>>
                     <?php tsothm_social_icons(); ?>

@@ -37,7 +37,10 @@
 					"color": "#666666",
 					"name": "Muted text"
 				}
-			]
+			],
+			"custom": true,
+			"customGradient": true,
+			"link": true
 		},
 		"layout": {
 			"contentSize": "780px",
@@ -49,6 +52,31 @@
 					"fontFamily": "Arial, Helvetica, sans-serif",
 					"slug": "body",
 					"name": "Body"
+				},
+				{
+					"fontFamily": "system-ui, -apple-system, \"Segoe UI\", Roboto, Arial, sans-serif",
+					"slug": "system",
+					"name": "System UI"
+				},
+				{
+					"fontFamily": "Georgia, \"Times New Roman\", Times, serif",
+					"slug": "serif",
+					"name": "Serif"
+				},
+				{
+					"fontFamily": "Verdana, Geneva, sans-serif",
+					"slug": "verdana",
+					"name": "Verdana"
+				},
+				{
+					"fontFamily": "\"Trebuchet MS\", Helvetica, sans-serif",
+					"slug": "trebuchet",
+					"name": "Trebuchet MS"
+				},
+				{
+					"fontFamily": "Menlo, Consolas, Monaco, \"Liberation Mono\", \"Lucida Console\", monospace",
+					"slug": "monospace",
+					"name": "Monospace"
 				}
 			],
 			"fontSizes": [
@@ -67,7 +95,34 @@
 					"size": "1.25rem",
 					"name": "Large"
 				}
+			],
+			"dropCap": true,
+			"lineHeight": true,
+			"letterSpacing": true,
+			"textDecoration": true,
+			"textTransform": true
+		},
+		"spacing": {
+			"units": [
+				"px",
+				"em",
+				"rem",
+				"%",
+				"vw",
+				"vh"
 			]
+		},
+		"custom": {
+			"radius": {
+				"small": "4px",
+				"medium": "6px",
+				"pill": "999px"
+			},
+			"color": {
+				"heading": "var(--tso-color-heading, #111111)",
+				"accentText": "var(--tso-color-accent-text, #876025)",
+				"border": "var(--tso-color-border, #e0e0e0)"
+			}
 		}
 	},
 	"styles": {
@@ -98,6 +153,15 @@
 				},
 				"border": {
 					"radius": "4px"
+				}
+			},
+			"heading": {
+				"color": {
+					"text": "var(--tso-color-heading, #111111)"
+				},
+				"typography": {
+					"fontFamily": "var(--tso-font-heading, Arial, Helvetica, sans-serif)",
+					"fontWeight": "var(--tso-font-heading-weight, 700)"
 				}
 			}
 		}

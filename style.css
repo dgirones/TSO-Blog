@@ -2,8 +2,8 @@
 Theme Name: TSO Blog
 Author: deadko
 Author URI: https://tusoporteonline.es
-Description: A classic blog theme with an orange frame and a white content area. The home page is a two-column post grid with live search and a Load more button. Posts use a right sidebar. The Customizer controls colors, typography, and the Site Logo, and includes a day and night mode. Page templates are included for contact, portfolio, pricing, team, and FAQ.
-Version: 1.1.0
+Description: A blog and small-business theme for freelancers and local businesses. Besides the blog (grid, list or magazine layout, live search and Load more), it includes 14 ready-made page templates: landing, services, pricing, team, testimonials, FAQ, contact, portfolio gallery, legal document and more, plus 8 block patterns, so a complete site can be built without a page builder. It has day, night and automatic color modes, a rotating announcement bar, four mobile menu styles and bundled web fonts with no external requests. The Customizer controls colors, typography, sidebar, footer and the Site Logo.
+Version: 1.1.1
 Requires at least: 6.1
 Tested up to: 7.1
 Requires PHP: 7.4
@@ -11,7 +11,7 @@ License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: tso-blog
 Domain Path: /languages
-Tags: blog, two-columns, right-sidebar, custom-colors, custom-header, custom-background, custom-logo, custom-menu, editor-style, featured-images, footer-widgets, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, wide-blocks, block-styles
+Tags: blog, portfolio, one-column, two-columns, left-sidebar, right-sidebar, grid-layout, custom-colors, custom-header, custom-background, custom-logo, custom-menu, editor-style, featured-images, footer-widgets, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, wide-blocks, block-styles, block-patterns
 */
 
 /* ============================================================
@@ -19,6 +19,9 @@ Tags: blog, two-columns, right-sidebar, custom-colors, custom-header, custom-bac
    ============================================================ */
 :root {
     --tso-color-accent: #d6993a;
+    --tso-color-accent-contrast: #1a1a1a;
+    --tso-color-accent-text: #876025;
+    --tso-color-accent-text-hover: #6f4f1e;
     --tso-color-primary: #1e73be;
     --tso-color-body-bg: #d6993a;
     --tso-color-accent-hover: #b5782e;
@@ -32,7 +35,7 @@ Tags: blog, two-columns, right-sidebar, custom-colors, custom-header, custom-bac
     --tso-color-footer-muted: #aaaaaa;
     --tso-color-footer-border: #444444;
     --tso-color-announce-bg: #d6993a;
-    --tso-color-announce-text: #ffffff;
+    --tso-color-announce-text: #1a1a1a;
     --tso-color-text: #333333;
     --tso-color-heading: #111111;
     --tso-color-text-muted: #666666;
@@ -272,7 +275,7 @@ body.admin-bar .skip-to-content:focus-visible {
 .is-style-tso-accent .wp-block-button__link,
 .wp-block-button.is-style-tso-accent .wp-block-button__link {
     background-color: var(--tso-color-accent);
-    color: #fff;
+    color: var(--tso-color-accent-contrast, #1a1a1a);
 }
 
 .is-style-tso-sidebar-quote,
@@ -338,7 +341,7 @@ body.admin-bar .skip-to-content:focus-visible {
     margin: 30px auto;
     padding: 20px 40px;
     box-shadow: 0 0 20px rgba(0,0,0,0.3);
-    min-height: 100vh;
+    /* No forced viewport height: on short pages the frame ends at the footer. */
     box-sizing: border-box;
 }
 
@@ -371,6 +374,11 @@ body.tso-layout-full #page-wrapper {
     align-items: center;
     padding: 20px 0;
     gap: 20px;
+}
+
+h1.logo {
+    margin: 0;
+    font: inherit;
 }
 
 .logo a {
@@ -508,6 +516,13 @@ body.tso-layout-full #page-wrapper {
     background: #fff;
 }
 
+#searchform:focus-within,
+.searchform:focus-within {
+    border-color: var(--tso-color-primary);
+    -webkit-box-shadow: 0 0 0 2px rgba(30, 115, 190, 0.35);
+    box-shadow: 0 0 0 2px rgba(30, 115, 190, 0.35);
+}
+
 #searchform div,
 .searchform div {
     display: -webkit-box;
@@ -635,7 +650,7 @@ body.tso-layout-full #page-wrapper {
 #tso-search-results li.is-active a .tso-sr-title,
 .tso-search-results li a:hover .tso-sr-title,
 .tso-search-results li.is-active a .tso-sr-title {
-    color: var(--tso-color-accent);
+    color: var(--tso-color-accent-text, #876025);
 }
 
 #tso-search-results .tso-sr-mark,
@@ -649,7 +664,7 @@ body.tso-layout-full #page-wrapper {
 #tso-search-results .tso-sr-date,
 .tso-search-results .tso-sr-date {
     font-size: 11px;
-    color: #aaa;
+    color: #6b6b6b;
     margin-top: 3px;
     display: block;
 }
@@ -658,7 +673,7 @@ body.tso-layout-full #page-wrapper {
 .tso-search-results .tso-sr-msg {
     padding: 11px 13px;
     font-size: 13px;
-    color: #999;
+    color: #6b6b6b;
     text-align: center;
     display: block;
 }
@@ -816,7 +831,7 @@ body.customize-partial-edit-shortcuts-shown #tsothm-header-image-root.tsothm-hea
 
 .tsothm-announcement-text {
     color: inherit;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    text-shadow: var(--tso-announce-text-shadow, none);
 }
 
 .tsothm-announcement-link {
@@ -1293,6 +1308,7 @@ body.tsothm-nav-style-underline #primary-menu > li.current-menu-ancestor > a:foc
 
 .btn-load-more:hover {
     background: var(--tso-color-accent);
+    color: var(--tso-color-accent-contrast, #1a1a1a);
 }
 
 .btn-load-more:disabled {
@@ -1325,18 +1341,62 @@ body.tsothm-nav-style-underline #primary-menu > li.current-menu-ancestor > a:foc
 .single-breadcrumb {
     padding: 12px 0 8px;
     font-size: 13px;
-    color: #777;
+    color: #666;
     border-bottom: 1px solid #eee;
     margin-bottom: 0;
 }
 
+/* Long words (titles, URLs, code) must not widen the page. */
+.single-breadcrumb,
+.single-title,
+.page-title,
+.post-card-title,
+.related-post-title,
+.wp-block-embed__wrapper {
+    overflow-wrap: anywhere;
+}
+
+pre {
+    max-width: 100%;
+    white-space: pre-wrap;
+}
+
+/* Plain tables written in the content (block tables keep the core styles). */
+.entry-content > table,
+.comment-content table {
+    width: 100%;
+    margin: 0 0 1.5em;
+    border-collapse: collapse;
+}
+
+.entry-content > table th,
+.entry-content > table td,
+.comment-content table th,
+.comment-content table td {
+    padding: 8px 10px;
+    border: 1px solid var(--tso-color-border, #e0e0e0);
+    text-align: left;
+    vertical-align: top;
+    overflow-wrap: break-word;
+}
+
+.entry-content > table th,
+.comment-content table th {
+    background: var(--tso-color-surface-alt, #f1f1f1);
+    font-weight: 700;
+}
+
+.comment-content a {
+    text-decoration: underline;
+}
+
 .single-breadcrumb a {
-    color: var(--tso-color-accent);
+    color: var(--tso-color-accent-text, #876025);
     text-decoration: none;
 }
 
 .single-breadcrumb a:hover {
-    color: var(--tso-color-accent-hover);
+    color: var(--tso-color-accent-text-hover, #6f4f1e);
     text-decoration: underline;
 }
 
@@ -1359,7 +1419,7 @@ body.tsothm-nav-style-underline #primary-menu > li.current-menu-ancestor > a:foc
 
 .single-category-badge a {
     background-color: var(--tso-color-accent);
-    color: #fff;
+    color: var(--tso-color-accent-contrast, #1a1a1a);
     font-size: 11px;
     font-weight: bold;
     text-transform: uppercase;
@@ -1397,13 +1457,13 @@ body.tsothm-nav-style-underline #primary-menu > li.current-menu-ancestor > a:foc
     margin: 0 0 1em;
 }
 
-.entry-content a {
-    color: var(--tso-color-accent);
+.entry-content a:where(:not(.wp-element-button):not(.wp-block-button__link):not(.comment-reply-link)) {
+    color: var(--tso-color-accent-text, #876025);
     text-decoration: underline;
 }
 
-.entry-content a:hover {
-    color: var(--tso-color-accent-hover);
+.entry-content a:where(:not(.wp-element-button):not(.wp-block-button__link):not(.comment-reply-link)):hover {
+    color: var(--tso-color-accent-text-hover, #6f4f1e);
 }
 
 .entry-content img {
@@ -1510,7 +1570,7 @@ body.tsothm-nav-style-underline #primary-menu > li.current-menu-ancestor > a:foc
 
 .single-tags a:hover {
     background: var(--tso-color-accent);
-    color: #fff;
+    color: var(--tso-color-accent-contrast, #1a1a1a);
     border-color: var(--tso-color-accent);
     text-decoration: none;
 }
@@ -1529,7 +1589,7 @@ body.tsothm-nav-style-underline #primary-menu > li.current-menu-ancestor > a:foc
 .related-posts-title {
     font-size: calc(var(--tso-font-widget-title-size, 14px) + 3px);
     font-weight: bold;
-    color: #fff;
+    color: var(--tso-color-accent-contrast, #1a1a1a);
     background: var(--tso-color-accent);
     margin: -20px -20px 18px;
     padding: 10px 20px;
@@ -1591,13 +1651,13 @@ body.tsothm-nav-style-underline #primary-menu > li.current-menu-ancestor > a:foc
 }
 
 .related-post-title a:hover {
-    color: var(--tso-color-accent);
+    color: var(--tso-color-accent-text, #876025);
     text-decoration: none;
 }
 
 .related-post-date {
     font-size: 11px;
-    color: #999;
+    color: #6b6b6b;
     display: block;
 }
 
@@ -1616,7 +1676,7 @@ body.tsothm-nav-style-underline #primary-menu > li.current-menu-ancestor > a:foc
 .comment-reply-title {
     font-size: 17px;
     font-weight: bold;
-    color: #fff;
+    color: var(--tso-color-accent-contrast, #1a1a1a);
     background: var(--tso-color-accent);
     margin: -20px -20px 18px;
     padding: 10px 20px;
@@ -1709,12 +1769,12 @@ ol.comment-list .children {
 
 .comment-metadata {
     font-size: 11px;
-    color: #999;
+    color: #6b6b6b;
     margin-top: 2px;
 }
 
 .comment-metadata a {
-    color: #bbb;
+    color: #6b6b6b;
     text-decoration: none;
 }
 
@@ -1747,7 +1807,7 @@ ol.comment-list .children {
     text-decoration: none;
     cursor: pointer;
     background-color: var(--tso-color-accent);
-    color: #fff;
+    color: var(--tso-color-accent-contrast, #1a1a1a);
     border: 2px solid var(--tso-color-accent);
     -webkit-transition: background 0.2s;
     transition: background 0.2s;
@@ -1756,7 +1816,7 @@ ol.comment-list .children {
 .comment-reply-link:hover {
     background-color: var(--tso-color-accent-hover);
     border-color: var(--tso-color-accent-hover);
-    color: #fff;
+    color: var(--tso-color-accent-contrast, #1a1a1a);
     text-decoration: none;
 }
 
@@ -1773,7 +1833,7 @@ ol.comment-list .children {
 /* Formulario de comentarios */
 .comment-notes {
     font-size: 13px;
-    color: #777;
+    color: #666;
     margin-bottom: 15px;
 }
 
@@ -1821,7 +1881,7 @@ ol.comment-list .children {
 
 .comment-form input[type="submit"] {
     background: var(--tso-color-accent);
-    color: #fff;
+    color: var(--tso-color-accent-contrast, #1a1a1a);
     border: none;
     padding: 10px 24px;
     border-radius: 4px;
@@ -1839,13 +1899,13 @@ ol.comment-list .children {
 
 #cancel-comment-reply-link {
     font-size: 12px;
-    color: #999;
+    color: #6b6b6b;
     text-decoration: none;
     margin-left: 8px;
 }
 
 #cancel-comment-reply-link:hover {
-    color: var(--tso-color-accent);
+    color: var(--tso-color-accent-text, #876025);
     text-decoration: underline;
 }
 
@@ -1922,7 +1982,7 @@ ol.comment-list .children {
 .pagination .page-numbers:hover,
 .pagination .page-numbers.current {
     background: var(--tso-color-accent);
-    color: #fff;
+    color: var(--tso-color-accent-contrast, #1a1a1a);
     border-color: var(--tso-color-accent);
     text-decoration: none;
 }
@@ -2201,7 +2261,7 @@ body.customize-partial-edit-shortcuts-shown.tso-sidebar-sticky .widget-area {
 }
 
 .widget-area a:hover {
-    color: var(--tso-color-accent);
+    color: var(--tso-color-accent-text, #876025);
     text-decoration: underline;
 }
 
@@ -3036,7 +3096,7 @@ select:focus-visible {
 }
 
 .post-card-title a:hover {
-    color: var(--tso-color-accent);
+    color: var(--tso-color-accent-text, #876025);
     text-decoration: none;
 }
 
@@ -3117,7 +3177,7 @@ select:focus-visible {
     font-weight: bold;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--tso-color-accent);
+    color: var(--tso-color-accent-text, #876025);
 }
 
 /* Móvil: una sola columna */
@@ -3172,7 +3232,7 @@ select:focus-visible {
 }
 
 .search-title .search-query {
-    color: var(--tso-color-accent);
+    color: var(--tso-color-accent-text, #876025);
 }
 
 .search-results-count {
@@ -3181,12 +3241,13 @@ select:focus-visible {
     font-size: 0.95rem;
 }
 
-.search-no-results {
+/* Scoped to the message box: WordPress also adds .search-no-results to <body>. */
+.main-content-area .search-no-results {
     padding: 30px 10px;
     text-align: center;
 }
 
-.search-no-results p {
+.main-content-area .search-no-results p {
     margin-bottom: 20px;
     color: var(--tso-color-text-muted);
 }
@@ -3205,12 +3266,13 @@ select:focus-visible {
 .site-title-text {
     font-size: 1.5rem;
     font-weight: bold;
-    color: var(--tso-color-primary);
+    color: var(--tso-color-header-contrast, var(--tso-color-primary));
     text-decoration: none;
 }
 
 .logo a .site-title-text:hover {
-    color: var(--tso-color-accent);
+    color: var(--tso-color-header-contrast, var(--tso-color-primary));
+    text-decoration: underline;
 }
 
 .posts-pagination .nav-links {
@@ -3254,7 +3316,7 @@ select:focus-visible {
     font-size: 72px;
     font-weight: 700;
     line-height: 1;
-    color: var(--tso-color-accent);
+    color: var(--tso-color-accent-text, #876025);
     letter-spacing: -0.02em;
 }
 
@@ -3301,7 +3363,7 @@ select:focus-visible {
     display: inline-block;
     padding: 10px 18px;
     background: var(--tso-color-accent);
-    color: var(--tso-color-white);
+    color: var(--tso-color-accent-contrast, #1a1a1a);
     text-decoration: none;
     border-radius: 4px;
     font-size: 14px;
@@ -3312,7 +3374,7 @@ select:focus-visible {
 
 .error-404-home-link:hover {
     background: var(--tso-color-accent-hover);
-    color: var(--tso-color-white);
+    color: var(--tso-color-accent-contrast, #1a1a1a);
     text-decoration: none;
 }
 
@@ -3495,7 +3557,7 @@ select:focus-visible {
 
 .tso-portfolio-download:hover {
     background: var(--tso-color-accent);
-    color: #fff;
+    color: var(--tso-color-accent-contrast, #1a1a1a);
     text-decoration: none;
 }
 
@@ -3563,7 +3625,7 @@ select:focus-visible {
 
 .tso-portfolio-download--go:hover {
     background: var(--tso-color-accent);
-    color: #fff;
+    color: var(--tso-color-accent-contrast, #1a1a1a);
 }
 
 @media screen and (max-width: 900px) {
@@ -3720,7 +3782,7 @@ select:focus-visible {
 }
 
 .tso-contact-detail a:hover {
-    color: var(--tso-color-accent);
+    color: var(--tso-color-accent-text, #876025);
     text-decoration: underline;
 }
 
@@ -3797,6 +3859,7 @@ select:focus-visible {
 .tso-contact-form button[type="submit"]:hover,
 .tso-contact-form .wpcf7-submit:hover {
     background: var(--tso-color-accent);
+    color: var(--tso-color-accent-contrast, #1a1a1a);
 }
 
 .tso-contact-map {
@@ -4025,7 +4088,7 @@ body.tso-tpl-full-width #page-wrapper {
     right: 0;
     top: 0;
     font-size: 1.2em;
-    color: var(--tso-color-accent);
+    color: var(--tso-color-accent-text, #876025);
 }
 
 .tso-faq-item[open] .tso-faq-question::after {
@@ -4069,7 +4132,7 @@ body.tso-tpl-full-width #page-wrapper {
 
 .tso-resource-icon {
     flex-shrink: 0;
-    color: var(--tso-color-accent);
+    color: var(--tso-color-accent-text, #876025);
     line-height: 0;
 }
 
@@ -4187,7 +4250,7 @@ body.tso-tpl-full-width #page-wrapper {
 
 .tso-timeline-date {
     font-weight: 700;
-    color: var(--tso-color-accent);
+    color: var(--tso-color-accent-text, #876025);
     margin: 0 0 4px;
 }
 
@@ -4301,7 +4364,7 @@ body.tso-tpl-full-width #page-wrapper {
     align-items: center;
     justify-content: center;
     background: var(--tso-color-accent);
-    color: var(--tso-color-white);
+    color: var(--tso-color-accent-contrast, #1a1a1a);
     font-size: 2.2em;
     font-weight: 700;
 }
@@ -4317,7 +4380,7 @@ body.tso-tpl-full-width #page-wrapper {
 }
 
 .tso-team-name a:hover {
-    color: var(--tso-color-accent);
+    color: var(--tso-color-accent-text, #876025);
 }
 
 .tso-team-role {
@@ -4356,7 +4419,7 @@ body.tso-tpl-full-width #page-wrapper {
     left: 50%;
     transform: translateX(-50%);
     background: var(--tso-color-accent);
-    color: var(--tso-color-white);
+    color: var(--tso-color-accent-contrast, #1a1a1a);
     font-size: 0.75em;
     font-weight: 700;
     text-transform: uppercase;
@@ -4388,7 +4451,7 @@ body.tso-tpl-full-width #page-wrapper {
     padding: 10px 24px;
     border-radius: 999px;
     background: var(--tso-color-accent);
-    color: var(--tso-color-white);
+    color: var(--tso-color-accent-contrast, #1a1a1a);
     text-decoration: none;
     font-weight: 700;
     transition: background-color 0.15s ease;
@@ -4396,7 +4459,7 @@ body.tso-tpl-full-width #page-wrapper {
 
 .tso-pricing-button:hover {
     background: var(--tso-color-accent-hover);
-    color: var(--tso-color-white);
+    color: var(--tso-color-accent-contrast, #1a1a1a);
 }
 
 .tso-pricing-card--featured .tso-pricing-button {
@@ -4453,12 +4516,12 @@ body.tso-tpl-full-width #page-wrapper {
 
 .tso-landing-btn--primary {
     background: var(--tso-color-accent);
-    color: var(--tso-color-white);
+    color: var(--tso-color-accent-contrast, #1a1a1a);
 }
 
 .tso-landing-btn--primary:hover {
     background: var(--tso-color-accent-hover);
-    color: var(--tso-color-white);
+    color: var(--tso-color-accent-contrast, #1a1a1a);
 }
 
 .tso-landing-btn--secondary {
@@ -4544,6 +4607,8 @@ html[data-theme="dark"] {
     --tso-color-primary: #4d9fff;
     --tso-color-accent: #e8ac55;
     --tso-color-accent-contrast: #1a1205;
+    --tso-color-accent-text: var(--tso-color-accent);
+    --tso-color-accent-text-hover: var(--tso-color-accent-hover);
     --tso-color-link-soft: #8ab4f8;
     --tso-color-link-soft-contrast: #0b1220;
     --tso-color-accent-hover: #f5c076;
@@ -4558,6 +4623,7 @@ html[data-theme="dark"] {
     --tso-color-footer-border: #2c2d33;
     --tso-color-announce-bg: #8a5a20;
     --tso-color-announce-text: #ffffff;
+    --tso-announce-text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
     --tso-color-text: #d6d6da;
     --tso-color-heading: #f5f5f7;
     --tso-color-text-muted: #98999e;
@@ -5028,4 +5094,3 @@ html:not([data-theme="dark"]) .site-footer .widget [data-tab-id] { color: #59595
 /* Light mode: footer widgets that sit on white cards must not inherit the light footer text colour. */
 html[data-theme="light"] .footer-layout .tso-clas-legend { color: #555; }
 html[data-theme="light"] .footer-layout .wpt_widget_content .wpt_comment_content p { color: #444; }
-                                                                                                                                                                                                                                                                                                                                                                            

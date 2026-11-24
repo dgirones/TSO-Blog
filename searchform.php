@@ -7,13 +7,20 @@
  * @package tso-blog
  */
 
-static $tsothm_search_form_instance = 0;
-++$tsothm_search_form_instance;
+// Global counter: this template is loaded once per form, so a static variable would restart at 1.
+global $tsothm_search_form_instance;
+$tsothm_search_form_instance = (int) $tsothm_search_form_instance + 1;
 
 $tsothm_search_uid      = 'tso-search-' . (int) $tsothm_search_form_instance;
 $tsothm_search_input_id = $tsothm_search_uid . '-input';
 $tsothm_search_list_id  = $tsothm_search_uid . '-results';
 $tsothm_search_form_id  = $tsothm_search_uid . '-form';
+
+// Unique landmark name per form (header, 404, empty search...).
+$tsothm_search_label = __( 'Search the site', 'tso-blog' );
+if ( $tsothm_search_form_instance > 1 ) {
+	$tsothm_search_label .= ' ' . (int) $tsothm_search_form_instance;
+}
 ?>
 <div class="tso-search-wrapper">
 	<form
@@ -21,6 +28,7 @@ $tsothm_search_form_id  = $tsothm_search_uid . '-form';
 		method="get"
 		id="<?php echo esc_attr( $tsothm_search_form_id ); ?>"
 		class="searchform"
+		aria-label="<?php echo esc_attr( $tsothm_search_label ); ?>"
 		action="<?php echo esc_url( home_url( '/' ) ); ?>"
 	>
 		<div>

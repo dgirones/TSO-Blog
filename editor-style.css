@@ -5,6 +5,9 @@
 
 :root {
 	--tso-color-accent: #d6993a;
+	--tso-color-accent-text: #876025;
+	--tso-color-accent-text-hover: #6f4f1e;
+	--tso-color-heading: #111111;
 	--tso-color-primary: #1e73be;
 	--tso-color-text: #333333;
 	--tso-color-text-muted: #666666;
@@ -18,18 +21,18 @@ body {
 }
 
 a {
-	color: var(--tso-color-primary);
+	color: var(--tso-color-accent-text, #876025);
 }
 
 a:hover {
-	color: var(--tso-color-accent);
+	color: var(--tso-color-accent-text-hover, #6f4f1e);
 }
 
 h1,
 h2,
 h3,
 h4 {
-	color: var(--tso-color-primary);
+	color: var(--tso-color-heading, #111111);
 	line-height: 1.3;
 }
 

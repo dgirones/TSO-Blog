@@ -1,18 +1,18 @@
 === TSO Blog ===
 Contributors: deadko
-Tags: blog, two-columns, right-sidebar, custom-colors, custom-header, custom-background, custom-logo, custom-menu, editor-style, featured-images, footer-widgets, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, wide-blocks, block-styles
+Tags: blog, portfolio, one-column, two-columns, left-sidebar, right-sidebar, grid-layout, custom-colors, custom-header, custom-background, custom-logo, custom-menu, editor-style, featured-images, footer-widgets, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, wide-blocks, block-styles, block-patterns
 Requires at least: 6.1
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Classic blog theme with a two-column grid, live search, day and night mode, and page templates.
+Blog and small-business theme: 14 page templates, 8 block patterns, day and night mode, live search and bundled fonts.
 
 == Description ==
 
-TSO Blog is a classic (PHP template) WordPress theme built for Tu Soporte Online sites. It provides a two-column home grid with “Load more”, single-post layout with breadcrumb and related posts, a built-in lightbox compatible with Jetpack galleries, AJAX live search, and Customizer panels for colors, typography, logo size, social icons, announcements, and optional integrations.
+TSO Blog is a classic (PHP template) WordPress theme for freelancers and small businesses that want a blog and a complete site in one theme, without a page builder. Besides the blog (grid, list or magazine layout, “Load more”, AJAX live search, breadcrumb and related posts), it includes 14 ready-made page templates (landing, services, pricing, team, testimonials, FAQ, contact, portfolio gallery, legal document and more) and 8 block patterns. It also has day, night and automatic color modes, a rotating announcement bar, four mobile menu styles, a built-in lightbox, and Customizer panels for colors, typography, logo size, sidebar, footer and social icons. Web fonts are bundled with the theme, so no font is loaded from an external server.
 
 Requires WordPress 6.1 or newer and PHP 7.4–8.x.
 
@@ -25,7 +25,8 @@ Features:
 * Live AJAX search
 * Optional GTranslate header shortcode (off by default; requires the GTranslate plugin)
 * Compatible with LiteSpeed Cache, WP Super Cache, and W3 Total Cache
-* Customizer: colors, typography (system + optional Google Fonts), logo width, social icon order
+* Customizer: colors, typography (system fonts + 7 bundled web fonts, no external requests), logo width, social icon order
+* Accessibility: skip link, visible keyboard focus, and default colors that meet WCAG AA contrast
 * Announcement bars (up to five, with rotation)
 * Page template “Portfolio / Wallpaper gallery”: image gallery with wallpaper-size downloads
 * Page template “Contact”: address, phone, email, optional form shortcode, optional Google Maps embed
@@ -45,7 +46,7 @@ Features:
 
 = How do I change typography? =
 
-Appearance → Customize → Typography. Choose body and heading fonts, sizes, line height, and colors. Fonts labeled “(Google)” load from Google Fonts only when selected.
+Appearance → Customize → Typography. Choose body and heading fonts, sizes, line height, and colors. Roboto, Open Sans, Lato, Nunito, Merriweather, Roboto Slab and Source Serif 4 are bundled with the theme (assets/fonts) and only load when selected. No font is loaded from an external server.
 
 = How do I change the logo size? =
 
@@ -121,16 +122,6 @@ Do not duplicate them if they already exist.
 
 == External services ==
 
-=== Google Fonts ===
-
-This theme can load selected webfonts from Google Fonts when you choose a font marked “(Google)” under Appearance → Customize → Typography.
-
-* What: CSS stylesheet and font files from Google Fonts.
-* When: only if a Google font is selected for body and/or headings (default is system Arial; no remote request).
-* Data sent: the visitor’s IP address and user-agent are sent to Google as with any remote stylesheet. The theme does not send account or form data.
-* Terms of Service: https://developers.google.com/fonts/terms
-* Privacy Policy: https://policies.google.com/privacy
-
 === Google Maps (embed) ===
 
 The Contact page template can show an embedded Google Map when you paste a Maps embed URL under Customize → Templates → Contact.
@@ -142,6 +133,21 @@ The Contact page template can show an embedded Google Map when you paste a Maps 
 * Privacy Policy: https://policies.google.com/privacy
 
 == Changelog ==
+
+= 1.1.1 =
+* Accessibility: default colors now meet WCAG AA contrast. Text over the accent color (announcement bar, badges, buttons, comment and related titles) uses the automatic contrast color, and accent-colored text (content links, breadcrumb, search term) uses a darker readable variant. Night mode is unchanged.
+* Accessibility: the site title is the h1 on the blog home; Contact template has a main landmark so the skip link works; search forms have unique names and IDs; the search field shows keyboard focus; muted grays are darker.
+* Fix: links inside buttons in the content no longer take the link color (unreadable button text).
+* Fix: announcement text color follows the bar background when it has not been customized.
+* Fonts: Roboto, Open Sans, Lato, Nunito, Merriweather, Roboto Slab and Source Serif 4 are now bundled (assets/fonts). The theme no longer loads anything from Google Fonts.
+* Block patterns: the 8 patterns moved to the /patterns folder (one file each).
+* theme.json: more font families, spacing units, typography tools and heading styles; editor headings and links now match the front end.
+* Code: functions.php split into 21 files under /inc, one per area, with no behavior change.
+* Description and tags updated; new 1200x900 screenshot showing the logo, the announcement bar and the footer widgets.
+* Fix: removed stray null bytes at the end of style.css.
+* Fix (Theme Unit Test): long words, URLs and preformatted text no longer widen the page on mobile; posts without a title show “(no title)” so their links stay usable; the empty-search message style no longer leaks to the whole page.
+* Style: plain tables in the content and in comments now have borders and a header background (day and night mode).
+* Style: on short pages the page frame ends at the footer instead of leaving an empty band below it.
 
 = 1.1.0 =
 * Fix: load bundled MO files named tso-blog-{locale}.mo (not only {locale}.mo), so CA/ES Customizer and front strings translate when aliases are missing.
@@ -251,10 +257,23 @@ Bundled scripts and styles are original to this theme unless noted below, Copyri
 
 * normalize.css, https://necolas.github.io/normalize.css/, (C) Nicolas Gallagher and Jonathan Neal, MIT
 * Dashicons (Customizer social order handle), Copyright WordPress contributors, GNU GPL v2 or later
-* Google Fonts (optional remote), Copyright respective font authors, SIL Open Font License / Apache 2.0 as declared by each family on fonts.google.com
+* Bundled web fonts (assets/fonts, WOFF2, latin and latin-ext subsets; files taken from the Fontsource packages, https://fontsource.org):
+  - Roboto, Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic), SIL Open Font License 1.1
+  - Open Sans, Copyright 2020 The Open Sans Project Authors (https://github.com/googlefonts/opensans), SIL Open Font License 1.1
+  - Lato, Copyright (c) 2010-2011 by tyPoland Lukasz Dziedzic with Reserved Font Name "Lato", SIL Open Font License 1.1
+  - Nunito, Copyright 2014 The Nunito Project Authors (https://github.com/googlefonts/nunito), SIL Open Font License 1.1
+  - Merriweather, Copyright 2024 The Merriweather Project Authors (https://github.com/EbenSorkin/Merriweather4) with Reserved Font Name "Merriweather", SIL Open Font License 1.1
+  - Roboto Slab, Copyright The Roboto Slab Project Authors (https://github.com/googlefonts/robotoslab), Apache License 2.0
+  - Source Serif 4, Copyright Adobe (https://github.com/adobe-fonts/source-serif), SIL Open Font License 1.1
+  SIL Open Font License 1.1: https://openfontlicense.org/ - Apache License 2.0: https://www.apache.org/licenses/LICENSE-2.0
 
 * Screenshot (screenshot.png)
   Copyright: 2026 Tu Soporte Online
   License: GNU General Public License v2 or later
   License URI: https://www.gnu.org/licenses/gpl-2.0.html
-  Source: original artwork created for this theme (orange frame, header, menu and post cards with solid-color placeholders). It does not include third-party photographs, illustrations or logos, so there is no external image URL.
+  Source: screenshot of this theme rendered with demo content. It includes the Tu Soporte Online logo (Copyright Tu Soporte Online, GNU GPL v2 or later) and four photographs from the WordPress Photo Directory, https://wordpress.org/photos/, published under CC0 1.0 Universal (public domain dedication, https://creativecommons.org/publicdomain/zero/1.0/):
+  - Coffee latte with leaf foam art, by Alina Kakshapati, https://wordpress.org/photos/photo/4856abf5d4/
+  - Sculpture of a person working on a laptop, by Tawhid Sadman, https://wordpress.org/photos/photo/77669b11b5/
+  - Green leaves with small yellow flowers, WordPress Photo Directory, CC0
+  - Round stones laid over gravel, WordPress Photo Directory, CC0
+  The photographs appear only in the screenshot. They are not bundled in the theme.
