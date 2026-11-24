@@ -42,19 +42,8 @@ $tsothm_show_sb     = tsothm_is_sidebar_visible();
 		?>
 	</div>
 
-	<div id="load-more-wrapper" class="load-more-wrapper">
-		<?php if ( $wp_query->max_num_pages > 1 ) : ?>
-			<button
-				id="load-more-btn"
-				class="btn-load-more"
-				type="button"
-				data-next-page="<?php echo esc_url( next_posts( $wp_query->max_num_pages, false ) ); ?>"
-				data-loading-text="<?php esc_attr_e( 'Loading...', 'tso-blog' ); ?>"
-				data-load-text="<?php echo esc_attr( tsothm_load_more_text() ); ?>"
-			>
-				<?php echo esc_html( tsothm_load_more_text() ); ?>
-			</button>
-		<?php endif; ?>
+	<div id="tsothm-load-more-root" class="load-more-wrapper">
+		<?php tsothm_render_load_more_button(); ?>
 	</div>
 </main>
 

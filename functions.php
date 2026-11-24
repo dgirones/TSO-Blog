@@ -6,7 +6,7 @@
  */
 
 if ( ! defined( 'TSOTHM_VERSION' ) ) {
-    define( 'TSOTHM_VERSION', '1.0.9' );
+    define( 'TSOTHM_VERSION', '1.1.0' );
 }
 
 require_once get_template_directory() . '/tsothm-mobile-menu.php';
@@ -63,6 +63,50 @@ if ( ! isset( $content_width ) ) {
     $content_width = 1024;
 }
 
+/**
+ * Load bundled CA/ES catalogs before any __() for tso-blog.
+ * On WP 6.5+, an early gettext triggers JIT load; if that fails, the domain
+ * stays empty and load_theme_textdomain later is ignored → English Customizer.
+ *
+ * Bundled files: tso-blog-ca.mo / ca.mo and tso-blog-es_ES.mo / es_ES.mo.
+ * English is the PHP source (no en_US catalog).
+ */
+function tsothm_load_textdomain() {
+    $domain = 'tso-blog';
+    $locale = determine_locale();
+    $path   = get_template_directory() . '/languages';
+
+    if ( is_textdomain_loaded( $domain ) ) {
+        unload_textdomain( $domain, true );
+    }
+
+    $locales = array( $locale );
+    if ( false !== strpos( $locale, '_' ) ) {
+        $locales[] = strtok( $locale, '_' );
+    } elseif ( 'es' === $locale ) {
+        $locales[] = 'es_ES';
+    }
+
+    $candidates = array();
+    foreach ( array_unique( $locales ) as $loc ) {
+        $candidates[] = $path . '/' . $domain . '-' . $loc . '.mo';
+        $candidates[] = $path . '/' . $loc . '.mo';
+    }
+
+    $loaded = false;
+    foreach ( array_unique( $candidates ) as $mofile ) {
+        if ( is_readable( $mofile ) && load_textdomain( $domain, $mofile ) ) {
+            $loaded = true;
+            break;
+        }
+    }
+
+    if ( ! $loaded ) {
+        load_theme_textdomain( $domain, $path );
+    }
+}
+add_action( 'after_setup_theme', 'tsothm_load_textdomain', 0 );
+
 add_action( 'after_setup_theme', function() {
     add_theme_support( 'title-tag' );
     add_theme_support( 'automatic-feed-links' );
@@ -110,8 +154,6 @@ add_action( 'after_setup_theme', function() {
     register_nav_menus( array( 'main-menu' => __( 'Primary Menu', 'tso-blog' ) ) );
 
     add_editor_style( 'editor-style.css' );
-
-    load_theme_textdomain( 'tso-blog', get_template_directory() . '/languages' );
 } );
 
 /**
@@ -4456,6 +4498,29 @@ function tsothm_load_more_text() {
     return sanitize_text_field( (string) get_theme_mod( 'tsothm_text_load_more', 'Load more' ) );
 }
 
+/**
+ * Output the home “Load more” button when there are more pages.
+ * Used by home.php and the Customizer selective-refresh partial.
+ */
+function tsothm_render_load_more_button() {
+    global $wp_query;
+    if ( ! $wp_query instanceof WP_Query || (int) $wp_query->max_num_pages < 2 ) {
+        return;
+    }
+    ?>
+	<button
+		id="load-more-btn"
+		class="btn-load-more"
+		type="button"
+		data-next-page="<?php echo esc_url( next_posts( $wp_query->max_num_pages, false ) ); ?>"
+		data-loading-text="<?php esc_attr_e( 'Loading...', 'tso-blog' ); ?>"
+		data-load-text="<?php echo esc_attr( tsothm_load_more_text() ); ?>"
+	>
+		<?php echo esc_html( tsothm_load_more_text() ); ?>
+	</button>
+	<?php
+}
+
 function tsothm_related_count() {
     return max( 1, min( 6, (int) get_theme_mod( 'tsothm_related_count', 3 ) ) );
 }
@@ -4642,7 +4707,8 @@ function tsothm_is_announcement_enabled() {
 function tsothm_render_announcement_slide( $item, $active = false ) {
     $classes = 'tsothm-announcement-slide';
     if ( $active ) {
-        $classes .= ' is-active';
+        // is-instant: no enter animation on first paint / soft navigations.
+        $classes .= ' is-active is-instant';
     }
 
     echo '<div class="' . esc_attr( $classes ) . '" role="group">';
@@ -5240,7 +5306,7 @@ function tsothm_render_resource_list( $post_id ) {
 		echo '<span class="tso-resource-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" focusable="false"><path fill="currentColor" d="M6 2c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6H6zm7 7V3.5L18.5 9H13z"/></svg></span>';
 		echo '<span class="tso-resource-info">';
 		echo '<span class="tso-resource-name">' . esc_html( $label ) . '</span>';
-		echo '<span class="tso-resource-meta">' . esc_html( $ext ) . ( $size ? ' · ' . esc_html( $size ) : '' ) . '</span>';
+		echo '<span class="tso-resource-meta">' . esc_html( $size ? $ext . ' · ' . $size : $ext ) . '</span>';
 		echo '</span>';
 		echo '</a>';
 		echo '</li>';
@@ -5861,11 +5927,12 @@ function tsothm_sanitize_landing_highlights( $value ) {
  *
  * @param string $mod_name Theme mod name.
  * @param array  $fields   Field schema.
+ * @param int    $max      Maximum rows to read (pricing uses 5).
  * @return array
  */
-function tsothm_get_repeater_rows( $mod_name, $fields ) {
+function tsothm_get_repeater_rows( $mod_name, $fields, $max = 50 ) {
 	$raw  = get_theme_mod( $mod_name, '[]' );
-	$json = tsothm_sanitize_repeater_json( $raw, $fields );
+	$json = tsothm_sanitize_repeater_json( $raw, $fields, $max );
 	$rows = json_decode( $json, true );
 	return is_array( $rows ) ? $rows : array();
 }
@@ -5893,7 +5960,7 @@ function tsothm_get_team_members() {
  * @return array
  */
 function tsothm_get_pricing_plans() {
-	$rows = tsothm_get_repeater_rows( 'tsothm_pricing_plans', tsothm_get_pricing_fields() );
+	$rows = tsothm_get_repeater_rows( 'tsothm_pricing_plans', tsothm_get_pricing_fields(), 5 );
 	return array_values(
 		array_filter(
 			$rows,
@@ -6820,18 +6887,16 @@ function tsothm_customize_register_selective_refresh( $wp_customize ) {
         )
     );
 
-    // «Load more» button label (home).
+    // «Load more» button (home). Wrapper root so Shift+click is not eaten by the <button>.
     $set_post_message( 'tsothm_text_load_more' );
     $wp_customize->selective_refresh->add_partial(
         'tsothm_text_load_more',
         array(
-            'selector'            => '#load-more-btn',
+            'selector'            => '#tsothm-load-more-root',
             'settings'            => array( 'tsothm_text_load_more' ),
-            'container_inclusive' => false,
-            'render_callback'     => static function () {
-                echo esc_html( tsothm_load_more_text() );
-            },
-            'fallback_refresh'    => false,
+            'container_inclusive' => true,
+            'render_callback'     => 'tsothm_customize_partial_load_more',
+            'fallback_refresh'    => true,
         )
     );
 }
@@ -6847,6 +6912,15 @@ function tsothm_customize_partial_social_icons() {
         $empty ? ' class="tsothm-social-root--empty"' : ''
     );
     tsothm_social_icons();
+    echo '</div>';
+}
+
+/**
+ * Partial: home Load more button root (Customizer edit shortcut).
+ */
+function tsothm_customize_partial_load_more() {
+    echo '<div id="tsothm-load-more-root" class="load-more-wrapper">';
+    tsothm_render_load_more_button();
     echo '</div>';
 }
 

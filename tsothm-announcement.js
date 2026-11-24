@@ -102,8 +102,16 @@
 		}
 
 		function showSettled( slideIndex ) {
-			slides.forEach( clearSlideState );
-			slides[ slideIndex ].classList.add( 'is-active', 'is-instant' );
+			// Keep is-active on the target slide so a page load never blanks the bar
+			// (clear-all → re-add caused a one-frame jump of the centered text).
+			slides.forEach( function ( slide, i ) {
+				if ( i === slideIndex ) {
+					slide.classList.remove( 'is-entering', 'is-leaving' );
+					slide.classList.add( 'is-active', 'is-instant' );
+				} else {
+					clearSlideState( slide );
+				}
+			} );
 			index = slideIndex;
 		}
 
@@ -163,8 +171,6 @@
 				queueNext();
 			}
 		}
-
-		slides.forEach( clearSlideState );
 
 		if ( rotate ) {
 			var now = Date.now();

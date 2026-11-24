@@ -4,7 +4,7 @@ Tags: blog, two-columns, right-sidebar, custom-colors, custom-header, custom-bac
 Requires at least: 6.1
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.9
+Stable tag: 1.1.0
 License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -142,6 +142,16 @@ The Contact page template can show an embedded Google Map when you paste a Maps 
 * Privacy Policy: https://policies.google.com/privacy
 
 == Changelog ==
+
+= 1.1.0 =
+* Fix: load bundled MO files named tso-blog-{locale}.mo (not only {locale}.mo), so CA/ES Customizer and front strings translate when aliases are missing.
+* Fix: announcement bar no longer jumps on every page load (keep settled slide; stable scrollbar gutter for centered text).
+
+= 1.0.11 =
+* Customizer: Load more edit shortcut uses a wrapper root; Shift+click no longer triggers the next-page fetch.
+
+= 1.0.10 =
+* Fix: load theme translations before any gettext call (WP 6.5+ JIT left Customizer panels in English while core UI stayed in the site language).
 
 = 1.0.9 =
 * Languages: keep bundled Catalan and Spanish only (tso-blog-ca, tso-blog-es_ES). English is the source text, so no en_US catalog.

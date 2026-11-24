@@ -44,7 +44,8 @@
 
 			container.innerHTML = state.html;
 
-			var wrapper = document.getElementById( 'load-more-wrapper' );
+			var wrapper = document.getElementById( 'tsothm-load-more-root' )
+				|| document.getElementById( 'load-more-wrapper' );
 			if ( state.hasBtn && state.nextUrl && wrapper ) {
 				var existingBtn = document.getElementById( 'load-more-btn' );
 				if ( existingBtn ) {
@@ -53,6 +54,7 @@
 					button           = document.createElement( 'button' );
 					button.id        = 'load-more-btn';
 					button.className = 'btn-load-more';
+					button.type      = 'button';
 					button.setAttribute( 'data-load-text', loadText );
 					button.setAttribute( 'data-loading-text', loadingText );
 					button.textContent = loadText;
@@ -110,7 +112,11 @@
 			return;
 		}
 		button.dataset.tsothmBound = '1';
-		button.addEventListener( 'click', function () {
+		button.addEventListener( 'click', function ( e ) {
+			// Customizer: Shift+click opens the control; do not fetch the next page.
+			if ( e.shiftKey && typeof window.wp !== 'undefined' && window.wp.customize ) {
+				return;
+			}
 			var nextUrl = button.getAttribute( 'data-next-page' );
 			var label   = button.getAttribute( 'data-load-text' ) || loadText;
 			if ( ! nextUrl ) {
