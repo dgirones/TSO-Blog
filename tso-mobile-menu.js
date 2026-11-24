@@ -1,9 +1,77 @@
 /**
- * tso-mobile-menu.js — Menú móvil moderno (versiones A y B).
- * Abrir/cerrar, Escape, clic fuera, trampa de foco, ARIA y submenús desplegables.
+ * tso-mobile-menu.js — Primary menu toggle and optional mobile panels.
+ * The header button opens and closes the primary menu. Dock, fullscreen,
+ * tab bar, and drawer replace it only after their own toggle is bound.
  */
 ( function () {
 	'use strict';
+
+	/**
+	 * Header toggle for the primary menu (classic style and fallback).
+	 * The hiding class is added only after the click handler exists.
+	 */
+	function initPrimaryNavToggle() {
+		if ( document.body.classList.contains( 'tsothm-legacy-widget-preview' ) ) {
+			return;
+		}
+
+		var btn = document.querySelector( '.tsothm-nav-toggle' );
+		var nav = document.getElementById( 'site-navigation' );
+		var mq  = window.matchMedia( '(max-width: 768px)' );
+
+		if ( ! btn || ! nav ) {
+			return;
+		}
+
+		function setPrimaryOpen( open ) {
+			nav.classList.toggle( 'is-open', open );
+			btn.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
+		}
+
+		btn.addEventListener( 'click', function () {
+			setPrimaryOpen( btn.getAttribute( 'aria-expanded' ) !== 'true' );
+		} );
+
+		nav.addEventListener( 'click', function ( e ) {
+			if ( e.target.closest && e.target.closest( 'a' ) ) {
+				setPrimaryOpen( false );
+			}
+		} );
+
+		document.addEventListener( 'click', function ( e ) {
+			if ( ! nav.classList.contains( 'is-open' ) ) {
+				return;
+			}
+			if ( nav.contains( e.target ) || btn.contains( e.target ) ) {
+				return;
+			}
+			setPrimaryOpen( false );
+		} );
+
+		document.addEventListener( 'keydown', function ( e ) {
+			if ( 'Escape' !== e.key || ! nav.classList.contains( 'is-open' ) ) {
+				return;
+			}
+			setPrimaryOpen( false );
+			btn.focus();
+		} );
+
+		function onPrimaryViewport() {
+			if ( ! mq.matches ) {
+				setPrimaryOpen( false );
+			}
+		}
+
+		if ( 'function' === typeof mq.addEventListener ) {
+			mq.addEventListener( 'change', onPrimaryViewport );
+		} else if ( 'function' === typeof mq.addListener ) {
+			mq.addListener( onPrimaryViewport );
+		}
+
+		document.documentElement.classList.add( 'tsothm-nav-js' );
+	}
+
+	initPrimaryNavToggle();
 
 	var root = document.querySelector( '.tsothm-mm' );
 	if ( ! root ) {
@@ -94,7 +162,7 @@
 
 		if ( showMore ) {
 			tabs.appendChild( toggle );
-		} else {
+		} else if ( tabs.childElementCount ) {
 			toggle.hidden = true;
 		}
 	}
@@ -145,7 +213,7 @@
 	);
 
 	toggle.addEventListener( 'click', function () {
-		setOpen( true );
+		setOpen( ! isOpen() );
 	} );
 	close.addEventListener( 'click', function () {
 		setOpen( false );
@@ -208,4 +276,6 @@
 	} else if ( 'function' === typeof mq.addListener ) {
 		mq.addListener( onViewportChange );
 	}
+
+	document.documentElement.classList.add( 'tsothm-mm-ready' );
 }() );

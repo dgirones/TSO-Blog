@@ -135,21 +135,43 @@ function tsothm_mobile_menu_body_class( $classes ) {
 add_filter( 'body_class', 'tsothm_mobile_menu_body_class' );
 
 /**
- * Enqueue CSS/JS only when the new mobile menu is active.
+ * Pages list used when no menu is assigned to the primary location.
+ *
+ * Keeps navigation visible on a fresh site. The menu id follows the
+ * wp_nav_menu() args so the header and the optional mobile panel do not share an id.
+ *
+ * @param array|object $args wp_nav_menu() arguments.
  */
-function tsothm_mobile_menu_enqueue() {
-    if ( ! tsothm_mobile_menu_is_active() ) {
-        return;
+function tsothm_primary_menu_fallback( $args = array() ) {
+    $menu_id    = 'primary-menu';
+    $menu_class = 'menu';
+
+    if ( is_object( $args ) || is_array( $args ) ) {
+        $args = (array) $args;
+        if ( ! empty( $args['menu_id'] ) ) {
+            $menu_id = (string) $args['menu_id'];
+        }
+        if ( ! empty( $args['menu_class'] ) ) {
+            $menu_class = (string) $args['menu_class'];
+        }
     }
 
-    $theme_uri = get_stylesheet_directory_uri();
-
-    wp_enqueue_style(
-        'tsothm-mobile-menu',
-        $theme_uri . '/tso-mobile-menu.css',
-        array( 'tsothm-style' ),
-        tsothm_get_asset_version( 'tso-mobile-menu.css' )
+    echo '<ul id="' . esc_attr( $menu_id ) . '" class="' . esc_attr( $menu_class ) . '">';
+    wp_list_pages(
+        array(
+            'title_li' => '',
+            'depth'    => 2,
+        )
     );
+    echo '</ul>';
+}
+
+/**
+ * Enqueue the menu script on every view. The optional panel stylesheet
+ * loads only when a dock / fullscreen / tab bar / drawer style is active.
+ */
+function tsothm_mobile_menu_enqueue() {
+    $theme_uri = get_stylesheet_directory_uri();
 
     wp_enqueue_script(
         'tsothm-mobile-menu',
@@ -157,6 +179,17 @@ function tsothm_mobile_menu_enqueue() {
         array(),
         tsothm_get_asset_version( 'tso-mobile-menu.js' ),
         true
+    );
+
+    if ( ! tsothm_mobile_menu_is_active() ) {
+        return;
+    }
+
+    wp_enqueue_style(
+        'tsothm-mobile-menu',
+        $theme_uri . '/tso-mobile-menu.css',
+        array( 'tsothm-style' ),
+        tsothm_get_asset_version( 'tso-mobile-menu.css' )
     );
 }
 add_action( 'wp_enqueue_scripts', 'tsothm_mobile_menu_enqueue' );
@@ -197,7 +230,7 @@ function tsothm_mobile_menu_render() {
                     'menu_id'        => 'tsothm-mm-menu',
                     'menu_class'     => 'tsothm-mm__list',
                     'container'      => false,
-                    'fallback_cb'    => false,
+                    'fallback_cb'    => 'tsothm_primary_menu_fallback',
                     'depth'          => 2,
                 )
             );

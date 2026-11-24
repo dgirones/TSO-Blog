@@ -3,7 +3,7 @@ Theme Name: TSO Blog
 Author: deadko
 Author URI: https://tusoporteonline.es
 Description: A classic blog theme with an orange frame and a white content area. The home page is a two-column post grid with live search and a Load more button. Posts use a right sidebar. The Customizer controls colors, typography, and the Site Logo, and includes a day and night mode. Page templates are included for contact, portfolio, pricing, team, and FAQ.
-Version: 1.0.9
+Version: 1.0.10
 Requires at least: 6.1
 Tested up to: 7.1
 Requires PHP: 7.4
@@ -420,7 +420,6 @@ body.tso-layout-full #page-wrapper {
     gap: 8px;
 }
 
-/* Iconos sociales — el tamaño se fija con style="" inline en PHP (FOUC-proof) */
 .header-social-icons {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -436,6 +435,7 @@ body.tso-layout-full #page-wrapper {
 }
 
 .social-icon {
+    position: relative;
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
     display: inline-flex;
@@ -450,13 +450,16 @@ body.tso-layout-full #page-wrapper {
     overflow: hidden;
     -ms-flex-negative: 0;
     flex-shrink: 0;
+    width: 32px;
+    height: 32px;
     text-decoration: none;
     -webkit-transition: background-color 0.2s;
     transition: background-color 0.2s;
-    /* Tamaño fijado via style="" inline para ser FOUC-proof */
 }
 
 .social-icon svg {
+    width: 15px;
+    height: 15px;
     fill: #fff;
     display: block;
     pointer-events: none;
@@ -866,6 +869,50 @@ body.tsothm-has-announcement .main-navigation {
    NAVEGACIÓN PRINCIPAL
    Styles: body.tsothm-nav-style-{raised|carved|pill|underline|flat} (Customizer)
    ============================================================ */
+.tsothm-nav-toggle {
+    display: none;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    gap: 10px;
+    width: calc(100% + 30px);
+    margin: 10px -15px 0;
+    min-height: 48px;
+    padding: 12px 16px;
+    border: 0;
+    border-radius: 0;
+    cursor: pointer;
+    color: var(--tso-color-nav-text, #fff);
+    background: var(--tso-color-nav-bg, #000);
+    font-family: var(--tso-font-nav, var(--tso-font-body, Arial, Helvetica, sans-serif));
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.tsothm-nav-toggle:focus-visible {
+    outline: 2px solid var(--tso-color-accent, #d6993a);
+    outline-offset: -4px;
+}
+
+.tsothm-nav-toggle__icon {
+    display: grid;
+    gap: 4px;
+    width: 18px;
+}
+
+.tsothm-nav-toggle__icon i {
+    display: block;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+}
+
 .main-navigation {
     background-color: var(--tso-color-nav-bg);
     margin: 20px -40px 0;
@@ -2720,41 +2767,60 @@ select:focus-visible {
         font-size: 14px;
     }
 
-    /* Menú — horitzontal amb scroll al mòbil */
-    .main-navigation {
-        margin: 10px -15px 0;
-        padding: 10px 0;
-        overflow-x: auto;
-        overflow-y: hidden;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
+    /* Menú: llista vertical. El botó l'obre i el tanca quan el script està llest.
+       Sense JS, o si el panell opcional no arrenca, el menú queda visible sencer. */
+    html.tsothm-nav-js:not(.tsothm-mm-ready) .tsothm-nav-toggle {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
     }
 
-    body.customize-partial-edit-shortcuts-shown .main-navigation {
-        overflow: visible;
-    }
-
-    .main-navigation::-webkit-scrollbar {
+    html.tsothm-nav-js:not(.tsothm-mm-ready) .main-navigation {
         display: none;
     }
 
-    .main-navigation ul {
-        -webkit-box-orient: horizontal;
+    html.tsothm-nav-js:not(.tsothm-mm-ready) .main-navigation.is-open {
+        display: block;
+    }
+
+    .main-navigation {
+        margin: 10px -15px 0;
+        padding: 10px 0;
+        overflow: visible;
+    }
+
+    .main-navigation ul,
+    .main-navigation > ul,
+    #primary-menu {
+        -webkit-box-orient: vertical;
         -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-        flex-direction: row;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-align: stretch;
+        -ms-flex-align: stretch;
+        align-items: stretch;
         -ms-flex-wrap: nowrap;
         flex-wrap: nowrap;
         -webkit-box-pack: start;
         -ms-flex-pack: start;
         justify-content: flex-start;
-        padding: 0 15px;
-        width: -webkit-max-content;
-        width: max-content;
-        min-width: 100%;
+        padding: 0;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .main-navigation ul ul,
+    .main-navigation .sub-menu,
+    .main-navigation .dropdown-menu {
+        display: block !important;
+        position: static;
+        min-width: 0;
+        width: 100%;
+        padding: 0 0 4px 16px;
+        border-radius: 0;
+        background-color: transparent;
+        -webkit-box-shadow: none;
+        box-shadow: none;
     }
 
     body.tsothm-nav-style-raised .main-navigation ul,
@@ -2763,9 +2829,9 @@ select:focus-visible {
     }
 
     .main-navigation li a {
-        padding: 10px 12px;
-        font-size: 13px;
-        white-space: nowrap;
+        padding: 12px 16px;
+        font-size: 15px;
+        white-space: normal;
     }
 
     body.tsothm-nav-style-raised .main-navigation > ul > li > a,

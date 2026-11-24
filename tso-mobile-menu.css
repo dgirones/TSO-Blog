@@ -11,12 +11,13 @@
 }
 
 @media screen and (max-width: 768px) {
-    .tsothm-mm {
+    /* The panel stays hidden until its toggle is bound. If that fails, the primary menu remains on screen. */
+    html.tsothm-mm-ready .tsothm-mm {
         display: block;
     }
 
-    /* Se oculta la barra horizontal antigua solo cuando el menú nuevo está activo. */
-    body.tsothm-mm-on .main-navigation {
+    html.tsothm-mm-ready body.tsothm-mm-on .main-navigation,
+    html.tsothm-mm-ready body.tsothm-mm-on .tsothm-nav-toggle {
         display: none;
     }
 

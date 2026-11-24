@@ -4,7 +4,7 @@ Tags: blog, two-columns, right-sidebar, custom-colors, custom-header, custom-bac
 Requires at least: 6.1
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.9
+Stable tag: 1.0.10
 License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,7 +19,7 @@ Requires WordPress 6.1 or newer and PHP 7.4–8.x.
 Features:
 
 * Home/blog layouts: 2-column grid, list, or magazine (featured + grid), with “Load more”
-* Single post: breadcrumb, Schema.org markup, related posts
+* Single post: breadcrumb and related posts
 * Built-in lightbox (Jetpack carousel disabled when present)
 * Compatible with Jetpack Tiled Gallery and Gutenberg galleries
 * Live AJAX search
@@ -143,6 +143,13 @@ The Contact page template can show an embedded Google Map when you paste a Maps 
 
 == Changelog ==
 
+= 1.0.10 =
+* Mobile menu: on small screens a header button opens and closes the primary menu. If the dock, full screen, tab bar, or side panel cannot start, the primary menu stays visible. The classic style no longer clips items behind a hidden scrollbar.
+* Added languages/tso-blog.pot so the translation-ready tag has a template.
+* Social icons: sizes live in the stylesheet. Removed the inline style attributes.
+* Removed NewsArticle JSON-LD and Schema.org microdata. SEO markup belongs in a plugin.
+* Social icons, announcement links, portfolio downloads, and comment links that open a new tab include a screen-reader warning.
+
 = 1.0.9 =
 * Languages: keep bundled Catalan and Spanish only (tso-blog-ca, tso-blog-es_ES). English is the source text, so no en_US catalog.
 * i18n: main menu label and lightbox controls use gettext. Script fallbacks are English.
@@ -157,68 +164,7 @@ The Contact page template can show an embedded Google Map when you paste a Maps 
 = 1.0.8 =
 * Escape color-mode root class in header.php (Theme Check: no echo get_theme_mod).
 
-= 1.0.7 =
-* Customizer: Sidebar (layout + colors), Typography consolidation (Body/Titles include cards and widgets; announcement and menu font family/size; day content text colors under Colors → General)
-* Customizer: edit shortcuts (pencils) for announcement, social, footer texts, color mode, related title, Load more; do not clip widget shortcuts
-* Footer: copyright/legal size under Footer → Footer texts; stronger containment for Custom HTML / CurrencyRate floats
-* Fix: orange outer frame with body.wp-embed-responsive / LiteSpeed; related-posts title contrast; Contact path Templates → Contact
-* Widgets admin: do not style bare .widget; skip night-mode scripts in legacy widget preview iframes
-
-= 1.0.6 =
-* Content images: raise $content_width to 1024 and improve sizes attribute so desktop/HiDPI can pick sharper srcset files (mobile unchanged)
-
-= 1.0.5 =
-* Theme Check: footer placeholder docs use {home_url} (value still from home_url()); legacy token still works
-
-= 1.0.4 =
-* Customizer i18n: related posts count label and eyedropper aria-label are translatable; announcement “Text” color label translated in Spanish
-* Defaults for “Load more” and related title use English msgids (existing Customizer values unchanged)
-
-= 1.0.3 =
-* Announcement: slower movement; Customizer choice of 3 effects (slide, fade, rise)
-* Fix: announcement bar class mismatch broke CSS/JS (no rotation, no highlight); restored slide-in from the side and rotation
-* Layout: news sidebar width set to the standard 300 px (was 280); content width options keep a flexing main column
-* Customizer: logo/content width help texts state theme maximums; mobile logo max raised to 500 px
-* Fix: logo width Customizer control now sets display width (was max-width only, so values above the image size looked unchanged)
-* Fix: header image from Customize is now shown under the logo row (it was registered but never output)
-* Fix: menu highlight, skip link, mobile menu in widget previews, editor script scope; removed no-op footer help checkbox
-
-= 1.0.2 =
-* Theme review: removed Theme URI (Author URI only); removed redundant wp_lazy_loading_enabled filter
-* Theme review: all PHP user-facing strings are now English msgids with CA/ES/EN catalogs
-* Theme review: long titles wrap within the content area; skip-to-content no longer sits under the admin bar
-* Page template names translated to English in the template headers
-* Theme review (Required): removed Appearance → Import demo (demo imports are not allowed)
-* Theme review (Required): removed theme Open Graph / meta description output (SEO plugin territory)
-
-= 1.0.1 =
-* Corrección: la búsqueda en directo ya no falla para los visitantes cuando la página está en caché
-* Mejora: descripción y etiquetas del tema más completas, y la descripción se muestra traducida según el idioma de WordPress (catalán, español, inglés)
-* Mejora: el modo noche tiene ahora colores propios para el color principal, el menú, el pie, el anuncio y los textos, ya que los colores del modo día no se aplican de noche
-* Mejora: el tamaño de imagen de Artículos relacionados pasa a llamarse tsothm-related (hay que regenerar miniaturas para las imágenes ya subidas)
-* Mejora: el formulario de comentarios ya no se muestra en una caja dentro de otra; la barra de título queda alineada como en Artículos relacionados
-* Corrección: TSO Image Master ya no marca como no registrados los tamaños de fondos de pantalla del portfolio
-* Mejora: en modo noche las plantillas de página (galería/portfolio, precios, contacto, landing, 404) usan colores de contraste correctos en botones y píldoras de descarga
-* Mejora: en modo noche se aclaran los colores de texto en línea del contenido antiguo (p. ej. negro sobre fondo oscuro) para que sea legible
-* Mejora: el formulario de comentarios de Jetpack se adapta al modo noche
-* Mejora: en modo noche las barras de título y los botones tienen mejor contraste, y los enlaces del sidebar usan un azul más suave
-* Mejora: en modo noche los widgets del pie (pestañas de comentarios y cotizaciones) dejan de mostrarse con fondo blanco
-* Mejora: los recortes de fondos de pantalla (tsothm-wall-*) solo se generan para imágenes de páginas de galería/portfolio, no para todas las subidas
-* Nuevo: sección «Modo noche» en Personalizar > Colores (fondo exterior, contenido, cabecera, menú, pie, acento y enlaces); la cabecera clara ahora usa por defecto el color del contenido (#17181c) en vez de negro
-* Corrección: en el selector día/noche, el botón activo y el icono en hover ya no se vuelven invisibles (usan el color de acento)
-* Corrección: en modo noche el texto y los campos de los widgets del sidebar (p. ej. suscripción por correo) ya se leen bien
-* Nuevo: paneles del Personalizador para Equipo, Precios y Landing (repetidor con fotos, precios, características y botones; sin configurar, la página muestra el patrón de bloques)
-* Nuevo: 11 plantillas de página adicionales (Ancho completo, Landing, Equipo, Servicios, Precios, Testimonios, FAQ, Recursos/Descargas, Legal con índice automático, Cronología y Enlaces) y patrones de bloques de arranque para cada una
-* Nuevo: plantilla “Sobre mí” con tarjeta de contacto opcional (reutiliza los ajustes de la plantilla Contacto)
-* Mejora: el filtro de enlaces de Jetpack Tiled Gallery ahora tolera clases adicionales en el bloque y añade data-orig-file como alternativa antes de caer al src recortado
-* Mejora: metadatos Twitter Card (twitter:card, twitter:title, twitter:description, twitter:image) junto al Open Graph existente
-* Mejora de accesibilidad: el lightbox (tso-lightbox.js) devuelve el foco al elemento que lo abrió al cerrarse
-* Nuevo: menú móvil moderno con 4 versiones (botón flotante con panel inferior, pantalla completa, barra de pestañas inferior o panel lateral) elegible en Personalizar > Apariencia > Menú móvil
-
-= 1.0 =
-* Requires WordPress 6.1+
-* theme.json schema v2 (compatible with WP 6.1)
-* Initial release of TSO Blog
+See changelog.txt in the plugin folder for older versions.
 
 == Copyright ==
 

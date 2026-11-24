@@ -9,7 +9,7 @@ $tsothm_is_featured = (bool) get_query_var( 'tsothm_card_featured' );
 $tsothm_card_class  = $tsothm_is_featured ? array( 'home-post-card', 'is-featured' ) : array( 'home-post-card' );
 $tsothm_excerpt_n   = $tsothm_is_featured ? 36 : 20;
 ?>
-<article id="post-<?php the_ID(); ?>" <?php post_class( $tsothm_card_class ); ?> itemscope itemtype="https://schema.org/NewsArticle">
+<article id="post-<?php the_ID(); ?>" <?php post_class( $tsothm_card_class ); ?>>
 	<?php global $wp_query; ?>
 	<?php if ( has_post_thumbnail() ) : ?>
 		<div class="post-card-image">
@@ -29,7 +29,7 @@ $tsothm_excerpt_n   = $tsothm_is_featured ? 36 : 20;
 		<?php if ( $tsothm_is_featured ) : ?>
 			<p class="post-card-kicker"><?php esc_html_e( 'Featured', 'tso-blog' ); ?></p>
 		<?php endif; ?>
-		<h2 class="post-card-title" itemprop="headline">
+		<h2 class="post-card-title">
 			<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
 		</h2>
 		<div class="post-card-excerpt">

@@ -57,13 +57,21 @@
 
         <?php tsothm_header_announcement(); ?>
 
+        <button type="button" class="tsothm-nav-toggle" aria-expanded="false" aria-controls="site-navigation">
+            <span class="tsothm-nav-toggle__icon" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="tsothm-nav-toggle__text"><?php esc_html_e( 'Menu', 'tso-blog' ); ?></span>
+        </button>
         <nav id="site-navigation" class="main-navigation" aria-label="<?php esc_attr_e( 'Primary Menu', 'tso-blog' ); ?>">
-            <?php wp_nav_menu( array(
-                'theme_location' => 'main-menu',
-                'menu_id'        => 'primary-menu',
-                'container'      => false,
-                'fallback_cb'    => false,
-            ) ); ?>
+            <?php
+            wp_nav_menu(
+                array(
+                    'theme_location' => 'main-menu',
+                    'menu_id'        => 'primary-menu',
+                    'container'      => false,
+                    'fallback_cb'    => 'tsothm_primary_menu_fallback',
+                )
+            );
+            ?>
         </nav>
     </header>
 

@@ -6,7 +6,7 @@
  */
 
 if ( ! defined( 'TSOTHM_VERSION' ) ) {
-    define( 'TSOTHM_VERSION', '1.0.9' );
+    define( 'TSOTHM_VERSION', '1.0.10' );
 }
 
 require_once get_template_directory() . '/tsothm-mobile-menu.php';
@@ -1654,6 +1654,15 @@ function tsothm_portfolio_intro_from_content( $content ) {
 }
 
 /**
+ * Screen-reader warning for a link that opens a new tab.
+ *
+ * @return string Escaped HTML.
+ */
+function tsothm_new_tab_screen_reader_text() {
+    return '<span class="screen-reader-text tsothm-new-tab-hint">' . esc_html__( '(opens in a new tab)', 'tso-blog' ) . '</span>';
+}
+
+/**
  * Render the portfolio gallery markup.
  *
  * @param int $post_id Page ID.
@@ -1727,18 +1736,20 @@ function tsothm_render_portfolio_gallery( $post_id ) {
                     echo '<div class="tso-portfolio-original-pop" role="dialog" aria-label="' . esc_attr__( 'Original image dimensions', 'tso-blog' ) . '">';
                     echo '<p class="tso-portfolio-original-dims"><strong>' . esc_html__( 'Dimensions:', 'tso-blog' ) . '</strong> ' . esc_html( $dim_text ) . '</p>';
                     printf(
-                        '<a class="tso-portfolio-download tso-portfolio-download--go" href="%s" download="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                        '<a class="tso-portfolio-download tso-portfolio-download--go" href="%1$s" download="%2$s" target="_blank" rel="noopener noreferrer">%3$s %4$s</a>',
                         esc_url( $dl['url'] ),
                         esc_attr( $filename ),
-                        esc_html__( 'Download original', 'tso-blog' )
+                        esc_html__( 'Download original', 'tso-blog' ),
+                        tsothm_new_tab_screen_reader_text() // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in tsothm_new_tab_screen_reader_text().
                     );
                     echo '</div></details>';
                 } else {
                     printf(
-                        '<a class="tso-portfolio-download" href="%s" download="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                        '<a class="tso-portfolio-download" href="%1$s" download="%2$s" target="_blank" rel="noopener noreferrer">%3$s %4$s</a>',
                         esc_url( $dl['url'] ),
                         esc_attr( $filename ),
-                        esc_html( $dl['label'] )
+                        esc_html( $dl['label'] ),
+                        tsothm_new_tab_screen_reader_text() // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in tsothm_new_tab_screen_reader_text().
                     );
                 }
                 echo '</li>';
@@ -2131,9 +2142,10 @@ function tsothm_comment_links_open_new_tab( $text ) {
     }
 
     $result = preg_replace_callback(
-        '/<a\b\s*([^>]*?)>/i',
+        '/<a\b([^>]*)>(.*?)<\/a>/is',
         function ( $matches ) {
             $attrs = $matches[1];
+            $inner = $matches[2];
 
             if ( ! preg_match( '/\btarget\s*=/i', $attrs ) ) {
                 $attrs .= ' target="_blank"';
@@ -2156,7 +2168,11 @@ function tsothm_comment_links_open_new_tab( $text ) {
                 $attrs .= ' rel="nofollow ugc noopener noreferrer"';
             }
 
-            return '<a ' . $attrs . '>';
+            if ( false === stripos( $inner, 'tsothm-new-tab-hint' ) ) {
+                $inner .= ' ' . tsothm_new_tab_screen_reader_text();
+            }
+
+            return '<a' . $attrs . '>' . $inner . '</a>';
         },
         $text
     );
@@ -4286,9 +4302,7 @@ add_action( 'customize_register', function( $wp_customize ) {
 } );
 
 /* ============================================================
-   11. REDES SOCIALES — ICONOS CON ESTILOS INLINE (FOUC-proof)
-   Los tamaños se fijan en style="" directamente en el HTML.
-   Ningún plugin de caché puede diferir o mover atributos HTML.
+   11. REDES SOCIALES
    ============================================================ */
 function tsothm_social_icons() {
     $items = tsothm_get_configured_social_icons();
@@ -4296,21 +4310,14 @@ function tsothm_social_icons() {
         return;
     }
 
-    // Estilos inline en cada elemento: imposible diferir para LiteSpeed u otro plugin de caché
-    $a_style   = 'display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background-color:var(--tso-color-primary);overflow:hidden;flex-shrink:0;text-decoration:none;';
-    $svg_style = 'width:15px;height:15px;fill:#ffffff;display:block;flex-shrink:0;pointer-events:none;';
-
     echo '<div class="header-social-icons" aria-label="' . esc_attr__( 'Social networks', 'tso-blog' ) . '">';
     foreach ( $items as $key => $data ) {
         printf(
-            '<a href="%s" class="social-icon social-icon--%s" style="%s" target="_blank" rel="noopener noreferrer" aria-label="%s">'
-            . '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="%s" aria-hidden="true" focusable="false">%s</svg>'
-            . '</a>',
+            '<a href="%1$s" class="social-icon social-icon--%2$s" target="_blank" rel="noopener noreferrer"><span class="screen-reader-text">%3$s %4$s</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">%5$s</svg></a>',
             esc_url( $data['url'] ),
             esc_attr( $key ),
-            esc_attr( $a_style ),
-            esc_attr( $data['label'] ),
-            esc_attr( $svg_style ),
+            esc_html( $data['label'] ),
+            esc_html__( '(opens in a new tab)', 'tso-blog' ),
             $data['path'] // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static SVG path markup defined by the theme.
         );
     }
@@ -4648,10 +4655,11 @@ function tsothm_render_announcement_slide( $item, $active = false ) {
     echo '<div class="' . esc_attr( $classes ) . '" role="group">';
     if ( ! empty( $item['url'] ) ) {
         printf(
-            '<a class="tsothm-announcement-link" href="%1$s"%2$s><span class="tsothm-announcement-text">%3$s</span></a>',
+            '<a class="tsothm-announcement-link" href="%1$s"%2$s><span class="tsothm-announcement-text">%3$s</span>%4$s</a>',
             esc_url( $item['url'] ),
             ! empty( $item['new_tab'] ) ? ' target="_blank" rel="noopener noreferrer"' : '',
-            esc_html( $item['text'] )
+            esc_html( $item['text'] ),
+            ! empty( $item['new_tab'] ) ? tsothm_new_tab_screen_reader_text() : '' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in tsothm_new_tab_screen_reader_text().
         );
     } else {
         echo '<span class="tsothm-announcement-text">' . esc_html( $item['text'] ) . '</span>';

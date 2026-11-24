@@ -1,61 +1,70 @@
-# Copyright (C) Tu Soporte Online
-# This file is distributed under the same license as TSO Blog.
 msgid ""
 msgstr ""
 "Project-Id-Version: TSO Blog\n"
 "Report-Msgid-Bugs-To: https://tusoporteonline.es\n"
-"POT-Creation-Date: 2026-10-12 14:34+0200\n"
-"PO-Revision-Date: 2026-10-12 14:34+0200\n"
 "Last-Translator: Tu Soporte Online <info@tusoporteonline.es>\n"
 "Language-Team: Catalan\n"
-"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-24 15:38+0100\n"
+"PO-Revision-Date: 2026-11-24 15:38+0100\n"
+"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Domain: tso-blog\n"
 
-#: functions.php:5161 functions.php:5168
+#: functions.php:5565
+#: functions.php:5572
 msgid "\"A short testimonial about the experience with the service.\""
 msgstr "«Un testimoni breu sobre l'experiència amb el servei.»"
 
-#: functions.php:1631
+#. translators: 1: width in px, 2: height in px
+#: functions.php:1730
+#, php-format
 msgid "%1$s × %2$s px"
 msgstr "%1$s × %2$s px"
 
-#: functions.php:2714
+#. translators: %s: social network name
+#: functions.php:2814
+#, php-format
 msgid "%s (full URL)"
 msgstr "%s (URL completa)"
 
+#. translators: %s: número de comentarios
 #: comments.php:32
+#, php-format
 msgid "%s comments"
 msgstr "%s comentaris"
 
-#: archive.php:34 index.php:32 search.php:48
+#: archive.php:34
+#: index.php:32
+#: search.php:48
 msgid "&laquo; Previous"
 msgstr "&laquo; Anterior"
 
-#: functions.php:5102 functions.php:5118 functions.php:5134
+#: functions.php:5506
+#: functions.php:5522
+#: functions.php:5538
 msgid "/month"
 msgstr "/mes"
 
-#: functions.php:1264
+#: functions.php:1354
 msgid "1080 × 1920 (Mobile)"
 msgstr "1080 × 1920 (Mòbil)"
 
-#: functions.php:1244
+#: functions.php:1334
 msgid "1280 × 720 (HD)"
 msgstr "1280 × 720 (HD)"
 
-#: functions.php:1249
+#: functions.php:1339
 msgid "1920 × 1080 (Full HD)"
 msgstr "1920 × 1080 (Full HD)"
 
-#: functions.php:1254
+#: functions.php:1344
 msgid "2560 × 1440 (QHD)"
 msgstr "2560 × 1440 (QHD)"
 
-#: functions.php:1259
+#: functions.php:1349
 msgid "3840 × 2160 (4K)"
 msgstr "3840 × 2160 (4K)"
 
@@ -63,149 +72,145 @@ msgstr "3840 × 2160 (4K)"
 msgid "A · Floating button + bottom panel"
 msgstr "A · Botó flotant + panell inferior"
 
-#: functions.php:1037 functions.php:2741 functions.php:2968
+#: functions.php:1117
+#: functions.php:2841
+#: functions.php:3110
 msgid "Accent"
 msgstr "Accent"
 
-#: functions.php:1582
-msgid ""
-"Add a Gallery or Image block (JPG, PNG, WebP or GIF) in the editor and "
-"publish the page."
-msgstr ""
-"Afegeix un bloc Galeria o Imatge (JPG, PNG, WebP o GIF) a l'editor i publica"
-" la pàgina."
+#: functions.php:1681
+msgid "Add a Gallery or Image block (JPG, PNG, WebP or GIF) in the editor and publish the page."
+msgstr "Afegeix un bloc Galeria o Imatge (JPG, PNG, WebP o GIF) a l'editor i publica la pàgina."
 
-#: functions.php:4705
-msgid ""
-"Add a Heading (H3) block for each question and the answer text below it. "
-"Publish the page to see the accordion."
-msgstr ""
-"Afegeix un bloc Encapçalament (H3) per cada pregunta i el text de la "
-"resposta a sota. Publica la pàgina per veure l'acordió."
+#: functions.php:5109
+msgid "Add a Heading (H3) block for each question and the answer text below it. Publish the page to see the accordion."
+msgstr "Afegeix un bloc Encapçalament (H3) per cada pregunta i el text de la resposta a sota. Publica la pàgina per veure l'acordió."
 
-#: functions.php:3682
+#: functions.php:4050
 msgid "Add highlight"
 msgstr "Afegeix destacat"
 
-#: functions.php:4828
-msgid ""
-"Add one or more File blocks in the editor and publish the page so they show "
-"up here."
-msgstr ""
-"Afegeix un o més blocs Fitxer a l'editor i publica la pàgina perquè "
-"apareguin aquí."
+#: functions.php:5232
+msgid "Add one or more File blocks in the editor and publish the page so they show up here."
+msgstr "Afegeix un o més blocs Fitxer a l'editor i publica la pàgina perquè apareguin aquí."
 
-#: functions.php:3538
+#: functions.php:3904
 msgid "Add person"
 msgstr "Afegeix persona"
 
-#: functions.php:3569
+#: functions.php:3936
 msgid "Add plan"
 msgstr "Afegeix pla"
 
-#: class-tsotheme-customize-repeater-control.php:21
-#: class-tsotheme-customize-repeater-control.php:119
-#: class-tsotheme-customize-repeater-control.php:123
+#: class-tsotheme-customize-repeater-control.php:131
+#: class-tsotheme-customize-repeater-control.php:136
 msgid "Add row"
 msgstr "Afegeix fila"
 
-#: functions.php:5121
+#: functions.php:5525
 msgid "Additional feature"
 msgstr "Característica addicional"
 
-#: functions.php:3385
+#: functions.php:3751
 msgid "Address / office"
 msgstr "Adreça / oficina"
 
-#: functions.php:5131
+#: functions.php:5535
 msgid "Advanced plan"
 msgstr "Pla avançat"
 
-#: functions.php:2634
+#: functions.php:2734
 msgid "Also on Contact template"
 msgstr "També a la plantilla Contacte"
 
-#: functions.php:2651
+#: functions.php:2751
 msgid "Also on Portfolio template"
 msgstr "També a la plantilla Portfoli"
 
-#: functions.php:2616
+#: functions.php:2716
 msgid "Also on the blog home"
 msgstr "També a la portada del blog"
 
-#: functions.php:3419
+#: functions.php:3785
 msgid "Alternative email (optional)"
 msgstr "Email alternatiu (opcional)"
 
-#: functions.php:3453
+#: functions.php:3819
 msgid "Alternative phone / fax (optional)"
 msgstr "Telèfon / fax alternatiu (opcional)"
 
-#: functions.php:429
+#: functions.php:481
 msgid "Animated underline"
 msgstr "Subratllat animat"
 
-#: functions.php:2778 functions.php:4302
+#: functions.php:2878
+#: functions.php:4686
 msgid "Announcement"
 msgstr "Anunci"
 
-#: functions.php:3828
+#. translators: %d: announcement slot number 1–5
+#: functions.php:4204
+#, php-format
 msgid "Announcement %d — link (optional)"
 msgstr "Anunci %d — enllaç (opcional)"
 
-#: functions.php:3845
+#. translators: %d: announcement slot number 1–5
+#: functions.php:4221
+#, php-format
 msgid "Announcement %d — open link in a new tab"
 msgstr "Anunci %d — obrir l'enllaç en pestanya nova"
 
-#: functions.php:3811
+#. translators: %d: announcement slot number 1–5
+#: functions.php:4187
+#, php-format
 msgid "Announcement %d — text"
 msgstr "Anunci %d — text"
 
-#: functions.php:3691
+#: functions.php:4059
 msgid "Announcement / news"
 msgstr "Anunci / novetats"
 
-#: functions.php:3749
+#: functions.php:4117
 msgid "Announcement 1"
 msgstr "Anunci 1"
 
-#: functions.php:3750
+#: functions.php:4118
 msgid "Announcement 2"
 msgstr "Anunci 2"
 
-#: functions.php:3751
+#: functions.php:4119
 msgid "Announcement 3"
 msgstr "Anunci 3"
 
-#: functions.php:3752
+#: functions.php:4120
 msgid "Announcement 4"
 msgstr "Anunci 4"
 
-#: functions.php:3753
+#: functions.php:4121
 msgid "Announcement 5"
 msgstr "Anunci 5"
 
-#: functions.php:3745
+#: functions.php:4113
 msgid "Announcement to show («Single» mode)"
 msgstr "Anunci a mostrar (mode «Només un»)"
 
-#: functions.php:2977
+#: functions.php:3119
 msgid "Announcement: background"
 msgstr "Anunci: fons"
 
-#: functions.php:2978
+#: functions.php:3120
 msgid "Announcement: text"
 msgstr "Anunci: text"
 
-#: functions.php:2285
+#: functions.php:2450
 msgid "Appearance"
 msgstr "Aparença"
 
-#: functions.php:6320
+#: functions.php:6928
 msgid "Auto mode"
 msgstr "Mode automàtic"
 
-#: functions.php:3729
+#: functions.php:4097
 msgid "Automatic rotation"
 msgstr "Rotació automàtica"
 
@@ -217,28 +222,30 @@ msgstr "B · Pantalla completa"
 msgid "Back to home"
 msgstr "Tornar a l'inici"
 
-#: functions.php:2751 functions.php:2759 functions.php:2770 functions.php:2782
+#: functions.php:2851
+#: functions.php:2859
+#: functions.php:2870
+#: functions.php:2882
 msgid "Background"
 msgstr "Fons"
 
-#: functions.php:5099
+#: functions.php:5503
 msgid "Basic plan"
 msgstr "Pla bàsic"
 
-#: functions.php:2428
+#: functions.php:2528
 msgid "Blog / home layout"
 msgstr "Disseny de la portada / blog"
 
-#: functions.php:2924
+#: functions.php:3066
 msgid "Blue bar behind widget titles. Empty = theme Primary color."
-msgstr ""
-"Barra blava darrere dels títols dels widgets. Buit = color Primary del tema."
+msgstr "Barra blava darrere dels títols dels widgets. Buit = color Primary del tema."
 
-#: functions.php:1042
+#: functions.php:1122
 msgid "Body background"
 msgstr "Fons del cos"
 
-#: functions.php:3023
+#: functions.php:3165
 msgid "Body text"
 msgstr "Text del cos"
 
@@ -246,7 +253,7 @@ msgstr "Text del cos"
 msgid "Breadcrumb"
 msgstr "Ruta de navegació"
 
-#: functions.php:5326
+#: functions.php:5730
 msgid "Button URL"
 msgstr "URL del botó"
 
@@ -254,7 +261,7 @@ msgstr "URL del botó"
 msgid "Button label (versions A and C)"
 msgstr "Text del botó (versions A i C)"
 
-#: functions.php:5321
+#: functions.php:5725
 msgid "Button text"
 msgstr "Text del botó"
 
@@ -262,39 +269,42 @@ msgstr "Text del botó"
 msgid "C · Bottom tab bar"
 msgstr "C · Barra de pestanyes inferior"
 
-#: functions.php:4578
+#: functions.php:4982
 msgid "Call-to-action block with centered title, text and button."
 msgstr "Bloc de crida a l'acció amb títol, text i botó centrats."
 
-#: functions.php:1965
+#: functions.php:2066
 msgid "Cancel reply"
 msgstr "Cancel·lar la resposta"
 
-#: functions.php:3215
+#: functions.php:3387
+#: functions.php:3396
 msgid "Capitalize"
 msgstr "Capitalitzar"
 
-#: functions.php:427
+#: functions.php:479
 msgid "Carved relief"
 msgstr "Relleu tallat"
 
-#: functions.php:4577
+#: functions.php:4981
 msgid "Centered CTA"
 msgstr "CTA centrada"
 
-#: functions.php:4551
+#: functions.php:4955
 msgid "Centered short"
 msgstr "Curt centrat"
 
-#: class-tsotheme-customize-repeater-control.php:85
+#: class-tsotheme-customize-repeater-control.php:92
 msgid "Choose image"
 msgstr "Tria una imatge"
 
-#: functions.php:5108 functions.php:5124 functions.php:5140
+#: functions.php:5512
+#: functions.php:5528
+#: functions.php:5544
 msgid "Choose plan"
 msgstr "Tria pla"
 
-#: functions.php:2943
+#: functions.php:3085
 msgid "Choose the relief style for the main menu titles."
 msgstr "Tria el relleu dels títols del menú principal."
 
@@ -302,104 +312,100 @@ msgstr "Tria el relleu dels títols del menú principal."
 msgid "Classic (horizontal bar with scroll)"
 msgstr "Clàssic (barra horitzontal amb scroll)"
 
-#: functions.php:426
+#: functions.php:478
 msgid "Classic raised"
 msgstr "Relleu clàssic"
 
-#: functions.php:5161 functions.php:5168
+#: functions.php:5565
+#: functions.php:5572
 msgid "Client name"
 msgstr "Nom del client"
 
-#: tsothm-mobile-menu.php:188
+#: tsothm-mobile-menu.php:221
 msgid "Close menu"
 msgstr "Tancar menú"
 
-#: functions.php:6325
+#: functions.php:6933
 msgid "Color mode"
 msgstr "Mode de color"
 
-#: functions.php:2727
+#: functions.php:2827
 msgid "Colors"
 msgstr "Colors"
 
-#: functions.php:2863
+#: functions.php:3005
 msgid "Column background (day)"
 msgstr "Fons de la columna (dia)"
 
-#: functions.php:2883
+#: functions.php:3025
 msgid "Column background (night)"
 msgstr "Fons de la columna (nit)"
 
-#: functions.php:2827
-msgid ""
-"Column background, widget cards and title bar. Layout options are under "
-"Appearance → Sidebar."
-msgstr ""
-"Fons de la columna, targetes dels widgets i barra de títol. Les opcions de "
-"disseny són a Aparença → Barra lateral."
+#: functions.php:2969
+msgid "Column background, widget cards and title bar. Layout options are under Appearance → Sidebar."
+msgstr "Fons de la columna, targetes dels widgets i barra de títol. Les opcions de disseny són a Aparença → Barra lateral."
 
-#: functions.php:2662
+#: functions.php:2762
 msgid "Column help"
 msgstr "Ajuda de columnes"
 
-#: functions.php:2023
+#: functions.php:2124
 msgid "Comment"
 msgstr "Comentari"
 
-#: functions.php:5092
+#: functions.php:5496
 msgid "Comparison table of 3 plans or rates."
 msgstr "Taula comparativa de 3 plans o tarifes."
 
-#: functions.php:3333 functions.php:5246
+#. Template Name of the theme
+#: functions.php:3699
+#: functions.php:5650
 msgid "Contact"
 msgstr "Contacte"
 
-#: functions.php:3489
-msgid ""
-"Contact Form 7 example: [contact-form-7 id=\"123\"]. The theme does not "
-"process or send the form."
-msgstr ""
-"Exemple Contact Form 7: [contact-form-7 id=\"123\"]. El tema no processa ni "
-"envia el formulari."
+#: functions.php:3855
+msgid "Contact Form 7 example: [contact-form-7 id=\"123\"]. The theme does not process or send the form."
+msgstr "Exemple Contact Form 7: [contact-form-7 id=\"123\"]. El tema no processa ni envia el formulari."
 
-#: functions.php:4591
+#: functions.php:4995
 msgid "Contact now"
 msgstr "Contactar ara"
 
-#: functions.php:2304
-msgid ""
-"Contact, Team, Pricing and Landing templates, and the top announcement."
+#: functions.php:2469
+msgid "Contact, Team, Pricing and Landing templates, and the top announcement."
 msgstr "Plantilles de Contacte, Equip, Preus i Landing, i l'anunci superior."
 
-#: functions.php:2964
+#: functions.php:3106
 msgid "Content background"
 msgstr "Fons del contingut"
 
-#: functions.php:2980
+#: functions.php:2956
+#: functions.php:3122
 msgid "Content headings"
 msgstr "Títols del contingut"
 
-#: functions.php:2979
+#: functions.php:2936
+#: functions.php:3121
 msgid "Content text"
 msgstr "Text del contingut"
 
-#: functions.php:2409
+#: functions.php:2509
 msgid "Content width"
 msgstr "Amplada del contingut"
 
-#: functions.php:2496
+#: functions.php:2596
 msgid "Content width (px)"
 msgstr "Amplada del contingut (px)"
 
-#: functions.php:4923
+#: functions.php:5327
 msgid "Contents"
 msgstr "Índex"
 
-#: functions.php:2773
+#: functions.php:2873
 msgid "Copyright / secondary text"
 msgstr "Copyright / text secundari"
 
-#: functions.php:2542
+#: functions.php:2642
 msgid "Corner radius (px)"
 msgstr "Radi de les cantonades (px)"
 
@@ -407,144 +413,119 @@ msgstr "Radi de les cantonades (px)"
 msgid "D · Side panel with tab"
 msgstr "D · Panell lateral amb pestanya"
 
-#: functions.php:3334
-msgid ""
-"Data for the «Contact» page template. The map only shows if you paste a "
-"Google Maps embed URL. The form is added with a plugin shortcode (e.g. "
-"Contact Form 7); the theme does not send email by itself."
-msgstr ""
-"Dades per a la plantilla de pàgina «Contacte». El mapa només es mostra si "
-"enganxes una URL d'incrustació de Google Maps. El formulari s'afegeix amb "
-"l'shortcode d'un plugin (p. ex. Contact Form 7); el tema no envia correus "
-"per si mateix."
+#: functions.php:3700
+msgid "Data for the «Contact» page template. The map only shows if you paste a Google Maps embed URL. The form is added with a plugin shortcode (e.g. Contact Form 7); the theme does not send email by itself."
+msgstr "Dades per a la plantilla de pàgina «Contacte». El mapa només es mostra si enganxes una URL d'incrustació de Google Maps. El formulari s'afegeix amb l'shortcode d'un plugin (p. ex. Contact Form 7); el tema no envia correus per si mateix."
 
-#: functions.php:6274
+#: functions.php:6697
 msgid "Day / night / auto switch shown in the header, next to the search."
-msgstr ""
-"Interruptor de dia / nit / automàtic que apareix a la capçalera, al costat "
-"del cercador."
+msgstr "Interruptor de dia / nit / automàtic que apareix a la capçalera, al costat del cercador."
 
-#: functions.php:6312
+#: functions.php:6920
 msgid "Day mode"
 msgstr "Mode dia"
 
-#: functions.php:6273
+#: functions.php:6696
 msgid "Day/night mode"
 msgstr "Mode dia/nit"
 
-#: functions.php:3769
-msgid ""
-"Default 60 (1 minute). How long each announcement stays before the next "
-"movement."
-msgstr ""
-"Per defecte 60 (1 minut). Quant de temps es queda cada anunci abans del "
-"següent moviment."
+#: functions.php:4137
+msgid "Default 60 (1 minute). How long each announcement stays before the next movement."
+msgstr "Per defecte 60 (1 minut). Quant de temps es queda cada anunci abans del següent moviment."
 
-#: functions.php:4612
+#: functions.php:5016
 msgid "Description of the first featured feature or service."
 msgstr "Descripció de la primera característica o servei destacat."
 
-#: functions.php:4622
+#: functions.php:5026
 msgid "Description of the second featured feature or service."
 msgstr "Descripció de la segona característica o servei destacat."
 
-#: functions.php:2352
-msgid ""
-"Desktop display width of the Site Logo. Theme maximum: 500 px (minimum 40). "
-"Height adjusts automatically. For a sharp result, use a logo file at least "
-"this wide."
-msgstr ""
-"Amplada de visualització del logotip del lloc a l'escriptori. Màxim del "
-"tema: 500 px (mínim 40). L'alçada s'ajusta sola. Per un resultat nítid, "
-"useu un fitxer de logo d'almenys aquesta amplada."
+#: functions.php:2411
+msgid "Desktop display width of the Site Logo. Theme maximum: 500 px (minimum 40). Height adjusts automatically. For a sharp result, use a logo file at least this wide."
+msgstr "Amplada de visualització del logotip del lloc a l'escriptori. Màxim del tema: 500 px (mínim 40). L'alçada s'ajusta sola. Per un resultat nítid, useu un fitxer de logo d'almenys aquesta amplada."
 
-#: functions.php:1638
+#: functions.php:1737
 msgid "Dimensions:"
 msgstr "Mides:"
 
-#: functions.php:1715
+#: functions.php:1816
 msgid "Dismiss notice"
 msgstr "Descartar l'avís"
 
-#: functions.php:3724
+#: functions.php:4092
 msgid "Display mode"
 msgstr "Mode de visualització"
 
-#: functions.php:4922
+#: functions.php:5326
 msgid "Document contents"
 msgstr "Índex del document"
 
-#: functions.php:1643
+#: functions.php:1742
 msgid "Download original"
 msgstr "Baixar l'original"
 
-#: functions.php:1620
+#: functions.php:1719
 msgid "Download:"
 msgstr "Baixar:"
 
-#: functions.php:2673
-msgid ""
-"Drag the networks with the ☰ icon to change order (left → right). Below, "
-"paste the full URL for each network. Those without a URL are hidden."
-msgstr ""
-"Arrossega les xarxes amb la icona ☰ per canviar l'ordre (esquerra → dreta). "
-"A sota, enganxa l'URL completa de cada xarxa. Les que no tinguin URL no es "
-"mostren."
+#: functions.php:2773
+msgid "Drag the networks with the ☰ icon to change order (left → right). Below, paste the full URL for each network. Those without a URL are hidden."
+msgstr "Arrossega les xarxes amb la icona ☰ per canviar l'ordre (esquerra → dreta). A sota, enganxa l'URL completa de cada xarxa. Les que no tinguin URL no es mostren."
 
-#: functions.php:2693
+#: functions.php:2793
 msgid "Drag up or down. Saved when you publish."
 msgstr "Arrossega amunt o avall. Es desa en publicar."
 
-#: functions.php:1994 functions.php:3402 page-templates/contact.php:63
+#: functions.php:2095
+#: functions.php:3768
+#: page-templates/contact.php:63
 msgid "Email"
 msgstr "Correu electrònic"
 
-#: functions.php:2965
-msgid ""
-"Empty = automatic: if the day-mode header is light, the content color is "
-"used."
-msgstr ""
-"Buit = automàtic: si la capçalera del mode dia és clara, s'usa el color del "
-"contingut."
+#: functions.php:3107
+msgid "Empty = automatic: if the day-mode header is light, the content color is used."
+msgstr "Buit = automàtic: si la capçalera del mode dia és clara, s'usa el color del contingut."
 
-#: functions.php:5121
+#: functions.php:5525
 msgid "Everything in the basic plan"
 msgstr "Tot el del pla bàsic"
 
-#: functions.php:5137
+#: functions.php:5541
 msgid "Everything in the recommended plan"
 msgstr "Tot el del pla recomanat"
 
-#: functions.php:4155
+#: functions.php:4538
 msgid "Fade in / fade out"
 msgstr "Aparèixer / desaparèixer"
 
-#: functions.php:4609
+#: functions.php:5013
 msgid "Feature 1"
 msgstr "Característica 1"
 
-#: functions.php:4619
+#: functions.php:5023
 msgid "Feature 2"
 msgstr "Característica 2"
 
-#: class-tsotheme-customize-repeater-control.php:25
 #: template-parts/content-card.php:30
 msgid "Featured"
 msgstr "Destacat"
 
-#: functions.php:5316
+#: functions.php:5720
 msgid "Features, separated by |"
 msgstr "Característiques, separades per |"
 
-#: functions.php:4797
+#: functions.php:5201
 msgid "File"
 msgstr "Fitxer"
 
-#: functions.php:5005 functions.php:5018 functions.php:5031
+#: functions.php:5409
+#: functions.php:5422
+#: functions.php:5435
 msgid "First Last"
 msgstr "Nom Cognom"
 
-#: functions.php:430
+#: functions.php:482
 msgid "Flat (no buttons)"
 msgstr "Pla (sense botons)"
 
@@ -552,397 +533,335 @@ msgstr "Pla (sense botons)"
 msgid "Follow us"
 msgstr "Segueix-nos"
 
-#: functions.php:3040 functions.php:3127
+#: functions.php:3182
+#: functions.php:3273
+#: functions.php:3426
+#: functions.php:3532
 msgid "Font family"
 msgstr "Família tipogràfica"
 
-#: functions.php:2294 functions.php:2766
+#: functions.php:2459
+#: functions.php:2866
 msgid "Footer"
 msgstr "Peu de pàgina"
 
-#: functions.php:1218
-msgid ""
-"Footer (menus, text…). If you only use this column and leave 2 and 3 empty, "
-"menus display horizontally. With 2 or 3 columns, equal-column layout."
-msgstr ""
-"Peu de pàgina (menús, text…). Si només uses aquesta columna i deixes la 2 i "
-"la 3 buides, els menús surten en horitzontal. Amb 2 o 3 columnes, layout en "
-"columnes iguals."
+#: functions.php:1308
+msgid "Footer (menus, text…). If you only use this column and leave 2 and 3 empty, menus display horizontally. With 2 or 3 columns, equal-column layout."
+msgstr "Peu de pàgina (menús, text…). Si només uses aquesta columna i deixes la 2 i la 3 buides, els menús surten en horitzontal. Amb 2 o 3 columnes, layout en columnes iguals."
 
-#: functions.php:2967
+#: functions.php:3109
 msgid "Footer background"
 msgstr "Fons del peu de pàgina"
 
-#: functions.php:1216
+#: functions.php:1306
 msgid "Footer column 1"
 msgstr "Peu de pàgina columna 1"
 
-#: functions.php:1221
+#: functions.php:1311
 msgid "Footer column 2"
 msgstr "Peu de pàgina columna 2"
 
-#: functions.php:1226
+#: functions.php:1316
 msgid "Footer column 3"
 msgstr "Peu de pàgina columna 3"
 
-#: functions.php:3311
+#: functions.php:3655
 msgid "Footer copyright text"
 msgstr "Text de copyright del footer"
 
-#: functions.php:3323
+#: functions.php:3667
 msgid "Footer legal text (HTML allowed)"
 msgstr "Text legal del footer (HTML permès)"
 
-#: functions.php:3299
+#: functions.php:3643
 msgid "Footer texts"
 msgstr "Textos del peu"
 
-#: functions.php:2767
+#: functions.php:2867
 msgid "Footer: background, widget titles, texts, copyright and separators."
-msgstr ""
-"Peu de pàgina: fons, títols de widgets, textos, copyright i línies "
-"separadores."
+msgstr "Peu de pàgina: fons, títols de widgets, textos, copyright i línies separadores."
 
-#: functions.php:2975
+#: functions.php:3117
 msgid "Footer: copyright / secondary text"
 msgstr "Peu: copyright / text secundari"
 
-#: functions.php:2976
+#: functions.php:3118
 msgid "Footer: lines and borders"
 msgstr "Peu: línies i vores"
 
-#: functions.php:2974
+#: functions.php:3116
 msgid "Footer: text and links"
 msgstr "Peu: text i enllaços"
 
-#: functions.php:2973
+#: functions.php:3115
 msgid "Footer: widget titles"
 msgstr "Peu: títols dels ginys"
 
-#: functions.php:3488
+#: functions.php:3854
 msgid "Form shortcode"
 msgstr "Shortcode del formulari"
 
-#: functions.php:5235
+#: functions.php:5639
 msgid "Full-width stacked buttons, \"linktree\" style."
 msgstr "Botons apilats a amplada completa, estil «linktree»."
 
-#: functions.php:2519
+#: functions.php:2619
 msgid "Gap from content (px)"
 msgstr "Separació del contingut (px)"
 
-#: functions.php:2737
+#: functions.php:2837
 msgid "General"
 msgstr "Generals"
 
-#: functions.php:3279
-msgid ""
-"General theme texts (buttons). Copyright and legal text are under Footer."
-msgstr ""
-"Textos generals del tema (botons). El copyright i el text legal són a "
-"Footer."
+#: functions.php:3623
+msgid "General theme texts (buttons). Copyright and legal text are under Footer."
+msgstr "Textos generals del tema (botons). El copyright i el text legal són a Footer."
 
-#: functions.php:4958 page-templates/contact.php:39
+#: functions.php:5362
+#: page-templates/contact.php:39
 msgid "Get in touch"
 msgstr "Posa't en contacte"
 
-#: functions.php:3470
+#: functions.php:3836
 msgid "Google Maps (embed URL)"
 msgstr "Google Maps (URL d'incrustació)"
 
-#: functions.php:452
+#: functions.php:504
 msgid "Grid (2 columns)"
 msgstr "Quadrícula (2 columnes)"
 
-#: functions.php:5048
+#: functions.php:5452
 msgid "Grid of 3 service cards with title and text."
 msgstr "Quadrícula de 3 targetes de servei amb títol i text."
 
-#: functions.php:4995
+#: functions.php:5399
 msgid "Grid of 3 team cards with photo, name and role."
 msgstr "Quadrícula de 3 fitxes d'equip amb foto, nom i càrrec."
 
-#: functions.php:2747
+#: functions.php:2847
 msgid "Header"
 msgstr "Capçalera"
 
-#: functions.php:3579
-msgid ""
-"Header and highlights for the \"Landing / Cover\" page template. The hero "
-"title and background image come from each page's title and featured image; "
-"here you only set the small text, the buttons and the highlights."
-msgstr ""
-"Capçalera i destacats per a la plantilla de pàgina «Landing / Portada». El "
-"títol i la imatge de fons de l'hero surten del títol i la imatge destacada "
-"de cada pàgina; aquí només es configuren el text petit, els botons i els "
-"destacats."
+#: functions.php:3947
+msgid "Header and highlights for the \"Landing / Cover\" page template. The hero title and background image come from each page's title and featured image; here you only set the small text, the buttons and the highlights."
+msgstr "Capçalera i destacats per a la plantilla de pàgina «Landing / Portada». El títol i la imatge de fons de l'hero surten del títol i la imatge destacada de cada pàgina; aquí només es configuren el text petit, els botons i els destacats."
 
-#: functions.php:2965
+#: functions.php:3107
 msgid "Header background"
 msgstr "Fons de la capçalera"
 
-#: functions.php:2748
-msgid ""
-"Header background: the top strip with the logo and search, above the "
-"navigation menu."
-msgstr ""
-"Fons de la capçalera: la franja superior amb el logotip i el cercador, per "
-"sobre del menú de navegació."
+#: functions.php:2848
+msgid "Header background: the top strip with the logo and search, above the navigation menu."
+msgstr "Fons de la capçalera: la franja superior amb el logotip i el cercador, per sobre del menú de navegació."
 
-#: functions.php:2295
-msgid ""
-"Help for widget columns and footer texts. Footer colors are under Colors → "
-"Footer."
-msgstr ""
-"Ajuda de columnes de widgets i textos del peu de pàgina. Els colors del "
-"footer són a Colors → Footer."
+#: functions.php:2460
+msgid "Help for widget columns and footer texts. Footer colors are under Colors → Footer."
+msgstr "Ajuda de columnes de widgets i textos del peu de pàgina. Els colors del footer són a Colors → Footer."
 
-#: functions.php:3351
+#: functions.php:3717
 msgid "Hero subtitle"
 msgstr "Subtítol de l'hero"
 
-#: functions.php:5331
+#: functions.php:5735
 msgid "Highlight this plan"
 msgstr "Destaca aquest pla"
 
-#: functions.php:3678
+#: functions.php:4046
 msgid "Highlights below the hero"
 msgstr "Destacats sota l'hero"
 
-#: template-parts/single-breadcrumb.php:15
+#: template-parts/single-breadcrumb.php:14
 msgid "Home"
 msgstr "Inici"
 
-#: functions.php:2761
+#: functions.php:2861
 msgid "Hover / active text"
 msgstr "Text en passar el ratolí / actiu"
 
-#: functions.php:3791
+#: functions.php:4159
 msgid "How each announcement enters and leaves the bar."
 msgstr "Com entra i surt cada anunci de la barra."
 
-#: functions.php:2429
+#: functions.php:2529
 msgid "How posts are shown on the posts front page (home) and the Posts page."
-msgstr ""
-"Com es mostren les entrades a la portada d'entrades (home) i a la pàgina "
-"d'entrades."
+msgstr "Com es mostren les entrades a la portada d'entrades (home) i a la pàgina d'entrades."
 
-#: functions.php:5346
+#: functions.php:5750
 msgid "Icon (an emoji, e.g. 🚀)"
 msgstr "Icona (un emoji, p. ex. 🚀)"
 
-#: functions.php:2692
+#: functions.php:2792
 msgid "Icon order"
 msgstr "Ordre de les icones"
 
-#: functions.php:6292
-msgid ""
-"If you turn it off, the site will still follow the visitor's system mode, "
-"but the button to change it manually will not be shown."
-msgstr ""
-"Si el desactives, el lloc continuarà respectant el mode del sistema del "
-"visitant, però no es mostrarà el botó per canviar-lo a mà."
+#: functions.php:6715
+msgid "If you turn it off, the site will still follow the visitor's system mode, but the button to change it manually will not be shown."
+msgstr "Si el desactives, el lloc continuarà respectant el mode del sistema del visitant, però no es mostrarà el botó per canviar-lo a mà."
 
-#: functions.php:1466
+#: functions.php:1556
 msgid "Image"
 msgstr "Imatge"
 
-#: functions.php:3471
-msgid ""
-"In Google Maps: Share → Embed a map → copy the src attribute URL (or paste "
-"the full embed code). Only Google Maps embed URLs are accepted. Empty = no "
-"map."
-msgstr ""
-"A Google Maps: Comparteix → Insereix un mapa → copia l'URL de l'atribut src "
-"(o enganxa el codi d'inserció complet). Només s'accepten URL de Google Maps "
-"embed. Buit = sense mapa."
+#: functions.php:3837
+msgid "In Google Maps: Share → Embed a map → copy the src attribute URL (or paste the full embed code). Only Google Maps embed URLs are accepted. Empty = no map."
+msgstr "A Google Maps: Comparteix → Insereix un mapa → copia l'URL de l'atribut src (o enganxa el codi d'inserció complet). Només s'accepten URL de Google Maps embed. Buit = sense mapa."
 
-#: functions.php:5105 functions.php:5105
+#: functions.php:5509
 msgid "Included feature"
 msgstr "Característica inclosa"
 
-#: functions.php:5243
+#: functions.php:5647
 msgid "Instagram"
 msgstr "Instagram"
 
-#: functions.php:3887
+#: functions.php:4279
 msgid "Integrations"
 msgstr "Integracions"
 
-#: functions.php:3278
+#: functions.php:3622
 msgid "Interface texts"
 msgstr "Textos de la interfície"
 
-#: functions.php:3368
+#: functions.php:3734
 msgid "Introductory text (left column)"
 msgstr "Text introductori (columna esquerra)"
 
 #: 404.php:15
-msgid ""
-"It looks like what you are looking for is not here. Try searching or go back"
-" home."
-msgstr ""
-"Sembla que el que busques no és aquí. Prova a cercar o torna a l'inici."
+msgid "It looks like what you are looking for is not here. Try searching or go back home."
+msgstr "Sembla que el que busques no és aquí. Prova a cercar o torna a l'inici."
 
-#: functions.php:2565
+#: functions.php:2665
 msgid "Keeps the sidebar in view on desktop while you scroll the article."
-msgstr ""
-"Manté la barra lateral visible a l’escriptori mentre fas scroll per "
-"l’article."
+msgstr "Manté la barra lateral visible a l’escriptori mentre fas scroll per l’article."
 
-#: functions.php:3578
+#: functions.php:3946
 msgid "Landing / Cover"
 msgstr "Landing / Portada"
 
-#: functions.php:2392
+#: functions.php:2492
 msgid "Layout / Width"
 msgstr "Disseny / Amplada"
 
-#: functions.php:1962
+#: functions.php:2063
 msgid "Leave a comment"
 msgstr "Deixa un comentari"
 
-#: functions.php:3312
-msgid ""
-"Leave empty for automatic text (current year + site title). Or write your "
-"own and use {year}, {site_name}, {home_url}."
-msgstr ""
-"Deixeu-ho buit per al text automàtic (any actual + títol del lloc). O "
-"escriviu el vostre i useu {year}, {site_name}, {home_url}."
+#: functions.php:3656
+msgid "Leave empty for automatic text (current year + site title). Or write your own and use {year}, {site_name}, {home_url}."
+msgstr "Deixeu-ho buit per al text automàtic (any actual + títol del lloc). O escriviu el vostre i useu {year}, {site_name}, {home_url}."
 
 #: tsothm-mobile-menu.php:114
 msgid "Leave empty to use the default text (“Menu” or “More”)."
 msgstr "Deixa'l buit per usar el text per defecte («Menú» o «Més»)."
 
-#: functions.php:2481
+#: functions.php:2581
 msgid "Left"
 msgstr "Esquerra"
 
-#: functions.php:3078
+#: functions.php:3220
 msgid "Line height"
 msgstr "Interlineat"
 
-#: functions.php:2774
+#: functions.php:2874
 msgid "Lines and borders"
 msgstr "Línies i vores"
 
-#: functions.php:5286
+#: functions.php:5690
 msgid "Link (website, LinkedIn…) — optional"
 msgstr "Enllaç (web, LinkedIn…) — opcional"
 
-#: functions.php:5234
+#: functions.php:5638
 msgid "Link list"
 msgstr "Llista d'enllaços"
 
-#: functions.php:2760
+#: functions.php:2860
 msgid "Link text"
 msgstr "Text dels enllaços"
 
-#: functions.php:2969
+#: functions.php:3111
 msgid "Links and blue bars"
 msgstr "Enllaços i barres blaves"
 
-#: functions.php:453
+#: functions.php:505
 msgid "List (image + text)"
 msgstr "Llista (imatge + text)"
 
-#: functions.php:1126 home.php:52
+#: functions.php:1206
+#: home.php:52
 msgid "Loading..."
 msgstr "Carregant..."
 
-#: functions.php:1941
+#: functions.php:2042
 msgid "Location map"
 msgstr "Mapa d'ubicació"
 
-#: functions.php:2327 functions.php:2337
-msgid "Logo"
-msgstr "Logo"
-
-#: functions.php:2351
+#: functions.php:2410
 msgid "Logo width (px)"
 msgstr "Amplada del logo (px)"
 
-#: functions.php:2375
+#: functions.php:2434
 msgid "Logo width on mobile (px)"
 msgstr "Amplada del logo al mòbil (px)"
 
-#: functions.php:2286
-msgid ""
-"Site width, sidebar, header social links and header image. The site logo is "
-"set under Site Identity."
-msgstr ""
-"Amplada del lloc, barra lateral, xarxes socials de la capçalera i imatge de "
-"capçalera. El logotip del lloc es configura a Identitat del lloc."
+#: functions.php:2451
+msgid "Site width, sidebar, header social links and header image. The site logo is set under Site Identity."
+msgstr "Amplada del lloc, barra lateral, xarxes socials de la capçalera i imatge de capçalera. El logotip del lloc es configura a Identitat del lloc."
 
-#: functions.php:3214
+#: functions.php:3386
+#: functions.php:3395
 msgid "Lowercase"
 msgstr "Minúscules"
 
-#: functions.php:454
+#: functions.php:506
 msgid "Magazine (featured + grid)"
 msgstr "Magazine (destacat + quadrícula)"
 
-#: functions.php:2756
+#: functions.php:2856
 msgid "Main navigation bar, button style, and submenus."
 msgstr "Barra de navegació principal, estil de botons i submenús."
 
-#: functions.php:2458
-msgid ""
-"Master switch. If off, the main column uses the full content width on "
-"desktop. Widgets stay under Appearance → Widgets."
-msgstr ""
-"Interruptor general. Si està desactivat, la columna principal fa servir tota"
-" l’amplada a l’escriptori. Els widgets es queden a Aparença → Widgets."
+#: functions.php:2558
+msgid "Master switch. If off, the main column uses the full content width on desktop. Widgets stay under Appearance → Widgets."
+msgstr "Interruptor general. Si està desactivat, la columna principal fa servir tota l’amplada a l’escriptori. Els widgets es queden a Aparença → Widgets."
 
-#: functions.php:2393
-msgid ""
-"Maximum width of the central white area. Theme options: 960–1600 px, or "
-"nearly full screen. The news sidebar widgets use 300 px of content width "
-"(plus sidebar padding); the main column uses the remaining space. On mobile "
-"the sidebar is hidden and the content uses almost the full screen."
-msgstr ""
-"Amplada màxima de l’àrea blanca central. Opcions del tema: 960–1600 px, o "
-"gairebé a pantalla completa. Els widgets de la barra lateral de notícies fan"
-" 300 px d’amplada útil (més el farciment); la columna principal usa l’espai "
-"restant. Al mòbil la barra lateral s’amaga i el contingut fa gairebé tota la"
-" pantalla."
+#: functions.php:2493
+msgid "Maximum width of the central white area. Theme options: 960–1600 px, or nearly full screen. The news sidebar widgets use 300 px of content width (plus sidebar padding); the main column uses the remaining space. On mobile the sidebar is hidden and the content uses almost the full screen."
+msgstr "Amplada màxima de l’àrea blanca central. Opcions del tema: 960–1600 px, o gairebé a pantalla completa. Els widgets de la barra lateral de notícies fan 300 px d’amplada útil (més el farciment); la columna principal usa l’espai restant. Al mòbil la barra lateral s’amaga i el contingut fa gairebé tota la pantalla."
 
-#: functions.php:2755 tsothm-mobile-menu.php:175
+#: functions.php:2855
+#: header.php:62
+#: tsothm-mobile-menu.php:208
 msgid "Menu"
 msgstr "Menú"
 
-#: functions.php:2966
+#: functions.php:3108
 msgid "Menu background"
 msgstr "Fons del menú"
 
-#: functions.php:2942
+#: functions.php:3084
 msgid "Menu button style"
 msgstr "Estil dels botons del menú"
 
-#: functions.php:2971
+#: functions.php:3113
 msgid "Menu: link text"
 msgstr "Menú: text dels enllaços"
 
-#: functions.php:2972
+#: functions.php:3114
 msgid "Menu: submenu background"
 msgstr "Menú: fons del submenú"
 
-#: functions.php:5192 functions.php:5205 functions.php:5218
+#: functions.php:5596
+#: functions.php:5609
+#: functions.php:5622
 msgid "Milestone title"
 msgstr "Títol de la fita"
 
-#: functions.php:2376
-msgid ""
-"Mobile display width of the Site Logo (screens ≤ 768 px). Theme maximum: "
-"500 px (minimum 40). Use the Customizer mobile preview to see it. For a "
-"sharp result, use a logo file at least this wide."
-msgstr ""
-"Amplada de visualització del logotip del lloc al mòbil (pantalles ≤ 768 "
-"px). Màxim del tema: 500 px (mínim 40). Useu la vista prèvia mòbil del "
-"Personalitzador per veure-ho. Per un resultat nítid, useu un fitxer de logo "
-"d'almenys aquesta amplada."
+#: functions.php:2435
+msgid "Mobile display width of the Site Logo (screens ≤ 768 px). Theme maximum: 500 px (minimum 40). Use the Customizer mobile preview to see it. For a sharp result, use a logo file at least this wide."
+msgstr "Amplada de visualització del logotip del lloc al mòbil (pantalles ≤ 768 px). Màxim del tema: 500 px (mínim 40). Useu la vista prèvia mòbil del Personalitzador per veure-ho. Per un resultat nítid, useu un fitxer de logo d'almenys aquesta amplada."
 
-#: tsothm-mobile-menu.php:76 tsothm-mobile-menu.php:187
+#: tsothm-mobile-menu.php:76
+#: tsothm-mobile-menu.php:220
 msgid "Mobile menu"
 msgstr "Menú mòbil"
 
@@ -950,74 +869,64 @@ msgstr "Menú mòbil"
 msgid "Mobile menu version"
 msgstr "Versió del menú mòbil"
 
-#: tsothm-mobile-menu.php:175
+#: tsothm-mobile-menu.php:208
 msgid "More"
 msgstr "Més"
 
-#: functions.php:3790
+#: functions.php:4158
 msgid "Movement effect"
 msgstr "Efecte de moviment"
 
-#: functions.php:1057
+#: functions.php:1137
 msgid "Muted text"
 msgstr "Text atenuat"
 
-#: class-tsotheme-customize-repeater-control.php:18
-msgid "My rows"
-msgstr "Les meves files"
-
-#: functions.php:5240
+#: functions.php:5644
 msgid "My website"
 msgstr "El meu web"
 
-#: class-tsotheme-customize-repeater-control.php:23 functions.php:1986
-#: functions.php:5276
+#: functions.php:2087
+#: functions.php:5680
 msgid "Name"
 msgstr "Nom"
 
-#: functions.php:404
+#: functions.php:456
 msgid "Nearly full screen"
 msgstr "Gairebé pantalla completa"
 
-#: functions.php:4583
+#: functions.php:4987
 msgid "Need help?"
 msgstr "Necessites ajuda?"
 
-#: functions.php:1211
+#: functions.php:1301
 msgid "News Sidebar"
 msgstr "Barra lateral Notícies"
 
-#: functions.php:2779
-msgid ""
-"News bar between the header and the menu. Text is configured under "
-"«Announcement / news»."
-msgstr ""
-"Barra de novetats entre la capçalera i el menú. El text es configura a "
-"«Anunci / novetats»."
+#: functions.php:2879
+msgid "News bar between the header and the menu. Text is configured under «Announcement / news»."
+msgstr "Barra de novetats entre la capçalera i el menú. El text es configura a «Anunci / novetats»."
 
 #: comments.php:52
 msgid "Next"
 msgstr "Següents"
 
-#: archive.php:35 index.php:33 search.php:49
+#: archive.php:35
+#: index.php:33
+#: search.php:49
 msgid "Next &raquo;"
 msgstr "Següent &raquo;"
 
-#: functions.php:2956 functions.php:6316
+#: functions.php:3098
+#: functions.php:6924
 msgid "Night mode"
 msgstr "Mode nit"
 
-#: functions.php:2957
-msgid ""
-"Night mode colors, independent from day mode: colors in the other sections "
-"only apply in day mode. If you change nothing, the default dark palette is "
-"used."
-msgstr ""
-"Colors del mode nit, independents del mode dia: els colors de les altres "
-"seccions només s'apliquen de dia. Si no canvies res, s'usa la paleta fosca "
-"per defecte."
+#: functions.php:3099
+msgid "Night mode colors, independent from day mode: colors in the other sections only apply in day mode. If you change nothing, the default dark palette is used."
+msgstr "Colors del mode nit, independents del mode dia: els colors de les altres seccions només s'apliquen de dia. Si no canvies res, s'usa la paleta fosca per defecte."
 
-#: archive.php:43 functions.php:1107
+#: archive.php:43
+#: functions.php:1187
 msgid "No posts found."
 msgstr "No s'han trobat articles."
 
@@ -1025,15 +934,17 @@ msgstr "No s'han trobat articles."
 msgid "No posts found. Try different words."
 msgstr "No s'han trobat articles. Prova amb altres paraules."
 
-#: home.php:39 index.php:20
+#: home.php:39
+#: index.php:20
 msgid "No posts published yet."
 msgstr "Encara no hi ha articles publicats."
 
-#: functions.php:3212
+#: functions.php:3384
+#: functions.php:3393
 msgid "None"
 msgstr "Cap"
 
-#: functions.php:3867
+#: functions.php:4259
 msgid "Number of related posts (1–6)"
 msgstr "Nombre d’articles relacionats (1–6)"
 
@@ -1046,53 +957,40 @@ msgid "One comment"
 msgstr "Un comentari"
 
 #: tsothm-mobile-menu.php:77
-msgid ""
-"Only affects screens up to 768 px. On desktop the menu does not change."
-msgstr ""
-"Només afecta pantalles de fins a 768 px. A l'escriptori el menú no canvia."
+msgid "Only affects screens up to 768 px. On desktop the menu does not change."
+msgstr "Només afecta pantalles de fins a 768 px. A l'escriptori el menú no canvia."
 
-#: functions.php:2316
-msgid ""
-"Optional background image for the whole site, behind the content. You can "
-"upload it and adjust its position, size, repeat and scrolling (parallax)."
-msgstr ""
-"Imatge de fons opcional per a tot el web, darrere del contingut. Pots pujar-"
-"la i ajustar-ne la posició, mida, repetició i desplaçament (parallax)."
+#: functions.php:2481
+msgid "Optional background image for the whole site, behind the content. You can upload it and adjust its position, size, repeat and scrolling (parallax)."
+msgstr "Imatge de fons opcional per a tot el web, darrere del contingut. Pots pujar-la i ajustar-ne la posició, mida, repetició i desplaçament (parallax)."
 
-#: functions.php:3888
+#: functions.php:4280
 msgid "Optional features that require a plugin. Disabled by default."
-msgstr ""
-"Funcions opcionals que requereixen un plugin. Desactivades per defecte."
+msgstr "Funcions opcionals que requereixen un plugin. Desactivades per defecte."
 
-#: functions.php:3596
+#: functions.php:3964
 msgid "Optional. Example: \"New\" or a campaign name."
 msgstr "Opcional. Exemple: «Novetat» o el nom d'una campanya."
 
-#: functions.php:2884
+#: functions.php:3026
 msgid "Optional. If empty, night mode uses the dark surface color."
 msgstr "Opcional. Si és buit, el mode nit usa el color de superfície fosc."
 
-#: functions.php:3324
-msgid ""
-"Optional. Leave empty to hide. Placeholders: {year}, {site_name}, "
-"{home_url}, {privacy_url} (URL of the page set in Settings → Privacy; blank "
-"if none). To add a link, paste HTML in this field, for example: a "
-"href=\"{privacy_url}\" with the label Privacy policy."
-msgstr ""
-"Opcional. Deixeu-ho buit per amagar-ho. Marcadors: {year}, {site_name}, "
-"{home_url}, {privacy_url} (URL de la pàgina a Ajustos → Privadesa; buit si "
-"no n'hi ha). Per afegir un enllaç, enganxeu HTML en aquest camp, per "
-"exemple: a href=\"{privacy_url}\" amb l'etiqueta Política de privadesa."
+#: functions.php:3668
+msgid "Optional. Leave empty to hide. Placeholders: {year}, {site_name}, {home_url}, {privacy_url} (URL of the page set in Settings → Privacy; blank if none). To add a link, paste HTML in this field, for example: a href=\"{privacy_url}\" with the label Privacy policy."
+msgstr "Opcional. Deixeu-ho buit per amagar-ho. Marcadors: {year}, {site_name}, {home_url}, {privacy_url} (URL de la pàgina a Ajustos → Privadesa; buit si no n'hi ha). Per afegir un enllaç, enganxeu HTML en aquest camp, per exemple: a href=\"{privacy_url}\" amb l'etiqueta Política de privadesa."
 
-#: functions.php:1487 functions.php:1636
+#: functions.php:1577
+#: functions.php:1735
 msgid "Original"
 msgstr "Original"
 
-#: functions.php:1637
+#: functions.php:1736
 msgid "Original image dimensions"
 msgstr "Mides de la imatge original"
 
-#: functions.php:2743 functions.php:2963
+#: functions.php:2843
+#: functions.php:3105
 msgid "Outer background"
 msgstr "Fons exterior"
 
@@ -1100,86 +998,76 @@ msgstr "Fons exterior"
 msgid "Page not found"
 msgstr "Pàgina no trobada"
 
-#: page-templates/full-width.php:26 page.php:12 single.php:76
+#: page-templates/full-width.php:26
+#: page.php:12
+#: single.php:28
 msgid "Pages:"
 msgstr "Pàgines:"
 
-#: functions.php:3535
+#: functions.php:3901
 msgid "People"
 msgstr "Persones"
 
-#: functions.php:5311
+#: functions.php:5715
 msgid "Period (e.g. /month) — optional"
 msgstr "Període (p. ex. /mes) — opcional"
 
-#: functions.php:3436 page-templates/contact.php:85
+#: functions.php:3802
+#: page-templates/contact.php:85
 msgid "Phone"
 msgstr "Telèfon"
 
-#: class-tsotheme-customize-repeater-control.php:24 functions.php:5271
+#: functions.php:5675
 msgid "Photo"
 msgstr "Foto"
 
-#: functions.php:6404
+#: functions.php:7012
 msgid "Pick a color from the screen"
 msgstr "Tria un color de la pantalla"
 
-#: functions.php:428
+#: functions.php:480
 msgid "Pills"
 msgstr "Píndoles"
 
-#: functions.php:5301
+#: functions.php:5705
 msgid "Plan name"
 msgstr "Nom del pla"
 
-#: functions.php:3566
+#: functions.php:3932
 msgid "Plans"
 msgstr "Plans"
 
-#: functions.php:3548
-msgid ""
-"Up to 5 plans for the \"Pricing\" page template. If left empty, the page "
-"shows the block content (\"Pricing (3 plans)\" pattern)."
-msgstr ""
-"Fins a 5 plans per a la plantilla de pàgina «Precios». Si ho deixes buit, la "
-"pàgina mostra el contingut de blocs (patró «Precios (3 planes)»)."
+#: functions.php:3914
+msgid "Up to 5 plans for the \"Pricing\" page template. If left empty, the page shows the block content (\"Pricing (3 plans)\" pattern)."
+msgstr "Fins a 5 plans per a la plantilla de pàgina «Precios». Si ho deixes buit, la pàgina mostra el contingut de blocs (patró «Precios (3 planes)»)."
 
-#: functions.php
-msgid ""
-"Maximum 5 plans. Separate features with a vertical bar, for example: "
-"Support | Updates | Backups."
-msgstr ""
-"Màxim 5 plans. Separa les característiques amb una barra vertical, per "
-"exemple: Suport | Actualitzacions | Còpies."
+#: functions.php:3933
+msgid "Maximum 5 plans. Separate features with a vertical bar, for example: Support | Updates | Backups."
+msgstr "Màxim 5 plans. Separa les característiques amb una barra vertical, per exemple: Suport | Actualitzacions | Còpies."
 
-#: functions.php:1714
-msgid ""
-"Portfolio template: use Gallery or Image blocks (JPG, PNG, WebP, GIF). On "
-"the site the gallery shows the name and downloads (1920×1080 and others). If"
-" old photos are missing sizes, regenerate thumbnails after activating the "
-"theme."
-msgstr ""
-"Plantilla Portfolio: usa blocs Galeria o Imatge (JPG, PNG, WebP, GIF). Al "
-"web es mostra la galeria amb nom i baixades (1920×1080 i altres). Si falten "
-"mides en fotos antigues, regenera les miniatures després d'activar el tema."
+#: functions.php:1815
+msgid "Portfolio template: use Gallery or Image blocks (JPG, PNG, WebP, GIF). On the site the gallery shows the name and downloads (1920×1080 and others). If old photos are missing sizes, regenerate thumbnails after activating the theme."
+msgstr "Plantilla Portfolio: usa blocs Galeria o Imatge (JPG, PNG, WebP, GIF). Al web es mostra la galeria amb nom i baixades (1920×1080 i altres). Si falten mides en fotos antigues, regenera les miniatures després d'activar el tema."
 
-#: functions.php:2475
+#: functions.php:2575
 msgid "Position"
 msgstr "Posició"
 
-#: functions.php:5281
+#: functions.php:5685
 msgid "Position / role"
 msgstr "Càrrec / rol"
 
-#: functions.php:5008 functions.php:5021 functions.php:5034
+#: functions.php:5412
+#: functions.php:5425
+#: functions.php:5438
 msgid "Position or role"
 msgstr "Càrrec o rol"
 
-#: functions.php:1966
+#: functions.php:2067
 msgid "Post comment"
 msgstr "Publicar el comentari"
 
-#: functions.php:2617
+#: functions.php:2717
 msgid "Posts index (front page of posts or the Posts page)."
 msgstr "Índex d’entrades (portada d’articles o la pàgina d’Entrades)."
 
@@ -1187,93 +1075,86 @@ msgstr "Índex d’entrades (portada d’articles o la pàgina d’Entrades)."
 msgid "Previous"
 msgstr "Anteriors"
 
-#: functions.php:5306
+#: functions.php:5710
 msgid "Price (e.g. €19.99)"
 msgstr "Preu (p. ex. 19,99 €)"
 
-#: functions.php:3547
+#. Template Name of the theme
+#: functions.php:3913
 msgid "Pricing"
 msgstr "Preus"
 
-#: functions.php:5091
+#: functions.php:5495
 msgid "Pricing (3 plans)"
 msgstr "Preus (3 plans)"
 
-#: functions.php:1032 functions.php:2742
+#: functions.php:1112
+#: functions.php:2842
 msgid "Primary"
 msgstr "Principal"
 
-#: functions.php:111
+#: functions.php:110
+#: header.php:64
 msgid "Primary Menu"
 msgstr "Menú principal"
 
-#: functions.php:3628
+#: functions.php:3996
 msgid "Primary button — URL"
 msgstr "Botó principal — URL"
 
-#: functions.php:3612
+#: functions.php:3980
 msgid "Primary button — text"
 msgstr "Botó principal — text"
 
-#: functions.php:2970
+#: functions.php:3112
 msgid "Primary color"
 msgstr "Color principal"
 
-#: functions.php:5137
+#: functions.php:5541
 msgid "Priority support"
 msgstr "Suport prioritari"
 
-#: functions.php:5580
+#: functions.php:5994
 msgid "Recommended"
 msgstr "Recomanat"
 
-#: functions.php:5115
+#: functions.php:5519
 msgid "Recommended plan"
 msgstr "Pla recomanat"
 
-#: functions.php:3856
+#: functions.php:4248
 msgid "Related posts"
 msgstr "Articles relacionats"
 
-#: functions.php:3878
+#: functions.php:4270
 msgid "Related section title"
 msgstr "Títol de la secció de relacionats"
 
-#: class-tsotheme-customize-repeater-control.php:84
+#: class-tsotheme-customize-repeater-control.php:91
 msgid "Remove"
 msgstr "Treu"
 
-#: functions.php:1964
+#. translators: %s: name of the author being replied to
+#: functions.php:2065
+#, php-format
 msgid "Reply to %s"
 msgstr "Respondre a %s"
 
-#: functions.php:3904
-msgid ""
-"Requires the GTranslate plugin to be active. If it is disabled or not "
-"installed, nothing is shown."
-msgstr ""
-"Requereix el plugin GTranslate actiu. Si està desactivat o el plugin no està"
-" instal·lat, no es mostra res."
+#: functions.php:4296
+msgid "Requires the GTranslate plugin to be active. If it is disabled or not installed, nothing is shown."
+msgstr "Requereix el plugin GTranslate actiu. Si està desactivat o el plugin no està instal·lat, no es mostra res."
 
-#: functions.php:2480
+#: functions.php:2580
 msgid "Right"
 msgstr "Dreta"
 
-#: functions.php:4156
+#: functions.php:4539
 msgid "Rise from below"
 msgstr "Pujar des de sota"
 
-#: functions.php:3725
-msgid ""
-"Rotation: cycles through announcements with text. Single: shows only the "
-"chosen number."
-msgstr ""
-"Rotació: canvia entre els anuncis amb text. Només un: mostra únicament el "
-"número triat."
-
-#: class-tsotheme-customize-repeater-control.php:20
-msgid "Row"
-msgstr "Fila"
+#: functions.php:4093
+msgid "Rotation: cycles through announcements with text. Single: shows only the chosen number."
+msgstr "Rotació: canvia entre els anuncis amb text. Només un: mostra únicament el número triat."
 
 #: searchform.php:44
 msgid "Search"
@@ -1295,32 +1176,27 @@ msgstr "Cercar al lloc"
 msgid "Search:"
 msgstr "Cercar:"
 
-#: functions.php:1106
+#: functions.php:1186
 msgid "Searching…"
 msgstr "Cercant…"
 
-#: functions.php:1223
-msgid ""
-"Second column. Images: use 600×450 px (4:3) or 600×600 (square). To match "
-"column 3, both photos must have exactly the same size and aspect ratio."
-msgstr ""
-"Segona columna. Imatges: usa 600×450 px (4:3) o 600×600 (quadrat). Perquè "
-"quedin parelles amb la columna 3, les dues fotos han de tenir exactament la "
-"mateixa mida i proporció."
+#: functions.php:1313
+msgid "Second column. Images: use 600×450 px (4:3) or 600×600 (square). To match column 3, both photos must have exactly the same size and aspect ratio."
+msgstr "Segona columna. Imatges: usa 600×450 px (4:3) o 600×600 (quadrat). Perquè quedin parelles amb la columna 3, les dues fotos han de tenir exactament la mateixa mida i proporció."
 
-#: functions.php:3660
+#: functions.php:4028
 msgid "Secondary button — URL"
 msgstr "Botó secundari — URL"
 
-#: functions.php:3644
+#: functions.php:4012
 msgid "Secondary button — text (optional)"
 msgstr "Botó secundari — text (opcional)"
 
-#: functions.php:3768
+#: functions.php:4136
 msgid "Seconds between announcements (rotation)"
 msgstr "Segons entre anuncis (rotació)"
 
-#: class-tsotheme-customize-repeater-control.php:83
+#: class-tsotheme-customize-repeater-control.php:90
 msgid "Select image"
 msgstr "Selecciona una imatge"
 
@@ -1328,146 +1204,129 @@ msgstr "Selecciona una imatge"
 msgid "Send us a message"
 msgstr "Envia'ns un missatge"
 
-#: functions.php:5055
+#: functions.php:5459
 msgid "Service 1"
 msgstr "Servei 1"
 
-#: functions.php:5065
+#: functions.php:5469
 msgid "Service 2"
 msgstr "Servei 2"
 
-#: functions.php:5075
+#: functions.php:5479
 msgid "Service 3"
 msgstr "Servei 3"
 
-#: functions.php:5047
+#: functions.php:5451
 msgid "Services (3 cards)"
 msgstr "Serveis (3 targetes)"
 
-#: functions.php:5058 functions.php:5068 functions.php:5078
+#: functions.php:5462
+#: functions.php:5472
+#: functions.php:5482
 msgid "Short description of this service and who it is for."
 msgstr "Descripció breu d'aquest servei i a qui va dirigit."
 
-#: functions.php:5195 functions.php:5208 functions.php:5221
+#: functions.php:5599
+#: functions.php:5612
+#: functions.php:5625
 msgid "Short description of what happened at this point."
 msgstr "Descripció breu del que va passar en aquest moment."
 
-#: functions.php:5356
+#: functions.php:5760
 msgid "Short text"
 msgstr "Text breu"
 
-#: functions.php:5351
+#: functions.php:5755
 msgid "Short title"
 msgstr "Títol breu"
 
-#: functions.php:3903
+#: functions.php:4295
 msgid "Show GTranslate in the header"
 msgstr "Mostrar GTranslate a la capçalera"
 
-#: functions.php:3708
+#: functions.php:4076
 msgid "Show announcement bar"
 msgstr "Mostrar la barra d'anunci"
 
-#: tsothm-mobile-menu.php:178
+#: tsothm-mobile-menu.php:211
 msgid "Show or hide submenu"
 msgstr "Mostrar o amagar el submenú"
 
-#: functions.php:3506
+#: functions.php:3872
 msgid "Show social icons on Contact"
 msgstr "Mostrar icones de xarxes socials a Contacte"
 
-#: functions.php:6291
+#: functions.php:6714
 msgid "Show the day / night switch"
 msgstr "Mostra l'interruptor de dia / nit"
 
-#: functions.php:2457
+#: functions.php:2557
 msgid "Show the news sidebar"
 msgstr "Mostra la barra lateral de notícies"
 
-#: functions.php:2440 functions.php:2826 functions.php:4545 sidebar.php:14
+#: functions.php:2540
+#: functions.php:2968
+#: functions.php:4949
+#: sidebar.php:14
 msgid "Sidebar"
 msgstr "Barra lateral"
 
-#: functions.php:1213
-msgid ""
-"Sidebar column. Shown on posts, pages (default template), archives and "
-"search. Optionally also on the blog home, Contact and Portfolio (Appearance "
-"→ Sidebar). If the Customizer says another area is not displayed, open a "
-"view that shows the sidebar."
-msgstr ""
-"Columna de la barra lateral. Es mostra a entrades, pàgines (plantilla per "
-"defecte), arxius i cerca. Opcionalment també a la portada del blog, Contacte"
-" i Portfoli (Aparença → Barra lateral). Si el Personalitzador diu que una "
-"àrea no es mostra, obre una vista on sí que es vegi."
+#: functions.php:1303
+msgid "Sidebar column. Shown on posts, pages (default template), archives and search. Optionally also on the blog home, Contact and Portfolio (Appearance → Sidebar). If the Customizer says another area is not displayed, open a view that shows the sidebar."
+msgstr "Columna de la barra lateral. Es mostra a entrades, pàgines (plantilla per defecte), arxius i cerca. Opcionalment també a la portada del blog, Contacte i Portfoli (Aparença → Barra lateral). Si el Personalitzador diu que una àrea no es mostra, obre una vista on sí que es vegi."
 
-#: functions.php:3730
+#: functions.php:4098
 msgid "Single announcement"
 msgstr "Només un anunci"
 
-#: functions.php:3057
+#: functions.php:3199
+#: functions.php:3445
+#: functions.php:3551
 msgid "Size (px)"
 msgstr "Mida (px)"
 
-#: functions.php:1506
+#: functions.php:1596
 msgid "Size not generated yet. Regenerate thumbnails or re-upload the image."
-msgstr ""
-"Mida encara no generada. Regenera les miniatures o torna a pujar la imatge."
+msgstr "Mida encara no generada. Regenera les miniatures o torna a pujar la imatge."
 
-#: functions.php:1196
+#: functions.php:1286
 msgid "Skip to content"
 msgstr "Salta al contingut"
 
-#: functions.php:4154
+#: functions.php:4537
 msgid "Slide from the side"
 msgstr "Lliscament des del costat"
 
-#: functions.php:3595
+#: functions.php:3963
 msgid "Small text above the title"
 msgstr "Text petit sobre el títol"
 
-#: functions.php:2663
-msgid ""
-"So photos in columns 2 and 3 match: use the same size for both. Recommended "
-"600×450 px (4:3) or 600×600 px (square). Do not mix portrait with landscape."
-" Each column is about 300 px wide on desktop; 600 px source is enough. If "
-"you only use column 1 (Contact / Legal menu) and leave 2 and 3 empty, links "
-"show horizontally. Note: the «your theme has 1 more widget area…» notice is "
-"from WordPress: «News Sidebar» is not shown on the blog front page, Contact "
-"or Portfolio; in the preview open a post or a default-template page to edit "
-"it. To edit a widget from the preview: Shift + click the widget."
-msgstr ""
-"Perquè les fotos de les columnes 2 i 3 quedin parelles: usa la mateixa mida "
-"a les dues. Recomanat 600×450 px (proporció 4:3) o 600×600 px (quadrat). No "
-"barregis una imatge vertical amb una d'horitzontal. Cada columna té uns 300 "
-"px d'amplada a l'escriptori; 600 px d'origen és suficient. Si només uses la "
-"columna 1 (menú de Contacte / Avís legal) i deixes la 2 i la 3 buides, els "
-"enllaços es mostren en horitzontal. Nota: l'avís «el teu tema té 1 àrea de "
-"widget més…» és de WordPress: la «Barra lateral Notícies» no es mostra a la "
-"portada del blog, Contacte ni Portfolio; a la vista prèvia obre una entrada "
-"o una pàgina amb plantilla per defecte per editar-la. Per editar un widget "
-"des de la vista prèvia: Majúscules (Shift) + clic al widget."
+#: functions.php:2763
+msgid "So photos in columns 2 and 3 match: use the same size for both. Recommended 600×450 px (4:3) or 600×600 px (square). Do not mix portrait with landscape. Each column is about 300 px wide on desktop; 600 px source is enough. If you only use column 1 (Contact / Legal menu) and leave 2 and 3 empty, links show horizontally. Note: the «your theme has 1 more widget area…» notice is from WordPress: «News Sidebar» is not shown on the blog front page, Contact or Portfolio; in the preview open a post or a default-template page to edit it. To edit a widget from the preview: Shift + click the widget."
+msgstr "Perquè les fotos de les columnes 2 i 3 quedin parelles: usa la mateixa mida a les dues. Recomanat 600×450 px (proporció 4:3) o 600×600 px (quadrat). No barregis una imatge vertical amb una d'horitzontal. Cada columna té uns 300 px d'amplada a l'escriptori; 600 px d'origen és suficient. Si només uses la columna 1 (menú de Contacte / Avís legal) i deixes la 2 i la 3 buides, els enllaços es mostren en horitzontal. Nota: l'avís «el teu tema té 1 àrea de widget més…» és de WordPress: la «Barra lateral Notícies» no es mostra a la portada del blog, Contacte ni Portfolio; a la vista prèvia obre una entrada o una pàgina amb plantilla per defecte per editar-la. Per editar un widget des de la vista prèvia: Majúscules (Shift) + clic al widget."
 
-#: functions.php:2672 functions.php:3927
+#: functions.php:2772
+#: functions.php:4313
 msgid "Social networks"
 msgstr "Xarxes socials"
 
-#: functions.php:2599
+#: functions.php:2699
 msgid "Soft shadow on the column"
 msgstr "Ombra suau a la columna"
 
-#: functions.php:2520
+#: functions.php:2620
 msgid "Space between the main column and the sidebar (10–60)."
 msgstr "Espai entre la columna principal i la barra lateral (10–60)."
 
-#: functions.php:2564
+#: functions.php:2664
 msgid "Sticky sidebar while scrolling"
 msgstr "Barra lateral enganxada en fer scroll"
 
-#: functions.php:2762
+#: functions.php:2862
 msgid "Submenu background"
 msgstr "Fons del submenú"
 
-#: functions.php:4539
+#: functions.php:4943
 msgid "TSO Accent"
 msgstr "Accent TSO"
 
@@ -1479,410 +1338,442 @@ msgstr "Etiquetes"
 msgid "Tags:"
 msgstr "Etiquetes:"
 
-#: functions.php:3516
+#. Template Name of the theme
+#: functions.php:3882
 msgid "Team"
 msgstr "Equip"
 
-#: functions.php:4994
+#: functions.php:5398
 msgid "Team (3 people)"
 msgstr "Equip (3 persones)"
 
-#: functions.php:3517
-msgid ""
-"Team cards for the \"Team\" page template. If left empty, the page will show"
-" the block content (\"Team (3 people)\" pattern)."
-msgstr ""
-"Fitxes d'equip per a la plantilla de pàgina «Equipo». Si ho deixes buit, la "
-"pàgina mostrarà el contingut de blocs (patró «Equipo (3 personas)»)."
+#: functions.php:3883
+msgid "Team cards for the \"Team\" page template. If left empty, the page will show the block content (\"Team (3 people)\" pattern)."
+msgstr "Fitxes d'equip per a la plantilla de pàgina «Equipo». Si ho deixes buit, la pàgina mostrarà el contingut de blocs (patró «Equipo (3 personas)»)."
 
-#: functions.php:2303
+#: functions.php:2468
 msgid "Templates"
 msgstr "Plantilles"
 
-#: functions.php:5153
+#: functions.php:5557
 msgid "Testimonials (2 cards)"
 msgstr "Testimonis (2 targetes)"
 
-#: functions.php:1052 functions.php:2783
+#: functions.php:1132
+#: functions.php:2883
 msgid "Text"
 msgstr "Text"
 
-#: functions.php:2772
+#: functions.php:2872
 msgid "Text and links"
 msgstr "Text i enllaços"
 
-#: functions.php:2410
-msgid ""
-"Theme maximum fixed width: 1600 px. «Nearly full screen» uses the full "
-"available width. Sidebar widgets get 300 px content width on desktop. Values"
-" wider than your screen look the same until you use a larger display."
-msgstr ""
-"Amplada fixa màxima del tema: 1600 px. «Gairebé a pantalla completa» usa "
-"tota l’amplada disponible. Els widgets de la barra lateral tenen 300 px "
-"d’amplada útil a l’escriptori. Valors més amples que la pantalla es veuen "
-"igual fins que uses una pantalla més gran."
+#: functions.php:2510
+msgid "Theme maximum fixed width: 1600 px. «Nearly full screen» uses the full available width. Sidebar widgets get 300 px content width on desktop. Values wider than your screen look the same until you use a larger display."
+msgstr "Amplada fixa màxima del tema: 1600 px. «Gairebé a pantalla completa» usa tota l’amplada disponible. Els widgets de la barra lateral tenen 300 px d’amplada útil a l’escriptori. Valors més amples que la pantalla es veuen igual fins que uses una pantalla més gran."
 
-#: functions.php:2663
-msgid ""
-"There are 3 widget areas: Footer column 1, 2 and 3 (Customize → Widgets)."
-msgstr ""
-"Hi ha 3 zones de widgets: Peu de pàgina columna 1, 2 i 3 (Personalitzar → "
-"Widgets)."
+#: functions.php:2763
+msgid "There are 3 widget areas: Footer column 1, 2 and 3 (Customize → Widgets)."
+msgstr "Hi ha 3 zones de widgets: Peu de pàgina columna 1, 2 i 3 (Personalitzar → Widgets)."
 
-#: functions.php:2582
+#: functions.php:2682
 msgid "Thin border around the column"
 msgstr "Vora fina al voltant de la columna"
 
-#: functions.php:1228
-msgid ""
-"Third column. Images: 600×450 px (4:3) or 600×600 (square), the same size as"
-" column 2. If one is portrait and the other landscape, they will not align."
-msgstr ""
-"Tercera columna. Imatges: 600×450 px (4:3) o 600×600 (quadrat), la mateixa "
-"mida que a la columna 2. Si una és vertical i l'altra horitzontal, no "
-"quedaran alineades."
+#: functions.php:1318
+msgid "Third column. Images: 600×450 px (4:3) or 600×600 (square), the same size as column 2. If one is portrait and the other landscape, they will not align."
+msgstr "Tercera columna. Imatges: 600×450 px (4:3) o 600×600 (quadrat), la mateixa mida que a la columna 2. Si una és vertical i l'altra horitzontal, no quedaran alineades."
 
-#: functions.php:5181
+#: functions.php:5585
 msgid "Timeline (3 milestones)"
 msgstr "Cronologia (3 fites)"
 
-#: functions.php:2968
+#: functions.php:3110
 msgid "Title bars, buttons and highlighted links."
 msgstr "Barres de títol, botons i enllaços destacats."
 
-#: functions.php:3207
+#: functions.php:3379
 msgid "Title transform"
 msgstr "Transformació de títols"
 
-#: functions.php:3110
+#: functions.php:3256
 msgid "Titles"
 msgstr "Títols"
 
-#: functions.php:4572
+#: functions.php:4976
 msgid "Tu Soporte Online"
 msgstr "Tu Soporte Online"
 
-#: functions.php:2844
+#: functions.php:2986
 msgid "Turn off to remove the column fill (transparent)."
 msgstr "Desactiva-ho per treure el farciment de la columna (transparent)."
 
-#: functions.php:4602
+#: functions.php:5006
 msgid "Two columns with title and text to compare services or features."
-msgstr ""
-"Dues columnes amb títol i text per comparar serveis o característiques."
+msgstr "Dues columnes amb títol i text per comparar serveis o característiques."
 
-#: functions.php:4601
+#: functions.php:5005
 msgid "Two information columns"
 msgstr "Dues columnes informació"
 
-#: functions.php:5154
+#: functions.php:5558
 msgid "Two testimonial cards with quote and author."
 msgstr "Dues targetes de testimoni amb cita i autor."
 
-#: functions.php:3009
+#: functions.php:3151
 msgid "Typography"
 msgstr "Tipografia"
 
-#: functions.php:1510
-msgid ""
-"Unavailable: at least %1$s×%2$s px required. This image is %3$s×%4$s px."
-msgstr ""
-"No disponible: cal almenys %1$s×%2$s px. Aquesta imatge mesura %3$s×%4$s px."
+#. translators: 1: required width, 2: required height, 3: original width, 4: original height
+#: functions.php:1600
+#, php-format
+msgid "Unavailable: at least %1$s×%2$s px required. This image is %3$s×%4$s px."
+msgstr "No disponible: cal almenys %1$s×%2$s px. Aquesta imatge mesura %3$s×%4$s px."
 
-#: functions.php:3679
-msgid ""
-"Up to 3 or 4 short points (icon + title + text) shown below the header."
-msgstr ""
-"Fins a 3 o 4 punts breus (icona + títol + text) que apareixen sota la "
-"capçalera."
+#: functions.php:4047
+msgid "Up to 3 or 4 short points (icon + title + text) shown below the header."
+msgstr "Fins a 3 o 4 punts breus (icona + títol + text) que apareixen sota la capçalera."
 
-#: functions.php:3692
-msgid ""
-"Up to 5 notices between the header and the menu. You can show only one or "
-"rotate them automatically. Colors: Colors → Announcement."
-msgstr ""
-"Fins a 5 avisos entre la capçalera i el menú. Pots mostrar-ne només un o "
-"rotar-los automàticament. Colors: Colors → Anunci."
+#: functions.php:4060
+msgid "Up to 5 notices between the header and the menu. You can show only one or rotate them automatically. Colors: Colors → Announcement."
+msgstr "Fins a 5 avisos entre la capçalera i el menú. Pots mostrar-ne només un o rotar-los automàticament. Colors: Colors → Anunci."
 
-#: functions.php:2328
-msgid ""
-"Upload the logo and set its width on desktop and mobile. There is no sticky "
-"logo: the header does not stay fixed on scroll."
-msgstr ""
-"Puja el logo i defineix-ne l'amplada a l'escriptori i al mòbil. No hi ha "
-"logo «sticky»: la capçalera no queda fixa en fer scroll."
-
-#: functions.php:3213
+#: functions.php:3385
+#: functions.php:3394
 msgid "Uppercase"
 msgstr "Majúscules"
 
-#: functions.php:2843
+#: functions.php:2985
 msgid "Use a sidebar background"
 msgstr "Usa un fons a la barra lateral"
 
-#: functions.php:2497
-msgid ""
-"Useful width for widgets (260–360). Horizontal padding is added outside this"
-" value."
-msgstr ""
-"Amplada útil dels widgets (260–360). El farciment horitzontal s’afegeix fora"
-" d’aquest valor."
+#: functions.php:2597
+msgid "Useful width for widgets (260–360). Horizontal padding is added outside this value."
+msgstr "Amplada útil dels widgets (260–360). El farciment horitzontal s’afegeix fora d’aquest valor."
 
 #: tsothm-mobile-menu.php:95
 msgid "Uses the menu colors from Colors → Menu (and night mode)."
-msgstr ""
-"Usa els colors del menú definits a Colors → Menú (i els del mode nit)."
+msgstr "Usa els colors del menú definits a Colors → Menú (i els del mode nit)."
 
-#: functions.php:5182
+#: functions.php:5586
 msgid "Vertical timeline with 3 milestones (date, title and text)."
 msgstr "Línia de temps vertical amb 3 fites (data, títol i text)."
 
-#: functions.php:4586
+#: functions.php:4990
 msgid "We are here to help. Contact us and we will reply within 24 hours."
-msgstr ""
-"Som aquí per ajudar-te. Contacta amb nosaltres i et respondrem en menys de "
-"24 hores."
+msgstr "Som aquí per ajudar-te. Contacta amb nosaltres i et respondrem en menys de 24 hores."
 
-#: functions.php:2002
+#: functions.php:2103
 msgid "Website"
 msgstr "Lloc web"
 
-#: functions.php:3144
+#: functions.php:3290
+#: functions.php:3466
+#: functions.php:3572
 msgid "Weight"
 msgstr "Gruix"
 
-#: functions.php:1047
+#: functions.php:1127
 msgid "White"
 msgstr "Blanc"
 
-#: functions.php:2904
+#: functions.php:3046
 msgid "Widget card background"
 msgstr "Fons de la targeta del widget"
 
-#: functions.php:2923
+#: functions.php:3065
 msgid "Widget title bar"
 msgstr "Barra del títol del widget"
 
-#: functions.php:3240
+#: functions.php:3357
 msgid "Widget title size (px)"
 msgstr "Mida del títol de widget (px)"
 
-#: functions.php:2771
+#: functions.php:2871
 msgid "Widget titles"
 msgstr "Títols de widgets"
 
-#: functions.php:4557
+#: functions.php:4961
 msgid "With shadow"
 msgstr "Amb ombra"
 
-#: functions.php:1967
-msgid ""
-"Your email address will not be published. Required fields are marked with"
-msgstr ""
-"La teva adreça de correu electrònic no es publicarà. Els camps obligatoris "
-"estan marcats amb"
+#: functions.php:2068
+msgid "Your email address will not be published. Required fields are marked with"
+msgstr "La teva adreça de correu electrònic no es publicarà. Els camps obligatoris estan marcats amb"
 
-#: functions.php:399
+#: functions.php:451
 msgid "default"
 msgstr "per defecte"
 
-#: functions.php:3290
+#: functions.php:3634
 msgid "«Load more» button text"
 msgstr "Text del botó «Carregar més»"
 
-#: search.php:24 search.php:24
+#. translators: %s: number of results
+#: search.php:24
+#, php-format
 msgid "%s post found"
 msgid_plural "%s posts found"
 msgstr[0] "%s article trobat"
 msgstr[1] "%s articles trobats"
 
+#: functions.php:3409
 msgid "Announcement bar"
 msgstr "Barra d’anuncis"
 
+#: functions.php:3500
 msgid "Letter spacing (em)"
 msgstr "Espaiat entre lletres (em)"
 
+#: functions.php:3501
 msgid "Default 0.03. Range 0–0.2."
 msgstr "Per defecte 0,03. Interval 0–0,2."
 
+#: functions.php:3515
 msgid "Navigation menu"
 msgstr "Menú de navegació"
 
+#: functions.php:3606
 msgid "Letter spacing (px)"
 msgstr "Espaiat entre lletres (px)"
 
+#: functions.php:3607
 msgid "Default 0.5. Range 0–3."
 msgstr "Per defecte 0,5. Interval 0–3."
 
+#: functions.php:3683
 msgid "Copyright / legal size (px)"
 msgstr "Mida del copyright / legal (px)"
 
+#: functions.php:3483
+#: functions.php:3589
 msgid "Text transform"
 msgstr "Transformació del text"
 
+#: functions.php:3313
 msgid "H1 / single post title size (px)"
 msgstr "Mida H1 / títol d’entrada (px)"
 
-msgid ""
-"Title inside a post or page. Card titles on the home / archive use the size "
-"below."
-msgstr ""
-"Títol dins d’una entrada o pàgina. Els títols de les targetes a la portada /"
-" arxiu usen la mida de sota."
+#: functions.php:3314
+msgid "Title inside a post or page. Card titles on the home / archive use the size below."
+msgstr "Títol dins d’una entrada o pàgina. Els títols de les targetes a la portada / arxiu usen la mida de sota."
 
+#: functions.php:3335
 msgid "Home / archive card title size (px)"
 msgstr "Mida del títol de targeta a portada / arxiu (px)"
 
-msgid ""
-"List and magazine layouts scale from this base. Uses the same font family, "
-"weight and transform as titles."
-msgstr ""
-"Els layouts llista i magazine escalen des d’aquesta base. Usa la mateixa "
-"família, gruix i transformació que els títols."
+#: functions.php:3336
+msgid "List and magazine layouts scale from this base. Uses the same font family, weight and transform as titles."
+msgstr "Els layouts llista i magazine escalen des d’aquesta base. Usa la mateixa família, gruix i transformació que els títols."
 
-msgid ""
-"Copyright and legal text under the widget columns, plus their font size. "
-"Leave copyright empty to show an automatic «© {year} {site name}» from the "
-"site settings."
-msgstr ""
-"Text de copyright i legal sota les columnes de widgets, més la mida de la "
-"font. Deixa el copyright buit per mostrar un «© {year} {site name}» "
-"automàtic des de la configuració del lloc."
+#: functions.php:3644
+msgid "Copyright and legal text under the widget columns, plus their font size. Leave copyright empty to show an automatic «© {year} {site name}» from the site settings."
+msgstr "Text de copyright i legal sota les columnes de widgets, més la mida de la font. Deixa el copyright buit per mostrar un «© {year} {site name}» automàtic des de la configuració del lloc."
 
-msgid ""
-"Font size for the copyright and legal lines only (not footer widget "
-"columns)."
-msgstr ""
-"Mida de font només per a les línies de copyright i legal (no per a les "
-"columnes de widgets del peu)."
+#: functions.php:3684
+msgid "Font size for the copyright and legal lines only (not footer widget columns)."
+msgstr "Mida de font només per a les línies de copyright i legal (no per a les columnes de widgets del peu)."
 
-msgid ""
-"Links and lists in sidebar and footer widget columns. Uses the body font "
-"family."
-msgstr ""
-"Enllaços i llistes a la barra lateral i a les columnes de widgets del peu. "
-"Usa la família tipogràfica del cos."
+#: functions.php:3242
+msgid "Links and lists in sidebar and footer widget columns. Uses the body font family."
+msgstr "Enllaços i llistes a la barra lateral i a les columnes de widgets del peu. Usa la família tipogràfica del cos."
 
-msgid ""
-"Sidebar blue bars and footer column titles. Same family and weight as "
-"titles; size only here."
-msgstr ""
-"Barres blaves de la barra lateral i títols de columnes del peu. Mateixa "
-"família i pes que els títols; aquí només la mida."
+#: functions.php:3358
+msgid "Sidebar blue bars and footer column titles. Same family and weight as titles; size only here."
+msgstr "Barres blaves de la barra lateral i títols de columnes del peu. Mateixa família i pes que els títols; aquí només la mida."
 
+#: functions.php:3380
 msgid "Uppercase, etc. on H1 and card titles (not sidebar widget bars)."
-msgstr ""
-"Majúscules, etc. a H1 i als títols de les targetes (no a les barres dels "
-"widgets laterals)."
+msgstr "Majúscules, etc. a H1 i als títols de les targetes (no a les barres dels widgets laterals)."
 
+#: functions.php:3241
 msgid "Widget text size (px)"
 msgstr "Mida del text dels widgets (px)"
 
-msgid ""
-"Add your form shortcode under Customize → Templates → Contact (e.g. Contact "
-"Form 7). The theme does not send email by itself."
-msgstr ""
-"Afegeix l’shortcode del teu formulari a Personalitzar → Plantilles → "
-"Contacte (p. ex. Contact Form 7). El tema no envia correus per si mateix."
+#: page-templates/contact.php:117
+msgid "Add your form shortcode under Customize → Templates → Contact (e.g. Contact Form 7). The theme does not send email by itself."
+msgstr "Afegeix l’shortcode del teu formulari a Personalitzar → Plantilles → Contacte (p. ex. Contact Form 7). El tema no envia correus per si mateix."
 
-msgid ""
-"News sidebar column: visibility, position, width and extras. Background "
-"on/off and colors are under Colors → Sidebar."
-msgstr ""
-"Columna de la barra lateral de notícies: visibilitat, posició, amplada i "
-"extres. L’activació del fons i els colors són a Colors → Barra lateral."
+#: functions.php:2541
+msgid "News sidebar column: visibility, position, width and extras. Background on/off and colors are under Colors → Sidebar."
+msgstr "Columna de la barra lateral de notícies: visibilitat, posició, amplada i extres. L’activació del fons i els colors són a Colors → Barra lateral."
 
-msgid ""
-"Set an email, phone or a form shortcode under Customize → Templates → "
-"Contact to show a contact method here."
-msgstr ""
-"Configura un correu, telèfon o el shortcode d’un formulari a Personalitzar →"
-" Plantilles → Contacte per mostrar aquí una forma de contacte."
+#: functions.php:5356
+msgid "Set an email, phone or a form shortcode under Customize → Templates → Contact to show a contact method here."
+msgstr "Configura un correu, telèfon o el shortcode d’un formulari a Personalitzar → Plantilles → Contacte per mostrar aquí una forma de contacte."
 
-msgid ""
-"Body and titles (including cards and widget titles), plus announcement bar "
-"and menu. Content text colors are under Colors → General (day) and Colors → "
-"Night mode. Footer text size is under Footer → Footer texts. Google Fonts "
-"load only if you select them."
-msgstr ""
-"Cos i títols (incloses targetes i títols de widgets), més barra d’anuncis i "
-"menú. Els colors del text del contingut són a Colors → General (dia) i "
-"Colors → Mode nit. La mida del text del peu és a Peu → Textos del peu. Les "
-"fonts Google només es carreguen si les tries."
+#: functions.php:3152
+msgid "Body and titles (including cards and widget titles), plus announcement bar and menu. Content text colors are under Colors → General (day) and Colors → Night mode. Footer text size is under Footer → Footer texts. Google Fonts load only if you select them."
+msgstr "Cos i títols (incloses targetes i títols de widgets), més barra d’anuncis i menú. Els colors del text del contingut són a Colors → General (dia) i Colors → Mode nit. La mida del text del peu és a Peu → Textos del peu. Les fonts Google només es carreguen si les tries."
 
-msgid ""
-"Day colors (including content text and headings), menu, sidebar, footer, "
-"announcement and night mode."
-msgstr ""
-"Colors de dia (inclòs el text i els títols del contingut), menú, barra "
-"lateral, peu, anunci i mode nit."
+#: functions.php:2828
+msgid "Day colors (including content text and headings), menu, sidebar, footer, announcement and night mode."
+msgstr "Colors de dia (inclòs el text i els títols del contingut), menú, barra lateral, peu, anunci i mode nit."
 
+#: functions.php:2957
 msgid "Day mode. Night mode uses Colors → Night mode → Content headings."
-msgstr ""
-"Mode dia. El mode nit usa Colors → Mode nit → Encapçalaments del contingut."
+msgstr "Mode dia. El mode nit usa Colors → Mode nit → Encapçalaments del contingut."
 
+#: functions.php:2937
 msgid "Day mode. Night mode uses Colors → Night mode → Content text."
 msgstr "Mode dia. El mode nit usa Colors → Mode nit → Text del contingut."
 
-msgid ""
-"Font family, size and line height for paragraphs and content, plus widget "
-"list text (sidebar and footer columns). Text color is under Colors → "
-"General. Widget titles are under Titles."
-msgstr ""
-"Família tipogràfica, mida i alçada de línia per a paràgrafs i contingut, més"
-" el text de llistes dels widgets (barra lateral i columnes del peu). El "
-"color del text és a Colors → General. Els títols dels widgets són a Títols."
+#: functions.php:3166
+msgid "Font family, size and line height for paragraphs and content, plus widget list text (sidebar and footer columns). Text color is under Colors → General. Widget titles are under Titles."
+msgstr "Família tipogràfica, mida i alçada de línia per a paràgrafs i contingut, més el text de llistes dels widgets (barra lateral i columnes del peu). El color del text és a Colors → General. Els títols dels widgets són a Títols."
 
-msgid ""
-"Global theme colors: accents, buttons, page background and day-mode content "
-"text. Night content text is under Night mode."
-msgstr ""
-"Colors globals del tema: accents, botons, fons de pàgina i text del "
-"contingut en mode dia. El text del contingut de nit és a Mode nit."
+#: functions.php:2838
+msgid "Global theme colors: accents, buttons, page background and day-mode content text. Night content text is under Night mode."
+msgstr "Colors globals del tema: accents, botons, fons de pàgina i text del contingut en mode dia. El text del contingut de nit és a Mode nit."
 
+#: functions.php:3121
+#: functions.php:3122
 msgid "Night mode only. Day mode is under Colors → General."
 msgstr "Només mode nit. El mode dia és a Colors → General."
 
-msgid ""
-"Shared font for headings, post titles, home cards, related-posts heading and"
-" widget titles (sidebar and footer). Sizes below are separate; family and "
-"weight apply to all of them. Heading color is under Colors → General."
-msgstr ""
-"Font compartida per a encapçalaments, títols d’entrades, targetes de "
-"portada, títol de relacionats i títols de widgets (barra lateral i peu). Les"
-" mides de sota són independents; família i pes s’apliquen a tots. El color "
-"dels títols és a Colors → General."
+#: functions.php:3257
+msgid "Shared font for headings, post titles, home cards, related-posts heading and widget titles (sidebar and footer). Sizes below are separate; family and weight apply to all of them. Heading color is under Colors → General."
+msgstr "Font compartida per a encapçalaments, títols d’entrades, targetes de portada, títol de relacionats i títols de widgets (barra lateral i peu). Les mides de sota són independents; família i pes s’apliquen a tots. El color dels títols és a Colors → General."
 
-msgid ""
-"Font family and link text for the main menu (desktop bar). Colors are under "
-"Colors → Menu."
-msgstr ""
-"Família tipogràfica i text dels enllaços del menú principal (barra "
-"d’escriptori). Els colors són a Colors → Menú."
+#: functions.php:3516
+msgid "Font family and link text for the main menu (desktop bar). Colors are under Colors → Menu."
+msgstr "Família tipogràfica i text dels enllaços del menú principal (barra d’escriptori). Els colors són a Colors → Menú."
 
-msgid ""
-"Font family and text style for the news / announcement bar between the "
-"header and the menu. Colors are under Colors → Announcement."
-msgstr ""
-"Família tipogràfica i estil del text de la barra de novetats / anuncis entre"
-" la capçalera i el menú. Els colors són a Colors → Anunci."
+#: functions.php:3410
+msgid "Font family and text style for the news / announcement bar between the header and the menu. Colors are under Colors → Announcement."
+msgstr "Família tipogràfica i estil del text de la barra de novetats / anuncis entre la capçalera i el menú. Els colors són a Colors → Anunci."
 
+#. Description of the theme
 #: style.css
 msgid "A classic blog theme with an orange frame and a white content area. The home page is a two-column post grid with live search and a Load more button. Posts use a right sidebar. The Customizer controls colors, typography, and the Site Logo, and includes a day and night mode. Page templates are included for contact, portfolio, pricing, team, and FAQ."
 msgstr "Tema de blog clàssic, amb marc taronja i àrea de contingut blanca. La portada és una graella de dues columnes, amb cerca en directe i un botó per carregar-ne més. Els articles tenen barra lateral dreta. El Personalitzador controla els colors, la tipografia i el logotip del lloc, i inclou un mode dia i nit. Hi ha plantilles de pàgina per a contacte, portafoli, preus, equip i preguntes freqüents."
 
-#: functions.php
+#: functions.php:1246
 msgid "Image viewer"
 msgstr "Visor d'imatges"
 
-#: functions.php
+#: functions.php:1247
 msgid "Close"
 msgstr "Tanca"
 
-#: functions.php
+#: functions.php:1248
 msgid "Previous image"
 msgstr "Imatge anterior"
 
-#: functions.php
+#: functions.php:1249
 msgid "Next image"
 msgstr "Imatge següent"
+
+#. Theme Name of the theme
+#: style.css
+msgid "TSO Blog"
+msgstr ""
+
+#. Author of the theme
+#: style.css
+msgid "deadko"
+msgstr ""
+
+#. Author URI of the theme
+#: style.css
+msgid "https://tusoporteonline.es"
+msgstr ""
+
+#: functions.php:1662
+#: functions.php:4320
+msgid "(opens in a new tab)"
+msgstr "(s'obre en una pestanya nova)"
+
+#. Template Name of the theme
+msgid "About Me"
+msgstr ""
+
+#. Template Name of the theme
+msgid "FAQ"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Full Width"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Landing / Front Page"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Legal / Long Document"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Links"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Portfolio / Wallpaper Gallery"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Resources / Downloads"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Services"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Testimonials"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Timeline / History"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Primary"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Accent"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Body background"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "White"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Text"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Muted text"
+msgstr ""
+
+#: theme.json
+msgctxt "Font family name"
+msgid "Body"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Small"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Medium"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Large"
+msgstr ""
